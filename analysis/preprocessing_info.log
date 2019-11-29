@@ -1,0 +1,28 @@
+INFO - 2019-11-29 12:09:16,319 - root - Found 10 files matching pattern.
+INFO - 2019-11-29 12:09:16,321 - root - Preprocessing on 10 files that have no matching output
+INFO - 2019-11-29 12:47:11,489 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run793___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:14,228 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run792___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:15,710 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run790___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:16,913 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run791___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:18,265 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run795___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:19,531 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run794___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:20,844 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run796___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:23,246 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run797___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:24,439 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run798___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:25,733 - root - writing to file preprocessed_data/pointlike/gamma_20deg_180deg_run799___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 12:47:53,648 - root - Found 5 files matching pattern.
+INFO - 2019-11-29 12:47:53,649 - root - Preprocessing on 5 files that have no matching output
+INFO - 2019-11-29 12:52:12,279 - root - writing to file preprocessed_data/diffuse/gamma_20deg_180deg_run2991___cta-prod3_desert-2150m-Paranal-merged_cone10.h5
+INFO - 2019-11-29 12:52:12,665 - root - writing to file preprocessed_data/diffuse/gamma_20deg_180deg_run299___cta-prod3_desert-2150m-Paranal-merged_cone10.h5
+INFO - 2019-11-29 12:52:13,062 - root - writing to file preprocessed_data/diffuse/gamma_20deg_180deg_run2990___cta-prod3_desert-2150m-Paranal-merged_cone10.h5
+INFO - 2019-11-29 12:52:13,445 - root - writing to file preprocessed_data/diffuse/gamma_20deg_180deg_run2999___cta-prod3_desert-2150m-Paranal-merged_cone10.h5
+INFO - 2019-11-29 12:52:13,809 - root - writing to file preprocessed_data/diffuse/gamma_20deg_180deg_run2998___cta-prod3_desert-2150m-Paranal-merged_cone10.h5
+INFO - 2019-11-29 12:52:40,097 - root - Found 7 files matching pattern.
+INFO - 2019-11-29 12:52:40,098 - root - Preprocessing on 7 files that have no matching output
+INFO - 2019-11-29 13:06:24,204 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10027___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:26,470 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10026___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:27,412 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10022___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:28,082 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10023___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:29,143 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10020___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:29,857 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10029___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:06:30,579 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run1002___cta-prod3_desert-2150m-Paranal-merged.h5
