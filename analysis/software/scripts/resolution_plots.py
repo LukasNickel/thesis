@@ -241,48 +241,20 @@ if __name__ == '__main__':
 
     recos = [
         ('source_alt_median', 'source_az_median', 'Median of telescope predictions', 'median'),
-        ('source_alt_pairwise_0.2', 'source_az_pairwise_0.2', 'pairwise averaging of telescope predictions', 'pairwise_02'),#
-        ('source_alt_pairwise_0.3', 'source_az_pairwise_0.3', 'pairwise averaging of telescope predictions', 'pairwise_03'),
-        ('source_alt_pairwise_0.5', 'source_az_pairwise_0.5', 'pairwise averaging of telescope predictions', 'pairwise_05'),
-        ('source_alt_pairwise_1.0', 'source_az_pairwise_1.0', 'pairwise averaging of telescope predictions', 'pairwise_10'),
         ('source_alt_pairwise_10.0', 'source_az_pairwise_10.0', 'pairwise averaging of telescope predictions', 'pairwise_100'),
-        ('source_alt_pairwise_mean_0.2', 'source_az_pairwise_mean_0.2', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_02'),#
-        ('source_alt_pairwise_mean_0.3', 'source_az_pairwise_mean_0.3', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_03'),
-        ('source_alt_pairwise_mean_0.5', 'source_az_pairwise_mean_0.5', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_05'),
-        ('source_alt_pairwise_mean_1.0', 'source_az_pairwise_mean_1.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_10'),
         ('source_alt_pairwise_mean_10.0', 'source_az_pairwise_mean_10.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100'),
-        ('source_alt_pairwise_median_0.2', 'source_az_pairwise_median_0.2', 'pairwise_median averaging of telescope predictions', 'pairwise_median_02'),#
-        ('source_alt_pairwise_median_0.3', 'source_az_pairwise_median_0.3', 'pairwise_median averaging of telescope predictions', 'pairwise_median_03'),
-        ('source_alt_pairwise_median_0.5', 'source_az_pairwise_median_0.5', 'pairwise_median averaging of telescope predictions', 'pairwise_median_05'),
-        ('source_alt_pairwise_median_1.0', 'source_az_pairwise_median_1.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_10'),
         ('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100'),
-        ('source_alt_pairwise_clipped_0.2', 'source_az_pairwise_clipped_0.2', 'pairwise_clipped averaging of telescope predictions', 'pairwise_clipped_02'),#
-        ('source_alt_pairwise_clipped_0.3', 'source_az_pairwise_clipped_0.3', 'pairwise_clipped averaging of telescope predictions', 'pairwise_clipped_03'),
-        ('source_alt_pairwise_clipped_0.5', 'source_az_pairwise_clipped_0.5', 'pairwise_clipped averaging of telescope predictions', 'pairwise_clipped_05'),
-        ('source_alt_pairwise_clipped_1.0', 'source_az_pairwise_clipped_1.0', 'pairwise_clipped averaging of telescope predictions', 'pairwise_clipped_10'),
         ('source_alt_pairwise_clipped_10.0', 'source_az_pairwise_clipped_10.0', 'pairwise_clipped averaging of telescope predictions', 'pairwise_clipped_100'),
-        ('source_alt_pairwise_clipped_median_0.2', 'source_az_pairwise_clipped_median_0.2', 'pairwise_clipped_median averaging of telescope predictions', 'pairwise_clipped_median_02'),#
-        ('source_alt_pairwise_clipped_median_0.3', 'source_az_pairwise_clipped_median_0.3', 'pairwise_clipped_median averaging of telescope predictions', 'pairwise_clipped_median_03'),
-        ('source_alt_pairwise_clipped_median_0.5', 'source_az_pairwise_clipped_median_0.5', 'pairwise_clipped_median averaging of telescope predictions', 'pairwise_clipped_median_05'),
-        ('source_alt_pairwise_clipped_median_1.0', 'source_az_pairwise_clipped_median_1.0', 'pairwise_clipped_median averaging of telescope predictions', 'pairwise_clipped_median_10'),
         ('source_alt_pairwise_clipped_median_10.0', 'source_az_pairwise_clipped_median_10.0', 'pairwise_clipped_median averaging of telescope predictions', 'pairwise_clipped_median_100'),
-        ('source_alt_pairwise_set_0.2', 'source_az_pairwise_set_0.2', 'pairwise_set averaging of telescope predictions', 'pairwise_set_02'),#
-        ('source_alt_pairwise_set_0.3', 'source_az_pairwise_set_0.3', 'pairwise_set averaging of telescope predictions', 'pairwise_set_03'),
-        ('source_alt_pairwise_set_0.5', 'source_az_pairwise_set_0.5', 'pairwise_set averaging of telescope predictions', 'pairwise_set_05'),
-        ('source_alt_pairwise_set_1.0', 'source_az_pairwise_set_1.0', 'pairwise_set averaging of telescope predictions', 'pairwise_set_10'),
         ('source_alt_pairwise_set_10.0', 'source_az_pairwise_set_10.0', 'pairwise_set averaging of telescope predictions', 'pairwise_set_100'),
-        ('source_alt_cluster_0.2', 'source_az_cluster_0.2', 'Biggest cluster of telescope predictions', 'cluster_02'),
-        ('source_alt_cluster_0.3', 'source_az_cluster_0.3', 'Biggest cluster of telescope predictions', 'cluster_03'),
-        ('source_alt_cluster_0.5', 'source_az_cluster_0.5', 'Biggest cluster of telescope predictions', 'cluster_05'),
-        ('source_alt_cluster_1.0', 'source_az_cluster_1.0', 'Biggest cluster of telescope predictions', 'cluster_10'),
     ]
     recos = [reco for reco in recos if reco[0] in df.columns]
-    #recos = []
 
     plot_multi_vs_energy(df['num_triggered_telescopes'].values, df['mc_energy'].values, out_file=args.output_folder+'/multiplicity.pdf')
 
     for reco in recos:
-        df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  ## this removes all events hillas failed on!!!! these might still work with other methods!
+        ## this removes all events hillas failed on!!!! these might still work with other methods!
+        df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  
         df_hillas = df[['num_triggered_telescopes', 'mc_energy', 'alt', 'az', 'mc_alt', 'mc_az']].dropna(how='any')
         theta = angular_separation(
             df_['mc_az'].values * u.deg,
@@ -294,7 +266,6 @@ if __name__ == '__main__':
             df_hillas['mc_alt'].values * u.deg,
             df_hillas['az'].values * u.deg,
             df_hillas['alt'].values * u.deg).to(u.deg)
-        print(len(theta))
         plot_angular_resolution(df_['mc_energy'], theta, name=reco[2], x2=df_hillas['mc_energy'], y2=theta_hillas, out_file=args.output_folder+'/'+reco[3]+'_vs_energy.pdf', log=True)
         plt.clf()
         plot_angular_resolution_vs_multi(df_['num_triggered_telescopes'], theta, name=reco[2], out_file=args.output_folder+'/'+reco[3]+'_vs_multi.pdf')

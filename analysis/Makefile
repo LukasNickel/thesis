@@ -32,9 +32,10 @@ clean:
 	
 # requires python 3.6.8
 install: \
+	install_requirements \
 	install_ctapipe \
-	install_aict \
-	install_requirements
+	install_aict
+
 
 
 directories:
@@ -44,10 +45,8 @@ directories:
 	mkdir -p $(merged_f)
 	mkdir -p $(models_f)
 	mkdir -p $(dl2_f)
-	mkdir -p $(plots_f)/test/resolution
-	mkdir -p $(plots_f)/gamma/resolution
-
-
+	mkdir -p $(plots_f)/test
+	mkdir -p $(plots_f)/gamma
 
 
 # python=3.6.8
@@ -241,8 +240,8 @@ plots: \
 	$(plots_f)/reg_perf_plot.pdf \
 	$(plots_f)/array_reg_perf_plot.pdf \
 	$(plots_f)/sep_perf_plot.pdf \
-	$(plots_f)/test/resolution/tel_vs_energy.pdf \
-	$(plots_f)/gamma/resolution/tel_vs_energy.pdf
+	$(plots_f)/test/tel_vs_energy.pdf \
+	$(plots_f)/gamma/tel_vs_energy.pdf
 
 
 
@@ -252,14 +251,14 @@ $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
 		$(tel_conf) \
 		$(plots_f)/disp_features.pdf
 
-$(plots_f)/gamma/resolution/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
+$(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
 	python $(scripts_f)/resolution_plots.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma \
 		$(tel_conf)
 
 
-$(plots_f)/test/resolution/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+$(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	python $(scripts_f)/resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(plots_f)/test \

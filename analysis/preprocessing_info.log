@@ -26,3 +26,11 @@ INFO - 2019-11-29 13:06:28,082 - root - writing to file preprocessed_data/proton
 INFO - 2019-11-29 13:06:29,143 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10020___cta-prod3_desert-2150m-Paranal-merged.h5
 INFO - 2019-11-29 13:06:29,857 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run10029___cta-prod3_desert-2150m-Paranal-merged.h5
 INFO - 2019-11-29 13:06:30,579 - root - writing to file preprocessed_data/proton/proton_20deg_180deg_run1002___cta-prod3_desert-2150m-Paranal-merged.h5
+INFO - 2019-11-29 13:38:45,375 - root - Found 10 files matching pattern.
+INFO - 2019-11-29 13:38:45,378 - root - Preprocessing on 0 files that have no matching output
+INFO - 2019-11-29 13:39:11,276 - root - Found 5 files matching pattern.
+INFO - 2019-11-29 13:39:11,278 - root - Preprocessing on 0 files that have no matching output
+INFO - 2019-11-29 13:39:37,360 - root - Found 7 files matching pattern.
+INFO - 2019-11-29 13:39:37,362 - root - Preprocessing on 0 files that have no matching output
+INFO - 2019-11-29 13:54:12,949 - root - Found 1624 files matching pattern.
+INFO - 2019-11-29 13:54:13,289 - root - Preprocessing on 1624 files that have no matching output
