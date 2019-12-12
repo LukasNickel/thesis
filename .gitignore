@@ -5,3 +5,7 @@ analysis/merged_data
 analysis/dl2
 *.pdf
 *.hdf
+*.pyc
+*.log
+.nfs
+.nfs

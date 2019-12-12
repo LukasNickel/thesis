@@ -145,8 +145,6 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
 
     add_colorbar_to_figure(im, fig, ax)
     ax.plot(bin_centers, b_68, 'b--', lw=2, color=main_color, label=f'{percentile}% Percentile')
-
-    #ax.set_yscale('log')
     ax.axhline(y=1)
     ax.axhline(y=0.1)
     ax.axhline(y=0.01)
@@ -204,7 +202,7 @@ def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
     ax.set_ylabel('Distance to True Position / degree')
     ax.set_xlabel('Multiplicity')
     ax.legend()
-    ax.set_title(name+f'\n samples: {len(y)}')
+    ax.set_title(f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file, out_file=None)
         return 0
@@ -212,74 +210,23 @@ def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
 
 
 def plot_multi_vs_energy(x, y, out_file=None):
+    x_bins, x_bin_center, _ = make_default_cta_binning(e_min=min(x)*u.TeV, e_max=max(x)*u.TeV)
+    y_bins = np.arange(0,30,1)
+    print(len(x_bins), len(y_bins))
     fig, ax = plt.subplots(1, 1)
-    im = ax.hist2d(x, y, label='stereo method')
-
+    h,xedges,yedges,im = ax.hist2d(
+        x,
+        y,
+        label='stereo method',
+        bins=(x_bins.to_value(u.TeV), y_bins),
+        norm=PowerNorm(0.3)
+        )
     ax.set_ylabel('Multiplicity')
     ax.set_xlabel('MC Energy')
     ax.set_xscale('log')
-    ax.legend()
     ax.set_title(f'Multiplicity\n samples: {len(y)}')
+    add_colorbar_to_figure(im, fig, ax)
     if out_file:
         fig.savefig(out_file)
         return 0
     return fig, ax 
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='PATH AND STUFF')
-    parser.add_argument('df_path', type=str)
-    parser.add_argument('output_folder', type=str)
-    parser.add_argument('config_path', type=str)
-    args = parser.parse_args()
-
-    config = AICTConfig.from_yaml(args.config_path)
-    model_config = config.disp
-
-#    df = pd.read_hdf(args.df_path, 'array_events')
-    df = read_data(args.df_path, 'array_events')
-
-    recos = [
-        ('source_alt_median', 'source_az_median', 'Median of telescope predictions', 'median'),
-        ('source_alt_pairwise_mean_10.0', 'source_az_pairwise_mean_10.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100'),
-        ('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100'),]
-    recos = [reco for reco in recos if reco[0] in df.columns]
-
-    plot_multi_vs_energy(df['num_triggered_telescopes'].values, df['mc_energy'].values, out_file=args.output_folder+'/multiplicity.pdf')
-
-    for reco in recos:
-        ## this removes all events hillas failed on!!!! these might still work with other methods!
-        df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  
-        df_hillas = df[['num_triggered_telescopes', 'mc_energy', 'alt', 'az', 'mc_alt', 'mc_az']].dropna(how='any')
-        theta = angular_separation(
-            df_['mc_az'].values * u.deg,
-            df_['mc_alt'].values * u.deg,
-            df_[reco[1]].values * u.deg,
-            df_[reco[0]].values * u.deg).to(u.deg)
-        theta_hillas = angular_separation(
-            df_hillas['mc_az'].values * u.deg,
-            df_hillas['mc_alt'].values * u.deg,
-            df_hillas['az'].values * u.deg,
-            df_hillas['alt'].values * u.deg).to(u.deg)
-        plot_angular_resolution(df_['mc_energy'], theta, name=reco[2], x2=df_hillas['mc_energy'], y2=theta_hillas, out_file=args.output_folder+'/'+reco[3]+'_vs_energy.pdf', log=True)
-        plt.clf()
-        plot_angular_resolution_vs_multi(df_['num_triggered_telescopes'], theta, name=reco[2], out_file=args.output_folder+'/'+reco[3]+'_vs_multi.pdf')
-        plt.clf()
-        plot_angular_resolution_comp(x=df_['num_triggered_telescopes'], y=theta, x2 = df_hillas['num_triggered_telescopes'], y2=theta_hillas, name=reco[2], out_file=args.output_folder+'/'+reco[3]+'_vs_multi_comp.pdf')
-        plt.close('all')
-
-    df_tel = read_data(args.df_path, 'telescope_events')
-    df_tel = df_tel.merge(df[['run_id', 'array_event_id', 'mc_energy', 'mc_alt', 'mc_az', 'num_triggered_telescopes']], on=['run_id', 'array_event_id'], how='left')
-    theta = angular_separation(
-            df_tel['mc_az'].values * u.deg,
-            df_tel['mc_alt'].values * u.deg,
-            df_tel['source_az_prediction'].values * u.deg,
-            df_tel['source_alt_prediction'].values * u.deg).to(u.deg)
-    df_tel['tel_theta'] = theta
-
-    plot_angular_resolution(df_tel[df_tel['telescope_type_id']==1]['mc_energy'].values, df_tel[df_tel['telescope_type_id']==1]['tel_theta'].values, name='Telescope prediction for the LSTs', out_file=args.output_folder+'/'+'tel'+'_vs_energy_lst.pdf', log=True)
-    plot_angular_resolution(df_tel[df_tel['telescope_type_id']==2]['mc_energy'].values, df_tel[df_tel['telescope_type_id']==2]['tel_theta'].values, name='Telescope prediction for the MSTs', out_file=args.output_folder+'/'+'tel'+'_vs_energy_mst.pdf', log=True)
-    plot_angular_resolution(df_tel[df_tel['telescope_type_id']==3]['mc_energy'].values, df_tel[df_tel['telescope_type_id']==3]['tel_theta'].values, name='Telescope prediction for the SSTs', out_file=args.output_folder+'/'+'tel'+'_vs_energy_sst.pdf', log=True)
-    plot_angular_resolution_vs_multi(df_tel['num_triggered_telescopes'], theta, name='Telescope prediction', out_file=args.output_folder+'/'+'tel'+'_vs_multi.pdf')
-    plot_angular_resolution(df_tel['mc_energy'], theta, name='Telescope prediction', out_file=args.output_folder+'/'+'tel'+'_vs_energy.pdf', log=True)
-

@@ -17,10 +17,10 @@ selection_conf = config/aict_selection.yaml
 
 from_scratch: directories install preprocessing analysis thesis
 
-all: analysis plots thesis
+all: preprocessing analysis plots thesis
 
 
-analysis: merge_data split_data train_models plots
+analysis: directories merge_data split_data train_models plots
 
 # not removing prep folder 
 clean:
@@ -69,21 +69,21 @@ install_requirements:
 # requires the simtel files.
 preprocessing:
 	python $(prep_script) \
-		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas/*run79*.simtel.gz' \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas/*run*.simtel.gz' \
 		$(prep_f)/pointlike/ \
 		config/preprocessing_config.yaml \
 		-l config/preprocessing_logging.yaml \
 		--n_jobs 8 \
 		-c 12
 	python $(prep_script) \
-		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas_diffuse/*run299*.simtel.gz' \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas_diffuse/*run*.simtel.gz' \
 		$(prep_f)/diffuse/ \
 		config/preprocessing_config.yaml \
 		-l config/preprocessing_logging.yaml \
 		--n_jobs 8 \
 		-c 12
 	python $(prep_script) \
-		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/protons/*run1002*.simtel.gz' \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/protons/*run*.simtel.gz' \
 		$(prep_f)/proton/ \
 		config/preprocessing_config.yaml \
 		-l config/preprocessing_logging.yaml \
@@ -96,15 +96,15 @@ preprocessing:
 #### split these up again
 merge_data:
 	python $(merge_script) \
-		'$(prep_f)/diffuse/*run*.h5' \
+		'$(prep_f)/diffuse/*run299*.h5' \
 		$(merged_f)/diffuse_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/pointlike/*run*.h5' \
+		'$(prep_f)/pointlike/*run7*.h5' \
 		$(merged_f)/gamma_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/proton/*run*.h5' \
+		'$(prep_f)/proton/*run1002*.h5' \
 		$(merged_f)/proton_merged.hdf5 \
 		-f h5py
 
@@ -237,11 +237,15 @@ $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5: $(dl2_f)/diffuse_test_dl2.hdf5 $(s
 
 plots: \
 	$(plots_f)/disp_features.pdf \
-	$(plots_f)/reg_perf_plot.pdf \
-	$(plots_f)/array_reg_perf_plot.pdf \
-	$(plots_f)/sep_perf_plot.pdf \
+	$(plots_f)/disp_r2_gamma.pdf \
+	$(plots_f)/disp_r2_test.pdf \
+	$(plots_f)/cross_val_reg_perf_plot.pdf \
+	$(plots_f)/cross_val_array_reg_perf_plot.pdf \
+	$(plots_f)/cross_val_sep_perf_plot.pdf \
 	$(plots_f)/test/tel_vs_energy.pdf \
-	$(plots_f)/gamma/tel_vs_energy.pdf
+	$(plots_f)/test/multiplicity.pdf \
+	$(plots_f)/gamma/tel_vs_energy.pdf \
+	$(plots_f)/gamma/multiplicity.pdf
 
 
 
@@ -251,40 +255,78 @@ $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
 		$(tel_conf) \
 		$(plots_f)/disp_features.pdf
 
-$(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
-	python $(scripts_f)/resolution_plots.py \
+
+$(dl2_f)/disp_performance_gamma.hdf: $(models_f)/disp_model.pkl $(dl2_f)/gamma_dl2.hdf5
+	python $(scripts_f)/disp_performance.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
-		$(plots_f)/gamma \
-		$(tel_conf)
+		$(models_f)/disp_model.pkl \
+		$(models_f)/sign_model.pkl \
+		$(tel_conf) \
+		$(dl2_f)/disp_performance_gamma.hdf
+		
+$(plots_f)/disp_r2_gamma.pdf: $(dl2_f)/disp_performance_gamma.hdf
+	python $(scripts_f)/plot_disp_performance.py \
+		$(dl2_f)/disp_performance_gamma.hdf \
+		$(plots_f)/disp_r2_gamma.pdf \
+		$(plots_f)/disp_accuracy_gamma.pdf \
 
 
-$(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
-	python $(scripts_f)/resolution_plots.py \
+$(dl2_f)/disp_performance_test.hdf: $(models_f)/disp_model.pkl $(dl2_f)/diffuse_test_dl2.hdf5
+	python $(scripts_f)/disp_performance.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
-		$(plots_f)/test \
-		$(tel_conf)
+		$(models_f)/disp_model.pkl \
+		$(models_f)/sign_model.pkl \
+		$(tel_conf) \
+		$(dl2_f)/disp_performance_test.hdf
+		
+$(plots_f)/disp_r2_test.pdf: $(dl2_f)/disp_performance_test.hdf
+	python $(scripts_f)/plot_disp_performance.py \
+		$(dl2_f)/disp_performance_test.hdf \
+		$(plots_f)/disp_r2_test.pdf \
+		$(plots_f)/disp_accuracy_test.pdf \
 
 
-$(plots_f)/reg_perf_plot.pdf: $(tel_conf) $(models_f)/regressor_performance.hdf5 $(models_f)/regressor_model.pkl
+$(plots_f)/cross_val_reg_perf_plot.pdf: $(tel_conf) $(models_f)/regressor_performance.hdf5 $(models_f)/regressor_model.pkl
 	aict_plot_regressor_performance \
 		$(tel_conf) \
 		$(models_f)/regressor_performance.hdf5 \
 		$(models_f)/regressor_model.pkl \
-		-o $(plots_f)/reg_perf_plot.pdf
+		-o $(plots_f)/cross_val_reg_perf_plot.pdf
 
 
-$(plots_f)/array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_regressor_performance.hdf5 $(models_f)/array_regressor_model.pkl
+$(plots_f)/cross_val_array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_regressor_performance.hdf5 $(models_f)/array_regressor_model.pkl
 	aict_plot_regressor_performance \
 		$(array_conf) \
 		$(models_f)/array_regressor_performance.hdf5 \
 		$(models_f)/array_regressor_model.pkl \
-		-o $(plots_f)/array_reg_perf_plot.pdf
+		-o $(plots_f)/cross_val_array_reg_perf_plot.pdf
 
 
-$(plots_f)/sep_perf_plot.pdf: $(tel_conf) $(models_f)/separator_performance.hdf5 $(models_f)/separator_model.pkl
+$(plots_f)/cross_val_sep_perf_plot.pdf: $(tel_conf) $(models_f)/separator_performance.hdf5 $(models_f)/separator_model.pkl
 	aict_plot_separator_performance \
 		$(tel_conf) \
 		$(models_f)/separator_performance.hdf5 \
 		$(models_f)/separator_model.pkl \
-		-o $(plots_f)/sep_perf_plot.pdf
+		-o $(plots_f)/cross_val_sep_perf_plot.pdf
 
+
+$(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(plots_f)/gamma \
+
+$(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
+	python $(scripts_f)/stereo_resolution_plots.py \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(plots_f)/gamma \
+
+
+$(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(plots_f)/test \
+
+$(plots_f)/test/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	python $(scripts_f)/stereo_resolution_plots.py \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(plots_f)/test \
