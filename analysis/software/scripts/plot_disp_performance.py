@@ -63,6 +63,8 @@ if __name__ == '__main__':
     plt.errorbar(df_bins.mean_energy, df_bins.r2, xerr=df_bins.width, ls='')
     plt.xscale('log')
     plt.ylim(0,1)
+    plt.xlabel('MC Energy [TeV]')
+    plt.ylabel('Disp R^2-score')
     plt.savefig(args.output)
     plt.clf()
 
@@ -75,5 +77,7 @@ if __name__ == '__main__':
     plt.errorbar(df_bins.mean_energy, df_bins.accuracy, xerr=df_bins.width, ls='')
     plt.xscale('log')
     plt.ylim(0,1)
+    plt.xlabel('MC Energy [TeV]')
+    plt.ylabel('Sign Accuracy')
     plt.savefig(args.output_2)
     plt.clf()

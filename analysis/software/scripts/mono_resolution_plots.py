@@ -21,7 +21,7 @@ if __name__ == '__main__':
             df_tel['source_az_prediction'].values * u.deg,
             df_tel['source_alt_prediction'].values * u.deg).to(u.deg)
     df_tel['tel_theta'] = theta
-    #plot_ml_performance()
+
     for tel_id in [1,2,3]:
         plot_angular_resolution(
             df_tel[df_tel['telescope_type_id']==tel_id]['mc_energy'].values,
