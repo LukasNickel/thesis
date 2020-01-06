@@ -50,8 +50,8 @@ These follow the notation and description of \cite{sokolova2009systematic}.
     $pos$ & true positive ($tp$) & false negative ($fn$) \\ \hline
     $neg$ & false positive ($fp$) & true negative ($tn$) \\ \hline
     \end{tabular}
-    \caption{Confusion matrix for a binary classification task with
-    the two labels $pos$ and $neg$.}
+%    \caption{Confusion matrix for a binary classification task with
+%    the two labels $pos$ and $neg$.}
 \end{center}
 
 An ideal classification would result in
@@ -64,15 +64,15 @@ Some of the more common ones are:
 \begin{center}
     \begin{tabular}{ | l | l | l |}
     Measure & Formula as $pos$ & Evaluation Focus \\ \hline
-    Accuracy & \frac{tp+tn}{tp+fn+fp+tn} & Overall effectiveness of a classifier \\ \hline
-    Precision & \frac{tp}{tp+fp} & Class agreement of the data labels with the positive labels given by the classifier \\ \hline
-    Recall/Sensitivity & \frac{tp}{tp+fn} & Effectiveness of a classifier to identify positive labels \\ \hline
-    F-score & \frac{(\beta^2+1)tp}{(\beta^2+1)tp+\beta^2fn+fp} & Relations between data’s positive labels and those given by a classifier \\ \hline
-    Specificity & \frac{tn}{fp+tn} & How effectively a classifier identifies negative labels \\ \hline
-    AUC & \frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn}) & Classifier’s ability to avoid false classification \\ \hline
+    Accuracy & $\frac{tp+tn}{tp+fn+fp+tn}$ & Overall effectiveness of a classifier \\ \hline
+    Precision & $\frac{tp}{tp+fp}$ & Class agreement of the data labels with the positive labels given by the classifier \\ \hline
+    Recall/Sensitivity & $\frac{tp}{tp+fn}$ & Effectiveness of a classifier to identify positive labels \\ \hline
+    F-score & $\frac{(\beta^2+1)tp}{(\beta^2+1)tp+\beta^2fn+fp}$ & Relations between data’s positive labels and those given by a classifier \\ \hline
+    Specificity & $\frac{tn}{fp+tn}$ & How effectively a classifier identifies negative labels \\ \hline
+    AUC & $\frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn})$ & Classifier’s ability to avoid false classification \\ \hline
     \end{tabular}
-    \caption{Confusion matrix for a binary classification task with
-    the two labels $pos$ and $neg$.}
+%    \caption{Confusion matrix for a binary classification task with
+%    the two labels $pos$ and $neg$.}
 \end{center}
 
 A model that performs classification on data is often referred to as

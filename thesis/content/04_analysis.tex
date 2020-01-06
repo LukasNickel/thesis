@@ -28,17 +28,17 @@ in the camera pixels.
 
 \begin{figure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_raw.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_raw.pdf} 
         %\caption{Caption1}
         \label{fig:shower_image_raw}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_cleaned.pdf}
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_cleaned.pdf}
         %\caption{Caption 2}
         \label{fig:shower_image_cleaned}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_cleaned_params.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_cleaned_params.pdf} 
         %\caption{Caption1}
         \label{fig:hillas_parameters_only}
     \end{subfigure}
@@ -118,7 +118,7 @@ literature (citation needed). The general idea
 can be seen in figure \ref{fig:disp}.
 
 \begin{figure}
-    \includegraphics[width=0.9\linewidth]{../Plots/hillas_complete.pdf}
+    \includegraphics[width=0.9\linewidth]{Plots/hillas_complete.pdf}
     \caption{Illustration of monoscopic source position reconstruction making use of 
         the Hillas-Parameters and the DISP-method as explained in section \ref{sec:source_position}.
         The left figure has the hillas ellipse and parameters drawn onto our previously cleaned sample shower.
@@ -136,7 +136,7 @@ is fixed at two points at the main shower axis, see figure \ref{fig:disp_amb}
 
 
 \begin{figure}
-    \includegraphics[width=0.9\linewidth]{../Plots/hillas_complete.pdf}
+    \includegraphics[width=0.9\linewidth]{Plots/hillas_complete.pdf}
     \caption{Wrong pic!}
     \label{fig:disp_amb}
 \end{figure}
@@ -162,17 +162,17 @@ These methods are illustrated in figure \ref{fig:disp_magic}
 
 \begin{figure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_raw.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_raw.pdf} 
         %\caption{Caption1}
         \label{fig:3}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_cleaned.pdf}
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_cleaned.pdf}
         %\caption{Caption 2}
         \label{fig:2}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/hillas_cleaned_params.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/hillas_cleaned_params.pdf} 
         %\caption{Caption1}
         \label{fig:1}
     \end{subfigure}
@@ -192,7 +192,7 @@ A schematic illustration is given by figure \ref{fig:hillas_reco}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{./Plots/Histogramm.pdf}
+    \includegraphics[width=0.8\textwidth]{Plots/decision_tree.pdf}
     \caption{HillasReconstructor}
     \label{fig:hillas_reco}
 \end{figure}
@@ -241,7 +241,7 @@ would be to take the median instead of the mean.
 Another possible algorithmus iteratively calculates
 the median and and standard deviation of the cluster and removes
 outliers based on their distance to the median.
-This algorithmus is implemented as "sigma_clipped_stats" in astropy (citation).
+%This algorithmus is implemented as "sigma_clipped_stats" in astropy (citation).
 
 \textbf{Pairwise combination (MAGIC-based)}
 Since algorithms for choosing the correct points exist for the
@@ -254,22 +254,22 @@ choosing two of the triggered telescopes.
 
 \begin{figure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_1.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_1.pdf} 
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_2.pdf}
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_2.pdf}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_3.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_3.pdf} 
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_4.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_4.pdf} 
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_5.pdf}
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_5.pdf}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
-        \includegraphics[width=0.9\linewidth]{../Plots/stereo_magic_6.pdf} 
+        \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_6.pdf} 
     \end{subfigure}
     \caption{Its a king of magic}
     \label{fig:disp_cta_magic}
@@ -300,14 +300,14 @@ choosing the mininmal distance too big includes misclassified predictions
 making the averaging harder.
 
 \begin{figure}
-    \includegraphics[width=0.9\linewidth]{../Plots/hillas_complete.pdf}
+    \includegraphics[width=0.9\linewidth]{Plots/hillas_complete.pdf}
     \caption{Wrong pic!}
     \label{fig:disp_amb}
 \end{figure}
 
 
 \begin{figure}
-    \includegraphics[width=0.9\linewidth]{../Plots/hillas_complete.pdf}
+    \includegraphics[width=0.9\linewidth]{Plots/hillas_complete.pdf}
     \caption{Wrong pic!}
     \label{fig:disp_amb}
 \end{figure}
