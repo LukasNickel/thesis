@@ -1,5 +1,6 @@
-# Quality cuts from Fabian Temme's phd thesis
+multiple_telescopes: True
+
 selection:
     gamma_prediction_mean:
       - '>='  # needs to be in quotes because > and ! are special character in yaml
-      - 0.2 ## predictions on diffuse gammas very low, just for debugging
+      - 0.05 ## predictions on diffuse gammas very low, just for debugging

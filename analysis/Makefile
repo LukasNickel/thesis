@@ -47,6 +47,8 @@ directories:
 	mkdir -p $(dl2_f)
 	mkdir -p $(plots_f)/test
 	mkdir -p $(plots_f)/gamma
+	mkdir -p $(plots_f)/test_cut
+	mkdir -p $(plots_f)/gamma_cut
 
 
 # python=3.6.8
@@ -196,6 +198,10 @@ $(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model
 		$(dl2_f)/gamma_dl2.hdf5 \
 		-n 20 \
 		-e 10.0
+	aict_apply_separation_model \
+		$(tel_conf) \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(models_f)/separator_model.pkl
 
 $(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/regressor_model.pkl $(models_f)/disp_model.pkl $(models_f)/array_regressor_model.pkl
 	cp $(merged_f)/diffuse_test.hdf5 $(dl2_f)/diffuse_test_dl2.hdf5
@@ -223,15 +229,26 @@ $(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separa
 		$(models_f)/array_regressor_model.pkl
 
 
-cut: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
+cut: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 
 $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5: $(dl2_f)/diffuse_test_dl2.hdf5 $(selection_conf)
+	python software/scripts/copy_array_column_to_telescope.py \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		gamma_prediction_mean
 	aict_apply_cuts \
 		$(selection_conf) \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
-		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 \
-		--key array_events \
-		--chunksize=10000
+		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
+
+$(dl2_f)/gamma_dl2_hadroness_cut.hdf5: $(dl2_f)/gamma_dl2.hdf5 $(selection_conf)
+	python software/scripts/copy_array_column_to_telescope.py \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		gamma_prediction_mean
+	aict_apply_cuts \
+		$(selection_conf) \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5
+
 
 
 
@@ -245,7 +262,9 @@ plots: \
 	$(plots_f)/test/tel_vs_energy.pdf \
 	$(plots_f)/test/multiplicity.pdf \
 	$(plots_f)/gamma/tel_vs_energy.pdf \
-	$(plots_f)/gamma/multiplicity.pdf
+	$(plots_f)/gamma/multiplicity.pdf \
+	$(plots_f)/test_cut/multiplicity.pdf \
+	$(plots_f)/gamma_cut/multiplicity.pdf
 
 
 
@@ -320,6 +339,10 @@ $(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma \
 
+$(plots_f)/gamma_cut/multiplicity.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
+	python $(scripts_f)/stereo_resolution_plots.py \
+		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
+		$(plots_f)/gamma_cut \
 
 $(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	python $(scripts_f)/mono_resolution_plots.py \
@@ -330,3 +353,8 @@ $(plots_f)/test/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(plots_f)/test \
+
+$(plots_f)/test_cut/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
+	python $(scripts_f)/stereo_resolution_plots.py \
+		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 \
+		$(plots_f)/test_cut \
