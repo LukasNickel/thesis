@@ -111,7 +111,6 @@ def find_url(text):
         resolved_url += '?download=True'
     elif journal == 'www.sciencedirect.com':
         resolved_url += '/pdfft?isDTMRedir=true'
-Found url https://arxiv.org/pdf/cs/0006013.pdf for document  An evaluation of Naive Bayesian anti-spam filtering
 
     elif journal == 'link.springer.com':
         resolved_url = re.sub('article', 'content/pdf', resolved_url)
