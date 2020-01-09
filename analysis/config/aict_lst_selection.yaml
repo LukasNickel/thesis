@@ -1,0 +1,6 @@
+multiple_telescopes: True
+
+selection:
+    telescope_id:
+      - '=='  # needs to be in quotes because > and ! are special character in yaml
+      - 4 ## predictions on diffuse gammas very low, just for debugging

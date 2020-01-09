@@ -11,7 +11,7 @@ prep_script = software/cta_preprocessing/process_multiple_simtel_files.py
 tel_conf = config/aict_tel_config.yaml
 array_conf = config/aict_array_config.yaml
 selection_conf = config/aict_selection.yaml
-
+lst_selection_conf = config/aict_lst_selection.yaml
 
 .PHONY: merge_data split_data analysis plots all clean
 
@@ -49,6 +49,7 @@ directories:
 	mkdir -p $(plots_f)/gamma
 	mkdir -p $(plots_f)/test_cut
 	mkdir -p $(plots_f)/gamma_cut
+	mkdir -p $(plots_f)/gamma_mono_lst
 
 
 # python=3.6.8
@@ -94,11 +95,11 @@ preprocessing:
 
 
 
-
+# 299, 7, 1002
 #### split these up again
 merge_data:
 	python $(merge_script) \
-		'$(prep_f)/diffuse/*run299*.h5' \
+		'$(prep_f)/diffuse/*run2*.h5' \
 		$(merged_f)/diffuse_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
@@ -135,6 +136,15 @@ split_data:
 		-f 1 -n train_separation \
 		-t cta \
 		-v
+	aict_apply_cuts \
+		$(lst_selection_conf) \
+		$(merged_f)/gamma_test.hdf5 \
+		$(merged_f)/gamma_test_lst1.hdf5
+	aict_apply_cuts \
+		$(lst_selection_conf) \
+		$(merged_f)/diffuse_train_disp.hdf5 \
+		$(merged_f)/diffuse_train_disp_lst1.hdf5
+
 
 train_models: \
 	$(models_f)/separator_model.pkl \
@@ -185,7 +195,34 @@ $(models_f)/disp_model.pkl $(models_f)/sign_model.pkl $(models_f)/cv_disp.hdf5: 
 		$(models_f)/sign_model.pkl
 
 
-#### dl2 stuff 
+$(models_f)/lst_disp_model.pkl $(models_f)/lst_sign_model.pkl $(models_f)/lst_cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_train_disp_lst1.hdf5
+	aict_train_disp_regressor \
+		$(tel_conf) \
+		$(merged_f)/diffuse_train_disp_lst1.hdf5 \
+		$(models_f)/lst_cv_disp.hdf5 \
+		$(models_f)/lst_disp_model.pkl \
+		$(models_f)/lst_sign_model.pkl
+
+
+#### dl2 stuff
+
+$(dl2_f)/diffuse_test_dl2_lst.hdf5: $(merged_f)/diffuse_train_disp_lst1.hdf5 $(models_f)/lst_disp_model.pkl
+	cp $(merged_f)/diffuse_train_disp_lst1.hdf5 $(dl2_f)/diffuse_test_dl2_lst.hdf5
+	aict_apply_disp_regressor\
+		$(tel_conf) \
+		$(dl2_f)/diffuse_test_dl2_lst.hdf5 \
+		$(models_f)/lst_disp_model.pkl \
+		$(models_f)/lst_sign_model.pkl
+
+$(dl2_f)/gamma_dl2_lst.hdf5: $(merged_f)/gamma_test_lst1.hdf5 $(models_f)/lst_disp_model.pkl
+	cp $(merged_f)/gamma_test_lst1.hdf5 $(dl2_f)/gamma_dl2_lst.hdf5
+	aict_apply_disp_regressor\
+		$(tel_conf) \
+		$(dl2_f)/gamma_dl2_lst.hdf5 \
+		$(models_f)/lst_disp_model.pkl \
+		$(models_f)/lst_sign_model.pkl
+
+
 $(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/regressor_model.pkl $(models_f)/disp_model.pkl
 	cp $(merged_f)/gamma_test.hdf5 $(dl2_f)/gamma_dl2.hdf5
 	aict_apply_disp_regressor\
@@ -264,7 +301,8 @@ plots: \
 	$(plots_f)/gamma/tel_vs_energy.pdf \
 	$(plots_f)/gamma/multiplicity.pdf \
 	$(plots_f)/test_cut/multiplicity.pdf \
-	$(plots_f)/gamma_cut/multiplicity.pdf
+	$(plots_f)/gamma_cut/multiplicity.pdf \
+	$(plots_f)/gamma_mono_lst/tel_vs_energy.pdf
 
 
 
@@ -333,6 +371,11 @@ $(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma \
+
+$(plots_f)/gamma_mono_lst/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2_lst.hdf5
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/gamma_dl2_lst.hdf5 \
+		$(plots_f)/gamma_mono_lst \
 
 $(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
 	python $(scripts_f)/stereo_resolution_plots.py \

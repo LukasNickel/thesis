@@ -22,7 +22,7 @@ if __name__ == '__main__':
             df_tel['source_alt_prediction'].values * u.deg).to(u.deg)
     df_tel['tel_theta'] = theta
 
-    for tel_id in [1,2,3]:
+    for tel_id in df_tel['telescope_type_id'].unique():
         plot_angular_resolution(
             df_tel[df_tel['telescope_type_id']==tel_id]['mc_energy'].values,
             df_tel[df_tel['telescope_type_id']==tel_id]['tel_theta'].values,
