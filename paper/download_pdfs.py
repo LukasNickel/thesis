@@ -122,6 +122,8 @@ def find_url(text):
         resolved_url += '.pdf'
     elif journal == 'journals.aps.org':
         resolved_url = re.sub('abstract', 'pdf', resolved_url)
+    elif journal == 'royalsocietypublishing.org':
+        resolved_url = re.sub('abs', 'pdf', resolved_url)
     else:
         logger.error(
                 f'Unsupported journal {journal}. Need to implement this one')
