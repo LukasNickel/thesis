@@ -1,16 +1,6 @@
 alles aus dem bookap aus der nextcloud
 
-\chapter{Einleitung}
-
-
-ankle? knee?
-
-\section{astro (PARTICLE) physics}
-das ist eigentlich die einleitung denke ich (sec)
-
-bis hier hin braucht nicht mehr als 5-10 seiten sein (eher weniger)
-historie, multi messenger (typen unterscheiden)
-
+\chapter{Introduction}
 
 A big field in astro physics ever since Victor Hess discovered
 the extraterrestrial origin of the atmosperic ionization (citation needed)
@@ -34,11 +24,117 @@ Nowadays there exists a wide range of experiments trying to
 solve these questions. These focus on different ways to detect
 extraterestrial particle sources which is why the
 the term Multi Messenger Astronomy is widely used.
-Since the detection of gravitational waves in XXXX (citation needed)
-there are now four seperate detection channels:
 
-jeweils: Wofür ist das besonders gut?
-\textbf{Electromagnetic / gammas}
+
+\section{The origins of astroparticle physics}
+- coulomb, 1785: electroscopes discharge spontaneously
+- crookes, 1879: dependency with air pressure -> ionisation of the air, but why?
+- becquerel, 1896: spontaneous radioactivity
+- curie, ??: radioactive decay with charged particles
+- wilson, elster, geitel, ~1900: particles from outside the chamber, surroudnings, no signs of thembeing extraterrestrial
+- 1909: penetrating metal -> $\gamma$-rays?, either usn, earth crust or atmosphere? expected most from the crust -> decrease wit height???
+- wulff, 1909: eifel tower/300m -> decrease not as strong as expected
+- pacini, 1910, underwater: a lot must be not from earth
+- gockel, 1909: balloon -> same interpretation, still doubts in the community
+- hess, 1911-1921: 7 ballons -> increase at some height -> not from earth and probaly extraterrestrial because same at night
+- kollhörster, ??? : confirmation
+-> hess: "höhenstrahlung", milikan: cosmic rays
+
+- clay, 1927: dependent from magnetic field -> charged particles
+- alvarez+compton/rossi/johnson -> more form west than east -> positive charge
+- anderson 1933: cosmic rays i cloud chamber -> antimatter discovery
+- rossi 1934/auger, 1937: coincident event in geiger müller at large distances -> particle showers -> high energy primary interacts in atmosphere
+
+- more particels got found -> pions, muons
+- cern, 1954 -> do we even need astro anymore? fermi: we can get up to 5000TeV in theory -> lulz
+
+
+- turns out its still useful, despite falling out of favor for some while
+- today we observe on four channels -> multimessenger astronomy with growing collaboration
+- neutrinos fehlen hier noch komplett! -> entdeckung im nächsten Abschnitt ergänzen
+
+\section{Multimessenger astronomy}
+
+The sources of extraterrestrial radiation can be ...
+(Vorgänge kurz anreißen, agns, supernovae...)
+und key areas of research. func-ray scheint da einen guten Überblick zu haben. bookap auch, aer sehr lang
+
+
+Nowadays we observe these processes by looking at one of four channels: 
+\begin{enumerate}
+	\item Electromagnetic radiation
+	\item (Charged) cosmic rays
+	\item $\nu$-radiation
+	\item Gravitational waves
+\end{enumerate}
+
+All of these have vastly different properties and require different experiments.
+In the recent years, it became a common thing to observe the same sources 
+on different channels to learn more about the processes that happen at 
+these far distant sources. This is what is often times 
+referred to as multi messenger astronomy (cite some mma paper, eg magic looking at an icecube alert).
+
+Before we focus on the special field of imaging air cherenkov telecopes, we will have
+a brief look at the different channels.
+
+- bild von der astrovorlesung einfügen und erklären!
+\begin{figure}
+	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\label{fig:multi_messenger}
+	\caption{Visualisation of the behaviours of different astronomy messengers. Photons and neutrinos 
+		travel the universe without deflection. Charged cosmic rays get deflected by interstellar
+		magnetic fields and thus do not allow for a assignment to a cosmological source.
+		Neutrinos interact way less than photons both in the universe and in the detector 
+		which requires the detectors to be of huge areas. Gravitational waves anyone?
+	}
+\end{figure}
+
+
+\subsection{Charged cosmic rays}
+The term charged cosmic rays summates all types of charged particles from
+extra terrestrial sources with the main proportion seemingly neing protons
+\cite{something something}
+
+
+Cosmic rays can similarly be observed both directly and indirectly (werte falsch, anpassen).
+- kurze erklärung davon
+
+
+Figure \ref{fig:cr_spectrum} shows the flux of charged cosmic rays over 
+many orders of magnitude in energy which mainly follows 
+a power law $E^{-\gamma}$ with gamma somewhere between 
+2.7 and 3.3. Deviations from this crude approximation are 
+usually referred to as the first and second knee and the ankle 
+at $5 10^{15}, 2 10^{17} and 5 10^{18}$ eV respectively.
+
+\begin{figure}
+	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\label{fig:cr_spectrum}
+	\caption{Combined plot of the cosmic ray spectrum, measured by different air shower experiments. \cite{pdg2019}. 
+		The original data were taken from reports from \cite{Alfaro:2017cwx}, 
+		\cite{1991ICRC....2...85F}, more here. or leave it altogether.
+	}
+\end{figure}
+
+
+At the very highest energies, the flux seems to rapidly decrease, which may point towards a maximum energy
+tat cosmological sources can produce or towards destructive interaction with 
+the cosmic microwave background \cite{bookap}.
+
+\subsection{Electromagnetic radiation}
+In contrast to charged cosmic rays, $\gamma$-particles point towards
+their sources, allowing to search for sources of radiation.
+In astronomy electromagnetic radiation refers to $\gamma$-particles at all wavelength,
+the term $\gamma$-radiation being assigned to the very highest energy particles.
+The energy span is usually divided into different ranges, as can be seen in \ref{fig:em_spectrum}
+
+\begin{figure}
+	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\caption{Search for another pic in a paper and cite properly}
+	\label{fig:em_spectrum}
+\end{figure}
+
+
 Emitted photons can be observed either directly
 from outside the atmosphere via satellites or indirectly
 via ground based gamma astronomy. In the later case
@@ -48,27 +144,35 @@ An example for direct observation could be the Fermi satellite (citation needed)
 an example for ground based observation could be the
 MAGIC-experiment (citation needed).
 
-\textbf{Cosmic Rays}
-Cosmic rays can similarly be observed both directly and indirectly.
-????
+- smth bout the spectrum with image, bookap has smth but we might find a better one.
 
-\textbf{Neutrinos}
-Detecting neutrinos is - in general - much harder because of
+\subsection{Neutrinos}
+Even less affected by interations on the way from the source to the earth are neutrinos.
+Due to their small interaction cross sections and no electric charge, they 
+suffer very little from absorption or deflection.
+For very much the same reasons detecting neutrinos is much harder
+than detecting photons or charged particles.
+
+The small cross section requires to build huge detectors, 
+the ICECUBE having a detector volume of \SI{1}{\kilo\meter^3}(cite that).
+
+because of
 their small cross-sections. This leads to thousands (größenordnung checken) of
 neutrinos passing us continiusly without us even noticing.
 For this reason neutrino detectors need to be very large. One example
 of such a detector is the ICECUBE detector in ??? (ctation needed).
 
-\textbf{Gravitational waves}
+\subsection{Gravitational waves}
 Gravitational waves are the newest channel available for observation.
 We can detect them using large size interferometers such as
 the LiGO's three detectors (citation needed).
 
 
 
+Ground-based cherenkov astronomy focuses on either $\gamma$-rays or cosmic rays
 
 
-\section{detection of gamma rays on the ground}
+\section{Detection of gamma-rays with ground based telescopes}
 -> ww in atmosphäre und so
 -> messenger gamma-strahlung genauer (was untersucht man?, Vorgehen, Experimente)
 
