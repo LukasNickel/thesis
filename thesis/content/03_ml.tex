@@ -11,14 +11,14 @@ regression problems (citation needed).
 This thesis focusses on using random forests to
 perform gamma/hadron separation, energy estimation, and
 source position estimation.
-As these are rather sophisticated algorithms, I will
+To understand how these algorithms work, I will
 give a short introduction into the basics of machine learning.
 
 \section{Supervised learning}
 In the task of supervised machine learning a model is trained on a
-dataset, that full information is given on. The trained model
+dataset, that full information is available on. The trained model
 can then later be used to estimate values from a dataset, which
-lacks our needed information. In machine learning we differentiate
+lacks the needed information. In machine learning we differentiate
 the columns of our dataset in a set of \textbf{input} variables $X$ and
 a set of \textbf{output} variables $y$. The naming convention for
 these sets follows the convention of scikit-learn
@@ -29,9 +29,10 @@ predictors or independent variables for the input, and
 responses or dependent variables for the output.
 
 \subsection{Classification}
-In (supervised) classification tasks, we want to predict the membership to
-a set of predefined classes. The possible solutions for $y$
-are from a discrete set of qualitative values (???).
+In (supervised) classification tasks, we want to predict of which of some 
+predefined classes the given sample is a member. The possible solutions for $y$
+are from a discrete set of qualitative values (???) in 
+contrast to a regression problem with a continous solution.
 A common example for a classification problem is an e-mail spam filter,
 where mails get categorized in at least two categories based
 on their content and meta data \cite{DBLP:journals/corr/cs-CL-0006013}.
@@ -79,18 +80,29 @@ A model that performs classification on data is often referred to as
 classifier.
 
 \subsection{Regression}
-In contrast to classification, regression refers to predicting
-a continous output.
-LINEAR LEAST SQUARES
+Regression is the task of predicting a continous variable.
+LINEAR LEAST SQUARES 1d
 BEISPIELE FÜR KOMPLEXERE METHODEN
 METRIKEN ZUR BEURTEILUNG (WIE IN DER KLASSIFIZIERUNG)
 
 
 \subsection{Learning as optimization problem}
+If we consider the error our model makes % error besser bennenen als metrik 
+as something we want to minimize with optimising 
+our model, we can express our task as 
+$minimize funktion$
+
+For the example of a regression problem, a popular 
+metric would be the mean squared error (MSE):
+$MSE = xxX$
+
+From the construction of the algorithm it quickly emerges that 
+the linear least squares does in fact minimize the 
+mean squared error.
 kommt quasi aus der regression raus -> SSE minimiert
+
+
 \subsection{Bias and variance, validation?, R2-Score}
-
-
 
 cart erwähnen? sklearn macht cart
 relativer vs absoluter fehler (-> log energie)
