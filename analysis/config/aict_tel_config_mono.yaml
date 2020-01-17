@@ -1,0 +1,219 @@
+# seed for the random number generators, to make things reproducible
+seed: 0
+
+
+# telescope_type_key: telescope_type_name
+telescope_events_key: telescope_events
+array_events_key: array_events
+runs_key: runs
+
+class_name: gamma
+
+
+multiple_telescopes: True
+
+
+array_event_column: array_event_id
+id_to_cam:
+  1: LSTCam
+  2: NectarCam
+  3: FlashCam
+  4: DigiCam
+  5: CHEC
+
+id_to_tel:
+  1: LST
+  2: MST
+  3: SST-1M  # this changes every once in a while
+
+
+# config for the energy regression
+energy:
+  regressor : |
+    ensemble.RandomForestRegressor(
+      n_estimators=150,
+      max_features='sqrt',
+      n_jobs=-1,
+      max_depth=12,
+    )
+  target_column: mc_energy
+
+  # define the number of cross validations to perform
+  n_cross_validations : 3
+
+  # Define the name of the category you want to find. The default is 'gamma_energy'.
+  # It will be written as <class_name>_prediction into the file when applying the model.
+  
+  log_target: True
+
+  # Define the name of the column that contains the name of the telescope in case you're working
+  # with mulitple telescopes and telescope types
+  telescope_type_key: telescope_type_name
+  output_name: gamma_energy_prediction
+
+  features:  # remove array event features ?
+    - width
+    - length
+    - skewness
+    - kurtosis
+    - intensity
+    - camera_type_id
+    - telescope_type_id
+    - r
+    - slope
+    - intercept
+    - num_pixel_in_shower
+    - leakage1_intensity
+    - leakage1_pixel
+    - leakage2_intensity
+    - leakage2_pixel
+    - phi
+    - psi
+    - focal_length
+
+  feature_generation:
+    needed_columns:
+      - width
+      - length
+      - intensity
+      - x
+      - y
+    features:
+      area: width * length
+      width_length: 1 - (width / length)
+      log_size: log(intensity)
+      log_size_area: log(intensity) / (width * length)
+      cog_r: sqrt(x**2 + y**2)
+
+# config for the g/h separation
+separator:
+  classifier : |
+    ensemble.RandomForestClassifier(
+        n_estimators=150,
+        max_features='sqrt',
+        n_jobs=-1,
+        max_depth=15,
+        criterion='entropy',
+    )
+  # n_signal: 100000
+  #n_background: 100000
+
+  n_cross_validations : 3
+
+  # telescope_type_key: telescope_type_name
+  # telescope_events_key: telescope_events
+  # array_events_key: array_events
+  # runs_key: runs
+
+  multiple_telescopes: True
+
+  calibrate_classifier: True
+  output_name: gamma_prediction
+
+  features:   # array event features??
+    - width
+    - length
+    - skewness
+    - kurtosis
+    - intensity
+    - camera_type_id
+    - telescope_type_id
+    - psi
+    - phi
+    - r
+    - leakage1_intensity
+    - leakage1_pixel
+    - leakage2_intensity
+    - leakage2_pixel
+    - slope
+    - intercept
+    - num_pixel_in_shower
+
+  feature_generation:
+    needed_columns:
+      - width
+      - length
+      - intensity
+    features:
+      area: width * length
+      width_length: 1 - (width / length)
+      log_size: log(intensity)
+      log_size_area: log(intensity) / (width * length)
+
+
+disp: 
+  disp_regressor : |
+    ensemble.RandomForestRegressor(
+        n_estimators=200,
+        max_features='sqrt',
+        n_jobs=-1,
+        max_depth=20,
+    )
+
+  sign_classifier: |
+    ensemble.RandomForestClassifier(
+        n_estimators=200,
+        max_features='sqrt',
+        n_jobs=-1,
+        max_depth=20,
+    )
+
+  source_az_column: mc_az
+  source_zd_column: mc_alt ### altitude -> offset
+  pointing_az_column: pointing_azimuth
+  pointing_zd_column: pointing_altitude ###offset 90°
+  cog_x_column: x  ## added
+  cog_y_column: y  ## added
+  delta_column: psi ##????
+  array_event_column: array_event_id
+
+  # randomly sample the data if you dont want to use the whole set
+  # n_signal : 200000
+
+  id_to_cam:
+    1: LSTCam
+    2: NectarCam
+    3: FlashCam
+    4: DigiCam
+    5: CHEC
+
+  id_to_tel:
+    1: LST
+    2: MST
+    3: SST-1M 
+
+  features:
+    - num_pixel_in_shower
+    - intensity
+    - width
+    - length
+    - kurtosis
+    - leakage1_intensity
+    - leakage1_pixel
+    - leakage2_intensity
+    - leakage2_pixel
+    - num_islands
+    - skewness
+    - slope
+    - intercept
+    - deviation
+    - slope_err
+    - intercept_err
+    - telescope_type_id
+    - camera_type_id
+    - focal_length
+    - concentration_cog
+    - concentration_core
+    - concentration_pixel
+
+
+  feature_generation:
+    needed_columns:
+      - width
+      - length
+      - intensity
+    features:
+      area: width * length * @pi
+      width_length: 1 - (width / length)
+      log_size: log(intensity)
+      log_size_area: log(intensity) / (width * length * @pi)

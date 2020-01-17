@@ -23,11 +23,12 @@ if __name__ == '__main__':
     df_tel['tel_theta'] = theta
 
     for tel_id in df_tel['telescope_type_id'].unique():
+        filename = args.output_folder+f'/tel_vs_energy_{tel_id}.pdf'
         plot_angular_resolution(
             df_tel[df_tel['telescope_type_id']==tel_id]['mc_energy'].values,
             df_tel[df_tel['telescope_type_id']==tel_id]['tel_theta'].values,
             name='',
-            out_file=args.output_folder+f'/tel_vs_energy_{tel_id}.pdf',
+            out_file=filename,
             log=True)
 
     plot_angular_resolution(df_tel['mc_energy'], theta, name='Telescope prediction', out_file=args.output_folder+'/'+'tel'+'_vs_energy.pdf', log=True)

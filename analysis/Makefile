@@ -10,8 +10,8 @@ prep_script = software/cta_preprocessing/process_multiple_simtel_files.py
 
 tel_conf = config/aict_tel_config.yaml
 array_conf = config/aict_array_config.yaml
+tel_conf_mono = config/aict_tel_config_mono.yaml
 selection_conf = config/aict_selection.yaml
-lst_selection_conf = config/aict_lst_selection.yaml
 
 .PHONY: merge_data split_data analysis plots all clean
 
@@ -19,6 +19,9 @@ from_scratch: directories install preprocessing analysis thesis
 
 all: preprocessing analysis plots thesis
 
+test:
+	TEXINPUTS=$$(pwd): \
+	python test_pgf.py
 
 analysis: directories merge_data split_data train_models plots
 
@@ -42,6 +45,9 @@ directories:
 	mkdir -p $(prep_f)/diffuse
 	mkdir -p $(prep_f)/pointlike
 	mkdir -p $(prep_f)/proton
+	mkdir -p $(prep_f)/diffuse_mono
+	mkdir -p $(prep_f)/pointlike_mono
+	mkdir -p $(prep_f)/proton_mono
 	mkdir -p $(merged_f)
 	mkdir -p $(models_f)
 	mkdir -p $(dl2_f)
@@ -49,6 +55,7 @@ directories:
 	mkdir -p $(plots_f)/gamma
 	mkdir -p $(plots_f)/test_cut
 	mkdir -p $(plots_f)/gamma_cut
+	mkdir -p $(plots_f)/test_mono_lst
 	mkdir -p $(plots_f)/gamma_mono_lst
 
 
@@ -93,6 +100,28 @@ preprocessing:
 		--n_jobs 8 \
 		-c 12
 
+preprocessing_mono:
+	python $(prep_script) \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas/*run*.simtel.gz' \
+		$(prep_f)/pointlike_mono/ \
+		config/preprocessing_config_mono.yaml \
+		-l config/preprocessing_logging.yaml \
+		--n_jobs 8 \
+		-c 12
+	python $(prep_script) \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/gammas_diffuse/*run*.simtel.gz' \
+		$(prep_f)/diffuse_mono/ \
+		config/preprocessing_config_mono.yaml \
+		-l config/preprocessing_logging.yaml \
+		--n_jobs 8 \
+		-c 12
+	python $(prep_script) \
+		'/net/cta-tank.app.tu-dortmund.de/POOL/projects/cta/PROD3/protons/*run*.simtel.gz' \
+		$(prep_f)/proton_mono/ \
+		config/preprocessing_config_mono.yaml \
+		-l config/preprocessing_logging.yaml \
+		--n_jobs 8 \
+		-c 12
 
 
 # 299, 7, 1002
@@ -107,11 +136,23 @@ merge_data:
 		$(merged_f)/gamma_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/proton/*run1002*.h5' \
+		'$(prep_f)/proton/*run100*.h5' \
 		$(merged_f)/proton_merged.hdf5 \
 		-f h5py
+	python $(merge_script) \
+		'$(prep_f)/diffuse_mono/*run2*.h5' \
+		$(merged_f)/diffuse_mono_merged.hdf5 \
+		-f h5py
+	python $(merge_script) \
+		'$(prep_f)/pointlike_mono/*run7*.h5' \
+		$(merged_f)/gamma_mono_merged.hdf5 \
+		-f h5py
+	python $(merge_script) \
+		'$(prep_f)/proton_mono/*run100*.h5' \
+		$(merged_f)/proton_mono_merged.hdf5 \
+		-f h5py
 
-
+# we need specific mono data!!!!
 
 split_data:
 	aict_split_data \
@@ -136,21 +177,36 @@ split_data:
 		-f 1 -n train_separation \
 		-t cta \
 		-v
-	aict_apply_cuts \
-		$(lst_selection_conf) \
-		$(merged_f)/gamma_test.hdf5 \
-		$(merged_f)/gamma_test_lst1.hdf5
-	aict_apply_cuts \
-		$(lst_selection_conf) \
-		$(merged_f)/diffuse_train_disp.hdf5 \
-		$(merged_f)/diffuse_train_disp_lst1.hdf5
+	aict_split_data \
+		$(merged_f)/diffuse_mono_merged.hdf5 \
+		$(merged_f)/diffuse_mono \
+		-f 0.2 -n test \
+		-f 0.2 -n train_disp \
+		-f 0.2 -n train_energy \
+		-f 0.2 -n train_array_energy \
+		-f 0.2 -n train_separation \
+		-t cta \
+		-v
+	aict_split_data \
+		$(merged_f)/gamma_mono_merged.hdf5 \
+		$(merged_f)/gamma_mono \
+		-f 1 -n test \
+		-t cta \
+		-v
+	aict_split_data \
+		$(merged_f)/proton_mono_merged.hdf5 \
+		$(merged_f)/proton_mono \
+		-f 1 -n train_separation \
+		-t cta \
+		-v
 
 
 train_models: \
 	$(models_f)/separator_model.pkl \
 	$(models_f)/regressor_model.pkl \
 	$(models_f)/disp_model.pkl \
-	$(models_f)/array_regressor_model.pkl
+	$(models_f)/array_regressor_model.pkl \
+	$(models_f)/mono_disp_model.pkl
 
 
 $(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_conf)  $(merged_f)/proton_train_separation.hdf5 $(merged_f)/diffuse_train_separation.hdf5
@@ -195,32 +251,32 @@ $(models_f)/disp_model.pkl $(models_f)/sign_model.pkl $(models_f)/cv_disp.hdf5: 
 		$(models_f)/sign_model.pkl
 
 
-$(models_f)/lst_disp_model.pkl $(models_f)/lst_sign_model.pkl $(models_f)/lst_cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_train_disp_lst1.hdf5
+$(models_f)/mono_disp_model.pkl $(models_f)/mono_sign_model.pkl $(models_f)/mono_cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_mono_train_disp.hdf5
 	aict_train_disp_regressor \
-		$(tel_conf) \
-		$(merged_f)/diffuse_train_disp_lst1.hdf5 \
-		$(models_f)/lst_cv_disp.hdf5 \
-		$(models_f)/lst_disp_model.pkl \
-		$(models_f)/lst_sign_model.pkl
+		$(tel_conf_mono) \
+		$(merged_f)/diffuse_mono_train_disp.hdf5 \
+		$(models_f)/mono_cv_disp.hdf5 \
+		$(models_f)/mono_disp_model.pkl \
+		$(models_f)/mono_sign_model.pkl
 
 
 #### dl2 stuff
 
-$(dl2_f)/diffuse_test_dl2_lst.hdf5: $(merged_f)/diffuse_train_disp_lst1.hdf5 $(models_f)/lst_disp_model.pkl
-	cp $(merged_f)/diffuse_train_disp_lst1.hdf5 $(dl2_f)/diffuse_test_dl2_lst.hdf5
+$(dl2_f)/diffuse_mono_test_dl2.hdf5: $(merged_f)/diffuse_mono_train_disp.hdf5 $(models_f)/mono_disp_model.pkl
+	cp $(merged_f)/diffuse_mono_train_disp.hdf5 $(dl2_f)/diffuse_mono_test_dl2.hdf5
 	aict_apply_disp_regressor\
-		$(tel_conf) \
-		$(dl2_f)/diffuse_test_dl2_lst.hdf5 \
-		$(models_f)/lst_disp_model.pkl \
-		$(models_f)/lst_sign_model.pkl
+		$(tel_conf_mono) \
+		$(dl2_f)/diffuse_mono_test_dl2.hdf5 \
+		$(models_f)/mono_disp_model.pkl \
+		$(models_f)/mono_sign_model.pkl
 
-$(dl2_f)/gamma_dl2_lst.hdf5: $(merged_f)/gamma_test_lst1.hdf5 $(models_f)/lst_disp_model.pkl
-	cp $(merged_f)/gamma_test_lst1.hdf5 $(dl2_f)/gamma_dl2_lst.hdf5
+$(dl2_f)/gamma_mono_dl2.hdf5: $(merged_f)/gamma_mono_test.hdf5 $(models_f)/mono_disp_model.pkl
+	cp $(merged_f)/gamma_mono_test.hdf5 $(dl2_f)/gamma_mono_dl2.hdf5
 	aict_apply_disp_regressor\
-		$(tel_conf) \
-		$(dl2_f)/gamma_dl2_lst.hdf5 \
-		$(models_f)/lst_disp_model.pkl \
-		$(models_f)/lst_sign_model.pkl
+		$(tel_conf_mono) \
+		$(dl2_f)/gamma_mono_dl2.hdf5 \
+		$(models_f)/mono_disp_model.pkl \
+		$(models_f)/mono_sign_model.pkl
 
 
 $(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/regressor_model.pkl $(models_f)/disp_model.pkl
@@ -288,32 +344,47 @@ $(dl2_f)/gamma_dl2_hadroness_cut.hdf5: $(dl2_f)/gamma_dl2.hdf5 $(selection_conf)
 
 
 
-
+##########################################
 plots: \
 	$(plots_f)/disp_features.pdf \
-	$(plots_f)/disp_r2_gamma.pdf \
-	$(plots_f)/disp_r2_test.pdf \
+	$(plots_f)/disp_gamma_r2_equal_filled.pdf \
+	$(plots_f)/disp_test_r2_equal_filled.pdf \
+	$(plots_f)/disp_features_mono_lst.pdf \
+	$(plots_f)/disp_gamma_mono_lst_r2_equal_filled.pdf \
+	$(plots_f)/disp_test_mono_lst_r2_equal_filled.pdf \
 	$(plots_f)/cross_val_reg_perf_plot.pdf \
 	$(plots_f)/cross_val_array_reg_perf_plot.pdf \
 	$(plots_f)/cross_val_sep_perf_plot.pdf \
 	$(plots_f)/test/tel_vs_energy.pdf \
 	$(plots_f)/test/multiplicity.pdf \
+	$(plots_f)/test_cut/tel_vs_energy.pdf \
+	$(plots_f)/test_cut/multiplicity.pdf \
+	$(plots_f)/test_mono_lst/tel_vs_energy.pdf \
 	$(plots_f)/gamma/tel_vs_energy.pdf \
 	$(plots_f)/gamma/multiplicity.pdf \
-	$(plots_f)/test_cut/multiplicity.pdf \
+	$(plots_f)/gamma_cut/tel_vs_energy.pdf \
 	$(plots_f)/gamma_cut/multiplicity.pdf \
 	$(plots_f)/gamma_mono_lst/tel_vs_energy.pdf
 
 
 
 $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_feature_importance.py \
 		$(models_f)/disp_model.pkl \
 		$(tel_conf) \
 		$(plots_f)/disp_features.pdf
 
+$(plots_f)/disp_features_mono_lst.pdf: $(models_f)/lst_disp_model.pkl
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_feature_importance.py \
+		$(models_f)/lst_disp_model.pkl \
+		$(tel_conf_mono) \
+		$(plots_f)/disp_features_mono_lst.pdf
+
 
 $(dl2_f)/disp_performance_gamma.hdf: $(models_f)/disp_model.pkl $(dl2_f)/gamma_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/disp_performance.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(models_f)/disp_model.pkl \
@@ -321,14 +392,14 @@ $(dl2_f)/disp_performance_gamma.hdf: $(models_f)/disp_model.pkl $(dl2_f)/gamma_d
 		$(tel_conf) \
 		$(dl2_f)/disp_performance_gamma.hdf
 		
-$(plots_f)/disp_r2_gamma.pdf: $(dl2_f)/disp_performance_gamma.hdf
+$(plots_f)/disp_gamma_r2_equal_filled.pdf: $(dl2_f)/disp_performance_gamma.hdf
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_gamma.hdf \
-		$(plots_f)/disp_r2_gamma.pdf \
-		$(plots_f)/disp_accuracy_gamma.pdf \
-
+		$(plots_f)/disp_r2_gamma
 
 $(dl2_f)/disp_performance_test.hdf: $(models_f)/disp_model.pkl $(dl2_f)/diffuse_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/disp_performance.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(models_f)/disp_model.pkl \
@@ -336,14 +407,46 @@ $(dl2_f)/disp_performance_test.hdf: $(models_f)/disp_model.pkl $(dl2_f)/diffuse_
 		$(tel_conf) \
 		$(dl2_f)/disp_performance_test.hdf
 		
-$(plots_f)/disp_r2_test.pdf: $(dl2_f)/disp_performance_test.hdf
+$(plots_f)/disp_test_r2_equal_filled.pdf: $(dl2_f)/disp_performance_test.hdf
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_test.hdf \
-		$(plots_f)/disp_r2_test.pdf \
-		$(plots_f)/disp_accuracy_test.pdf \
+		$(plots_f)/disp_r2_test
+
+$(dl2_f)/disp_performance_gamma_mono.hdf: $(models_f)/mono_disp_model.pkl $(dl2_f)/gamma_mono_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/disp_performance.py \
+		$(dl2_f)/gamma_mono_dl2.hdf5 \
+		$(models_f)/mono_disp_model.pkl \
+		$(models_f)/mono_sign_model.pkl \
+		$(tel_conf_mono) \
+		$(dl2_f)/disp_performance_gamma_mono.hdf
+		
+$(plots_f)/disp_gamma_mono_lst_r2_equal_filled.pdf: $(dl2_f)/disp_performance_gamma_mono.hdf
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_disp_performance.py \
+		$(dl2_f)/disp_performance_gamma_mono.hdf \
+		$(plots_f)/disp_r2_gamma_mono_lst
+
+$(dl2_f)/disp_performance_test_mono.hdf: $(models_f)/mono_disp_model.pkl $(dl2_f)/diffuse_mono_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/disp_performance.py \
+		$(dl2_f)/diffuse_mono_test_dl2.hdf5 \
+		$(models_f)/mono_disp_model.pkl \
+		$(models_f)/mono_sign_model.pkl \
+		$(tel_conf_mono) \
+		$(dl2_f)/disp_performance_test_mono.hdf
+		
+$(plots_f)/disp_test_mono_lst_r2_equal_filled.pdf: $(dl2_f)/disp_performance_test_mono.hdf
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_disp_performance.py \
+		$(dl2_f)/disp_performance_test_mono.hdf \
+		$(plots_f)/disp_r2_test_mono_lst
+
 
 
 $(plots_f)/cross_val_reg_perf_plot.pdf: $(tel_conf) $(models_f)/regressor_performance.hdf5 $(models_f)/regressor_model.pkl
+	TEXINPUTS=$$(pwd): \
 	aict_plot_regressor_performance \
 		$(tel_conf) \
 		$(models_f)/regressor_performance.hdf5 \
@@ -352,6 +455,7 @@ $(plots_f)/cross_val_reg_perf_plot.pdf: $(tel_conf) $(models_f)/regressor_perfor
 
 
 $(plots_f)/cross_val_array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_regressor_performance.hdf5 $(models_f)/array_regressor_model.pkl
+	TEXINPUTS=$$(pwd): \
 	aict_plot_regressor_performance \
 		$(array_conf) \
 		$(models_f)/array_regressor_performance.hdf5 \
@@ -360,6 +464,7 @@ $(plots_f)/cross_val_array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_re
 
 
 $(plots_f)/cross_val_sep_perf_plot.pdf: $(tel_conf) $(models_f)/separator_performance.hdf5 $(models_f)/separator_model.pkl
+	TEXINPUTS=$$(pwd): \
 	aict_plot_separator_performance \
 		$(tel_conf) \
 		$(models_f)/separator_performance.hdf5 \
@@ -368,36 +473,61 @@ $(plots_f)/cross_val_sep_perf_plot.pdf: $(tel_conf) $(models_f)/separator_perfor
 
 
 $(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma \
 
-$(plots_f)/gamma_mono_lst/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2_lst.hdf5
+$(plots_f)/gamma_mono_lst/tel_vs_energy.pdf: $(dl2_f)/gamma_mono_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
-		$(dl2_f)/gamma_dl2_lst.hdf5 \
-		$(plots_f)/gamma_mono_lst \
+		$(dl2_f)/gamma_mono_dl2.hdf5 \
+		$(plots_f)/gamma_mono_dl2 \
 
 $(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma \
 
+$(plots_f)/gamma_cut/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
+		$(plots_f)/gamma_cut \
+
 $(plots_f)/gamma_cut/multiplicity.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
 		$(plots_f)/gamma_cut \
 
 $(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(plots_f)/test \
 
 $(plots_f)/test/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(plots_f)/test \
 
+$(plots_f)/test_cut/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 \
+		$(plots_f)/test_cut \
+
 $(plots_f)/test_cut/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
+	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 \
 		$(plots_f)/test_cut \
+
+$(plots_f)/test_mono_lst/tel_vs_energy.pdf: $(dl2_f)/diffuse_mono_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/mono_resolution_plots.py \
+		$(dl2_f)/diffuse_mono_test_dl2.hdf5 \
+		$(plots_f)/test_mono_lst \

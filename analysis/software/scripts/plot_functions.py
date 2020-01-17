@@ -13,7 +13,7 @@ from aict_tools.configuration import AICTConfig
 from aict_tools.io import read_data
 
 import matplotlib
-matplotlib.use('pdf')
+#matplotlib.use('pdf')
 
 
 color_pallete = [

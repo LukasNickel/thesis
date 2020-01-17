@@ -21,6 +21,7 @@ if __name__ == '__main__':
     config = AICTConfig.from_yaml(args.config_path)
     model_config = config.disp
     features = model_config.features
+    #features = [f.replace('_', r'\_') for f in features]
     model = joblib.load(args.model_path)
 
     fig, ax = plt.subplots(1, 1)
