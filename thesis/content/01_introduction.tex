@@ -1,51 +1,89 @@
-alles aus dem bookap aus der nextcloud
-
 \chapter{Introduction}
 
-A big field in astro physics ever since Victor Hess discovered
-the extraterrestrial origin of the atmosperic ionization (citation needed)
-is astro particle physics. Despite falling out of favor for a few years
+A big field in astronomy and particle physics ever since Victor Hess discovered
+the extraterrestrial origin of the atmospheric ionization
+is astroparticle physics. Despite falling out of favor for a few years
 when terrestrial particle accelerators reached ever higher energies,
 the field is very famous today. One of the reasons being that
 even the biggest accelerators, like the LHC, got to a point where
 increasing collision energies gets ever more difficult.
 
-Despite all the effort and numerous achievements (beispiele und belege!),
+Despite all the effort and numerous achievements,
 in the field of astroparticle physics
-there are still many unanswered questions.
-Some of the more prominent include:
+there are still many questions left.
+Some of the prominent ones are:
 \begin{itemize}
-    \item{General relativity (-> gravitational waves)}
-    \item{Dark matter (-> gravitation being weird)}
-    \item{Dark energy (expansion of the universe)}
-    \item{Sources of VHE cosmic rays (acceleration processes involved)}
-    \item{neutrinos (basically everything, majorana?)}
+    \item{How does general relativity work at in extreme cases and 
+	what happens at the singularities?}
+    \item{Which particles form the dark matter?}
+    \item{Why is the universe expanding and what is dark energy?}
+    \item{How do cosmic rays get accelerated to the highest energies?}
+    \item{Are neutrinos majorana particles?}
 \end{itemize}
 
 Nowadays there exists a wide range of experiments trying to
-solve these questions. These focus on different ways to detect
-extraterrestrial particle sources which is why
-the term Multi Messenger Astronomy is widely used.
+solve these questions. They focus on different particles and detection
+mechanisms to detect
+extraterrestrial particle sources, which is why
+the term multi messenger astronomy is widely used.
 
 
 \section{The origins of astroparticle physics}
-- coulomb, 1785: electroscopes discharge spontaneously \cite{??}
-- crookes, 1879: dependency with air pressure -> ionisation of the air, but why? 
-\cite{doi:10.1098/rstl.1879.0076}
-- becquerel, 1896: spontaneous radioactivity
-\cite{becquerek1896emission}
-- curie, ??: radioactive decay with charged particles
-- wilson, elster, geitel, ~1900: particles from outside the chamber,
-surroundings, no signs of them being extraterrestrial, 
-\cite{??} 
-vlt auch weglassen oder nur in einem satz
-- 1909: penetrating metal -> $\gamma$-rays?, either sun, earth crust or atmosphere? expected most from the crust -> decrease wit height???
-- wulff, 1909: eifel tower/300m -> decrease not as strong as expected
+1785 Charles-Augustin de Coulomb first described the electrostatic forces 
+and found out that the electric charge on an electroscope can
+reduce over time although no contact has been made \cite{???}
+
+Much later, in 1879, William Crookes noted that the speed of the discharge
+depended on the pressure of the surrounding air 
+\cite{doi:10.1098/rstl.1879.0076}.
+This lead to the insight that the air must be ionized, but an 
+explanation was not yet available.
+
+A step towards the solution of this mistery was the discovery 
+of radioactivity by Henri Becquerel in 1896 
+\cite{becquerel1896emission} and the following studies 
+of Marie and Pierre Curie \cite{????}, 
+that awarded all three of them the nobel prize \cite{???}
+
+Around 1900 (Genauer?):
+With experimental improvements, led by Charles Thomson Rees Wilson,
+Julius Elster and Hans Friedrich Geitel, quantitative measurements 
+of the spontaneous discharge became possible \cite{\\multiple??}.
+For this the electroscope was insulated into a closed vessel.
+With these measurements it became evident that the source 
+of the ionised particles was indeed outside of the vessel.
+The obvious explanation seemed to be, that the surrounding material 
+emitted radioactivity \cite{bookap}.
+Also Wilson proposed a penetrating extraterrestrial radiation, 
+he could not support his theory with experimental results, 
+so the idea was dropped \cite{????im zweifel bookap}.
+
+By 1909, SOMEONE found, that the mysterious radiation was also 
+penetrating metal, which only left $\gamma$-radiation as 
+possible source. Besides radioactivity in the earth crust or atmosphere,
+another possible source was assumed to be the sun \cite{bookap}.
+
+To test these hypotheses, the following years included many experiments 
+above or under sea level to measure if the radiation strength changes.
+
+In 1909 Theodor Wulff measured the radiation on top of the 
+eiffel tower in paris. 
 \cite{wulf1909atmosphare} -> finden und lesen!
+Assuming that most radiation came from the 
+earth crust, the decrease was less than expected.
+
+Balloon flights of Albert Gockel in 1909 
+\cite{gockel1909atmosphare} -> finden und lesen, ggf englische version?
+and underwater experiments of Domenico Pacini in 1910 
+lead to the conclusion that most of the radiation must indeed be
+of extraterrestrial origin.
+
 - pacini, 1910, underwater: a lot must be not from earth
 \cite{2011arXiv1101.3015P}
 - gockel, 1909: balloon -> same interpretation, still doubts in the community
-\cite{gockel1909atmosphare} -> finden und lesen, ggf englische version?
+
+
+
 - hess, 1911-1921: 7 ballons 
 -> increase at some height 
 -> not from earth and probaly extraterrestrial because same at night
@@ -258,8 +296,122 @@ of particle showers in the atmosphere.
 The most common software in the field of IACTs is referred to as
 CORSIKA \cite{Engel:2018akg}.
 
-
 \subsection{Hadronic showers}
+Hadronic showers include all the interactions known from 
+electromagnetic showers, but adds nuclear interactions on top.
+These lead to non-negligible additional energy losses 
+and the creation of secondary hadronic particles.
+
+
+Approximations are more difficult to do and simulations 
+become the only way to reasonably calculate shower behaviour.
+
+At the end of the shower most particles have decayed into the 
+lightest hadronic particles, pions ($\pi^0, \pi^+, \pi^-$), of which the neutral pions 
+rapidly decay into photons.
+\cite{bookap} (vlt gibts da bessere quellen) states that on average
+roughly a third of the pions are neutral pions. This means that 
+a third of the hadronic shower eventually becomes a electromagnetic 
+(sub-)shower.
+
 
 \subsection{Measuring events}
-% arten von quellen und wie sie beobachtet werden -> welche arten von experimenten beobachten was? wofür sind iacts besonders gut?
+As stated earlier, IACTs measure particle showers by their emittance of cherenkov 
+light. This light gets collected by a large mirror (or a composition of 
+multiple smaller mirrors) and projected onto a camera system mounted some 
+meters above the mirror. 
+With this setup IACTs usually reach a field of view of 
+a few degree (magic: wert, zitat, hess: wert, zitat, veritas: wert, zitat)
+Figure \ref{fig:iact_mirror_camera} illustrates this 
+setup.
+
+Upon detection of a shower, the usual tasks include reconstructing 
+three key properties of the primary particle:
+\begin{enumerate}
+	\item{Particle type (mostly photon or hadronic)}
+	\item{Energy}
+	\item{Direction (leading to the source position)}
+\end{enumerate}
+
+The base idea resolves around describing the 
+shower image as ellipse and calculating the hillas parameters \cite{hillas params paper}.
+This allows to describe the shower image with only a handful of parameters.
+
+
+Usually the reconstruction can be improved heavily by cleaning the image first.
+Figure \ref{fig:shower_cleaning} shows a simulated $\gamma$-induced shower 
+in the camera of the Large Sized Telescope (see section \ref{sec:lst} for more details)
+before and after cleaning
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+  		\includegraphics[width=.9\linewidth]{Plots/hillas_raw.pdf}
+		\caption{raw image}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+ 		\centering
+		\includegraphics[width=.9\linewidth]{Plots/hillas_cleaned.pdf}
+ 		\caption{cleaned image}
+	\end{subfigure}
+	\caption{A figure with two subfigures}
+	\label{fig:shower_cleaning}
+\end{figure}
+
+From the reconstructed image, the hillas parameters can be calculated.
+An illustration with the hillas-ellipse on top of the camera image 
+for the same image can be seen in figure \ref{fig:hillas_params}.
+
+\begin{figure}
+	\includegraphics[width=.8\textwidth]{Plots/hillas_cleaned_params.pdf}
+	\caption{hillas params}
+	\label{fig:hillas_params}
+\end{figure}
+
+With the hillas parameters calculated, the reconstruction of the 
+primary particles properties can be done.
+
+In first order one can predict the shower origin by 
+transforming the center of gravity(cog) of the image onto the sky plane.
+More sophisticated methods assume that the 
+center of gravity is displaced relative to the
+real source position depending on the angle the photon arrived at the telescope.
+This angle also leads to more eccentric ellipses the higher the angle is.
+If one assumes the true source position to be on the main shower axis of the ellipse,
+finding this position simplifies to finding a point on the main shower axis.
+This is often times referred to as DISP-method, first used at magic? \cite{someting magic idk}
+Monoscopic experiments also need to resolve the head-tail-ambiguity:
+Knowing the distance from the cog leaves two possible points, one on either side 
+of the ellipse, as can be seen in !!!!Bild erstellen!!!!
+
+Stereoscopic experiments can resolve this ambiguity by combining the images from 
+multiple telescopes.
+
+
+The primary energy is mostly described by the contained light in the image combined with 
+an estimate of how much of the light missed the camera. 
+
+
+The particle type can be reconstructed 
+by looking at the image shape.
+A representation of different shower types can be seen in \ref{fig:compare_showers}
+
+\begin{figure}
+	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\caption{compare diff types, explain diffs  and cite source}
+	\label{fig:compare_showers}
+\end{figure}
+
+Gamma-showers are usually more compact and better described via an ellipse.
+
+
+
+
+
+
+
+
+!!!!!!!!!!!!!photon/gamma/$\gamma$ showers konsistent machen, gamma showers erklären!!!!!!!!!!
+
