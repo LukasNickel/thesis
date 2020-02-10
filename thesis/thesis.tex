@@ -33,10 +33,10 @@
 
 % german language
 \usepackage{polyglossia}
-\setdefaultlanguage{german}
+\setdefaultlanguage{english}
 
 % for english abstract and english titles in the toc
-\setotherlanguages{english}
+\setotherlanguages{german}
 
 % intelligent quotation marks, language and nesting sensitive
 \usepackage[autostyle]{csquotes}
@@ -89,6 +89,7 @@
 
 \usepackage{graphicx}
 \usepackage{grffile}
+\usepackage{tabularx}
 
 % allow figures to be placed in the running text by default:
 \usepackage{scrhack}
@@ -115,6 +116,7 @@
   autolang=hyphen, % load hyphenation rules for if language of bibentry is not
                    % german, has to be loaded with \setotherlanguages
                    % in the references.bib use langid={en} for english sources
+  sorting=none,
 ]{biblatex}
 \addbibresource{references.bib}  % the bib file to use
 \DefineBibliographyStrings{german}{andothers = {{et\,al\adddot}}}  % replace u.a. with et al.
@@ -130,18 +132,18 @@
 %------------------------------------------------------------------------------
 
 \author{Lukas Nickel}
-\title{Masterarbeit CTA Kram und so}
+\title{Stereo Reconstruction for the Early Days of CTA}
 \date{2019}
 \birthplace{Bielefeld}
-\chair{Lehrstuhl für Experimentelle Physik V}
-\division{Fakultät Physik}
+\chair{Chair for Experimental Physics V}
+\division{Faculty of Physics}
 \thesisclass{Master of Science}
 \submissiondate{27.03.2020}
 \firstcorrector{Prof.~Dr.~Wolfgang Rhode}
 \secondcorrector{Prof.~Dr.~Bernhard Spaan}
 
 % tu logo on top of the titlepage
-%\titlehead{\includegraphics[height=1.5cm]{logos/tu-logo.pdf}}
+\titlehead{\includegraphics[height=1.5cm]{logos/tu-logo.pdf}}
 
 \begin{document}
 \frontmatter
@@ -151,7 +153,7 @@
 \makecorrectorpage
 
 % hier beginnt der Vorspann, nummeriert in römischen Zahlen
-\input{content/template/00_abstract.tex}
+\input{content/00_abstract.tex}
 \tableofcontents
 
 \mainmatter
@@ -162,7 +164,6 @@
 \input{content/04_analysis.tex}
 \input{content/05_ghsep.tex}
 \input{content/06_position.tex}
-\input{content/07_mono.tex}
 \input{content/08_conclusion.tex}
 
 %\appendix
