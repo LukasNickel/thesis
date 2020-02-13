@@ -1,5 +1,7 @@
 \chapter{machine learning, statistic, estimations}\label{ml}
 
+EINHEITLICHE VARIABLENBENENUNG!
+
 CTA, much like every other big experiment in (astro-)particle physics,
 is going to produce enormous amounts of data.
 Depending on the number of installed telescopes, multiple
@@ -207,25 +209,54 @@ Approaches to reducing these problems include
 boosting \cite{freund1997decision} and Random Forests \cite{Breiman2001}.
 
 \subsection{Random forests}
+
+Random forests have become one of the standard algorithms
+in data analysis tasks, because according to our
+experience and \cite{hastie2017springer} they tend to
+not overfit (as long as the individual trees have no or little bias)
+and generally perform decent without a lot of manual tuning.
+
 The main idea behind random forests is to use multiple, independent
 decision trees to suppress the problems single trees have, while
 keeping their advantages.
 For this to work, the individual trees need not to be correlated.
 Consequently the trees cannot all be constructed the same way.
 Instead each tree performs splits regarding a random subset of all available variables.
-The prediction of the random forest is then either the average of
-the single predictions in case of a regression task or
-the majority vote of the single predictions in case of classification.
+The prediction of the random forest is then the average of
+the single trees predictions.
+In the case of classification the probabilistic predictions for each class
+get averaged.
+In other implementations outside of sklearn, the 
+the majority vote of the single predictions
+is sometimes used (cite something?).
 
-Formel 15.1 aus hastie erklären
+The implementation in sklearn is based on the CART-algorithm by 
+Leo Breiman et al (Paper nicht online?).
+A single tree performs binary splits $\Theta = (j, t_m)$ 
+at each node $m$ in order to split 
+the data at this node $Q$ into two subsets 
+$Q_\text{left}$
+and 
+$Q_\text{right}$.
+The split consists of a feature $j$ and a threshold $t_m$ and is 
+chosen in a way to minimize a given criterion.
+Features, that are more important for the task, will
+thus appear at the top nodes of the tree.
+We will later use the Gini-coefficient and the Mean Squared Error
+for the classification and regression tasks respectively.
 
-Random forests have become one of the standard algorithms
-in our data analysis, because according to our
-experience and \cite{hastie2017springer} they tend to
-not overfit (as long as the individual trees have no or little bias)
-and generally perform decent without a lot of manual tuning.
+To make sure the individual trees 
+- and their predictions - 
+are somewhat independent from each other,
+some kind of randomness has to be introduced to the prediction.
+In random forests this is for once achieved by giving each tree a 
+randomly drawn subsample from the training data.
+This is referred to as bootstrapping \cite{efron1992bootstrap}.
+Another source of randomness is to perform splits on a node 
+based on only a random subsample of the available features.
 
-
+\iffalse
 \section{mean estimation stuff, outlier resistance, unsupervised? clusters?}
 warum robuste schätzer?
 verwendete algorithmen
+\fi
