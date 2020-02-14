@@ -23,7 +23,7 @@ if __name__ == '__main__':
     features = model_config.features
     #features = [f.replace('_', r'\_') for f in features]
     model = joblib.load(args.model_path)
-
+    #from IPython import embed; embed()
     fig, ax = plt.subplots(1, 1)
     plot_feature_importances(model, features, ax=ax)
     plt.savefig(args.output_path)

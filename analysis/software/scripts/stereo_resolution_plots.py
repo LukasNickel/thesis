@@ -37,11 +37,22 @@ if __name__ == '__main__':
             df_hillas['mc_alt'].values * u.deg,
             df_hillas['az'].values * u.deg,
             df_hillas['alt'].values * u.deg).to(u.deg)
-        plot_angular_resolution(df_['mc_energy'], theta, name=reco[2], x2=df_hillas['mc_energy'], y2=theta_hillas, out_file=args.output_folder+'/'+reco[3]+'_vs_energy.pdf', log=True)
+        plot_angular_resolution(df_['mc_energy'], theta, name='', x2=df_hillas['mc_energy'], y2=theta_hillas, out_file=args.output_folder+'/'+reco[3]+'_vs_energy.pdf', log=True)
         plt.clf()
-        plot_angular_resolution_vs_multi(df_['num_triggered_telescopes'], theta, name=reco[2], out_file=args.output_folder+'/'+reco[3]+'_vs_multi.pdf')
+        mask = df_['num_triggered_telescopes'] < 20
+        plot_angular_resolution_vs_multi(
+            df_['num_triggered_telescopes'][mask],
+            theta[mask],
+            name='',
+            out_file=args.output_folder+'/'+reco[3]+'_vs_multi.pdf')
         plt.clf()
-        plot_angular_resolution_comp(x=df_['num_triggered_telescopes'], y=theta, x2 = df_hillas['num_triggered_telescopes'], y2=theta_hillas, name=reco[2], out_file=args.output_folder+'/'+reco[3]+'_vs_multi_comp.pdf')
+        plot_angular_resolution_comp(
+            x=df_['num_triggered_telescopes'][mask],
+            y=theta[mask],
+            x2 = df_hillas['num_triggered_telescopes'][mask],
+            y2=theta_hillas[mask],
+            name='',
+            out_file=args.output_folder+'/'+reco[3]+'_vs_multi_comp.pdf')
         plt.close('all')
 
     plot_multi_vs_energy(df['num_triggered_telescopes'].values, df['mc_energy'].values, out_file=args.output_folder+'/multiplicity.pdf')

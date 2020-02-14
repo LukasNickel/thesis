@@ -128,27 +128,27 @@ preprocessing_mono:
 #### split these up again
 merge_data:
 	python $(merge_script) \
-		'$(prep_f)/diffuse/*run2*.h5' \
+		'$(prep_f)/diffuse/*.h5' \
 		$(merged_f)/diffuse_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/pointlike/*run7*.h5' \
+		'$(prep_f)/pointlike/*.h5' \
 		$(merged_f)/gamma_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/proton/*run100*.h5' \
+		'$(prep_f)/proton/*.h5' \
 		$(merged_f)/proton_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/diffuse_mono/*run2*.h5' \
+		'$(prep_f)/diffuse_mono/*.h5' \
 		$(merged_f)/diffuse_mono_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/pointlike_mono/*run7*.h5' \
+		'$(prep_f)/pointlike_mono/*.h5' \
 		$(merged_f)/gamma_mono_merged.hdf5 \
 		-f h5py
 	python $(merge_script) \
-		'$(prep_f)/proton_mono/*run100*.h5' \
+		'$(prep_f)/proton_mono/*.h5' \
 		$(merged_f)/proton_mono_merged.hdf5 \
 		-f h5py
 
@@ -251,7 +251,7 @@ $(models_f)/disp_model.pkl $(models_f)/sign_model.pkl $(models_f)/cv_disp.hdf5: 
 		$(models_f)/sign_model.pkl
 
 
-$(models_f)/mono_disp_model.pkl $(models_f)/mono_sign_model.pkl $(models_f)/mono_cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_mono_train_disp.hdf5
+$(models_f)/mono_disp_model.pkl $(models_f)/mono_sign_model.pkl $(models_f)/mono_cv_disp.hdf5: $(tel_conf_mono) $(merged_f)/diffuse_mono_train_disp.hdf5
 	aict_train_disp_regressor \
 		$(tel_conf_mono) \
 		$(merged_f)/diffuse_mono_train_disp.hdf5 \
@@ -375,10 +375,10 @@ $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
 		$(tel_conf) \
 		$(plots_f)/disp_features.pdf
 
-$(plots_f)/disp_features_mono_lst.pdf: $(models_f)/lst_disp_model.pkl
+$(plots_f)/disp_features_mono_lst.pdf: $(models_f)/mono_disp_model.pkl
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_feature_importance.py \
-		$(models_f)/lst_disp_model.pkl \
+		$(models_f)/mono_disp_model.pkl \
 		$(tel_conf_mono) \
 		$(plots_f)/disp_features_mono_lst.pdf
 
@@ -396,7 +396,7 @@ $(plots_f)/disp_gamma_r2_equal_filled.pdf: $(dl2_f)/disp_performance_gamma.hdf
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_gamma.hdf \
-		$(plots_f)/disp_r2_gamma
+		$(plots_f)/disp_gamma
 
 $(dl2_f)/disp_performance_test.hdf: $(models_f)/disp_model.pkl $(dl2_f)/diffuse_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
@@ -411,7 +411,7 @@ $(plots_f)/disp_test_r2_equal_filled.pdf: $(dl2_f)/disp_performance_test.hdf
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_test.hdf \
-		$(plots_f)/disp_r2_test
+		$(plots_f)/disp_test
 
 $(dl2_f)/disp_performance_gamma_mono.hdf: $(models_f)/mono_disp_model.pkl $(dl2_f)/gamma_mono_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
@@ -426,7 +426,7 @@ $(plots_f)/disp_gamma_mono_lst_r2_equal_filled.pdf: $(dl2_f)/disp_performance_ga
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_gamma_mono.hdf \
-		$(plots_f)/disp_r2_gamma_mono_lst
+		$(plots_f)/disp_gamma_mono_lst
 
 $(dl2_f)/disp_performance_test_mono.hdf: $(models_f)/mono_disp_model.pkl $(dl2_f)/diffuse_mono_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
@@ -441,7 +441,7 @@ $(plots_f)/disp_test_mono_lst_r2_equal_filled.pdf: $(dl2_f)/disp_performance_tes
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_disp_performance.py \
 		$(dl2_f)/disp_performance_test_mono.hdf \
-		$(plots_f)/disp_r2_test_mono_lst
+		$(plots_f)/disp_test_mono_lst
 
 
 
@@ -482,7 +482,7 @@ $(plots_f)/gamma_mono_lst/tel_vs_energy.pdf: $(dl2_f)/gamma_mono_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/gamma_mono_dl2.hdf5 \
-		$(plots_f)/gamma_mono_dl2 \
+		$(plots_f)/gamma_mono_lst \
 
 $(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
 	TEXINPUTS=$$(pwd): \

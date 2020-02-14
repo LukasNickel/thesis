@@ -56,7 +56,8 @@ def make_default_cta_binning(e_min=0.02 * u.TeV, e_max=200 * u.TeV, centering='l
 
 
 def make_linear_binning(x_min, x_max):
-    bin_edges = np.linspace(x_min, x_max, x_max-x_min)
+    bin_edges = np.linspace(x_min, x_max, x_max-x_min+1)
+
     idx = np.searchsorted(bin_edges, [x_min, x_max])
     max_idx = min(idx[1] + 1, len(bin_edges) - 1)
     bin_edges = bin_edges[idx[0]:max_idx]
@@ -103,14 +104,9 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
         bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
         ax.plot(bin_centers, b_68, 'g--', lw=2, color='green', label='68% Percentile Hillas')
 
-
-    ax.axhline(y=1)
-    ax.axhline(y=0.1)
-    ax.axhline(y=0.01)
-
-    ax.set_ylabel('Distance to True Position / degree')
-    ax.set_xlabel(r'$E_{MC} / TeV$')
-    ax.legend()
+    ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
+    ax.set_xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
+    #ax.legend()
     ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
@@ -145,13 +141,11 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
 
     add_colorbar_to_figure(im, fig, ax)
     ax.plot(bin_centers, b_68, 'b--', lw=2, color=main_color, label=f'{percentile}% Percentile')
-    ax.axhline(y=1)
-    ax.axhline(y=0.1)
-    ax.axhline(y=0.01)
+    ax.plot(bin_centers, 2*b_68[0]/bin_centers, '-', lw=2, color='yellow', label="1/N")
 
-    ax.set_ylabel('Distance to True Position / degree')
+    ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel('Multiplicity')
-    ax.legend()
+    #ax.legend()
     ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
@@ -165,26 +159,26 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None):
     alphas = [0.8, 0.6, 0.4, 0.2]
 
     for percentile, alpha in zip(percentiles, alphas):
-        bins, bin_center, _ = make_linear_binning(x_min=min(x), x_max=max(x))
+        bins, bin_center, bin_widths = make_linear_binning(x_min=min(x), x_max=max(x))
         b_68, bin_edges, _ = binned_statistic(x, y, statistic=lambda y: np.nanpercentile(y, percentile), bins=bins)
-        bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
+        #bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
         bins_y = np.logspace(np.log10(0.005), np.log10(50.8), 100)
-        ax.plot(bin_centers, b_68, 'bo', lw=2, color=main_color, label=f'{percentile}% ', alpha=alpha)
+        ax.plot(bin_center-bin_widths/2, b_68, 'bo', lw=2, color=main_color, label=f'{percentile}% ', alpha=alpha)
 
         bins, bin_center, _ = make_linear_binning(x_min=min(x2), x_max=max(x2))
         b_68, bin_edges, _ = binned_statistic(x2, y2, statistic=lambda y2: np.nanpercentile(y2, percentile), bins=bins)
-        bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
-        ax.plot(bin_centers, b_68, 'bo', lw=2, color='green', label=f'{percentile}% hillas', alpha=alpha)
+        #bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
+        ax.plot(bin_center-bin_widths/2, b_68, 'bo', lw=2, color='green', label=f'{percentile}% hillas', alpha=alpha)
 
     ax.set_yscale('log')
-    ax.axhline(y=1)
-    ax.axhline(y=0.1)
-    ax.axhline(y=0.01)
+    #ax.axhline(y=1)
+    #ax.axhline(y=0.1)
+    #ax.axhline(y=0.01)
 
-    ax.set_ylabel('Distance to True Position / degree')
+    ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel('Multiplicity')
     # do that duplicta eremoval stuff
-    ax.legend()
+    #ax.legend()
     ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
@@ -199,7 +193,7 @@ def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
     im = ax.plot(x, y, label='stereo method')
     ax.plot(x2, y2, 'b--', lw=2, color='green', label='hillas')
 
-    ax.set_ylabel('Distance to True Position / degree')
+    ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel('Multiplicity')
     ax.legend()
     ax.set_title(f'\n samples: {len(y)}')
@@ -212,13 +206,14 @@ def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
 def plot_multi_vs_energy(x, y, out_file=None):
     x_bins, x_bin_center, _ = make_default_cta_binning(e_min=min(x)*u.TeV, e_max=max(x)*u.TeV)
     y_bins = np.arange(0,30,1)
-    print(len(x_bins), len(y_bins))
+    num_tel_events = np.sum(y)
     fig, ax = plt.subplots(1, 1)
     h,xedges,yedges,im = ax.hist2d(
         x,
-        y,
+        y/num_tel_events,
         label='stereo method',
         bins=(x_bins.to_value(u.TeV), y_bins),
+        cmap=default_cmap,
         norm=PowerNorm(0.3)
         )
     ax.set_ylabel('Multiplicity')

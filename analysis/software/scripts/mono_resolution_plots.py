@@ -31,4 +31,4 @@ if __name__ == '__main__':
             out_file=filename,
             log=True)
 
-    plot_angular_resolution(df_tel['mc_energy'], theta, name='Telescope prediction', out_file=args.output_folder+'/'+'tel'+'_vs_energy.pdf', log=True)
+    plot_angular_resolution(df_tel['mc_energy'], theta, name='', out_file=args.output_folder+'/'+'tel'+'_vs_energy.pdf', log=True)

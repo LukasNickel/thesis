@@ -28,7 +28,7 @@ def calc_r2_acc(group):
 
 def accuracy_(series):
     return accuracy_score(
-        np.sign(series.true_disp),
+        np.sign(series.true_sign),
         np.sign(series.disp_prediction),
     )
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     r2 = 1-np.sum(residuals**2)/np.sum(pseudo_variance**2)
 
 
-    n = 10
+    n = 6*5+1 # 5 bins per decade, 6 decades 
 
     # make plots with equally filled bins. [1:-1] for under/overflow bins
     df = df.sort_values('mc_energy')
@@ -80,8 +80,8 @@ if __name__ == '__main__':
     plt.errorbar(df_bins.mean_energy, df_bins.r2, xerr=df_bins.width, ls='')
     plt.xscale('log')
     plt.ylim(0.5,1)
-    plt.xlabel(r'$E_{\text{true}} \mathbin{/} \si{\TeV}$')
-    plt.ylabel('Disp R^2-score')
+    plt.xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
+    plt.ylabel(r'Disp R$^2$')
     plt.savefig(args.output_base+'_r2_equal_filled.pdf')
     plt.clf()
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     plt.errorbar(df_bins.mean_energy, df_bins.accuracy, xerr=df_bins.width, ls='')
     plt.xscale('log')
     plt.ylim(0.5,1)
-    plt.xlabel(r'$E_{\text{true}} \mathbin{/} \si{\TeV}$')
+    plt.xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
     plt.ylabel('Sign Accuracy')
     plt.savefig(args.output_base+'_acc_equal_filled.pdf')
     plt.clf()
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # make plots with equally sized bins
     min_energy = df['mc_energy'].min()
     max_energy = df['mc_energy'].max()
-    edges = np.logspace(np.log10(min_energy), np.log10(max_energy), 20+2) # +2 for under/overflow bins
+    edges = np.logspace(np.log10(0.002), np.log10(2000), n) # +2 for under/overflow bins
 
     #edges = np.logspace(np.log10(-1), np.log10(3), (3+1)*5)
     df['bin_idx'] = np.digitize(df['mc_energy'], edges)
@@ -127,15 +127,16 @@ if __name__ == '__main__':
     plt.errorbar(binned['e_center'], binned['r2_score'], xerr=binned.e_width/2, ls='')
     plt.xscale('log')
     plt.ylim(0.5,1)
-    plt.xlabel(r'$E_{\text{true}} \mathbin{/} \si{\TeV}$')
-    plt.ylabel('Disp R^2-score')
+    plt.xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
+    plt.ylabel(r'Disp R$^2$')
     plt.savefig(args.output_base+'_r2_equal_sized.pdf')
     plt.clf()
 
     plt.errorbar(binned['e_center'], binned['accuracy'], xerr=binned.e_width/2, ls='')
     plt.xscale('log')
     plt.ylim(0.5,1)
-    plt.xlabel(r'$E_{\text{true}} \mathbin{/} \si{\TeV}$')
+    plt.xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
     plt.ylabel('Sign Accuracy')
     plt.savefig(args.output_base+'_acc_equal_sized.pdf')
     plt.clf()
+
