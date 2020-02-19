@@ -80,7 +80,9 @@
 \newcommand\secondcorrector[1]{\renewcommand\thesecondcorrector{#1}}
 
 % set title page elements
-\subject{Arbeit zur Erlangung des akademischen Grades\\ \thethesisclass}
+\subject{Project Submitted in Partial Fulfillment of the
+Requirements for the Degree of
+Master of Science\\ \thethesisclass}
 \publishers{\thechair \\ \thedivision \\ Technical University of Dortmund}
 
 % page for the correctors
