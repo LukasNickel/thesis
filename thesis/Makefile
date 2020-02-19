@@ -1,4 +1,4 @@
-all: setup_plots build/thesis.pdf
+all: build/thesis.pdf
 
 
 TeXOptions = -lualatex \
