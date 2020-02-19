@@ -18,6 +18,7 @@ the so called first generation of telescopes by taking images of the shower
 and exploiting stereoscopy with multiple telescopes.
 
 \subsection{The first generation}
+\label{sec:1stgen_iact}
 The first generation of cherenkov telescopes 
 lacked any kind of imaging as is present in all of the bigger new experiments.
 Instead they initially consisted of a single mirror with a single photomultiplier on top.
@@ -47,7 +48,8 @@ installed an imager consisting of 37 photomultipliers at the no longer used Whip
 This later got replaced by a more capable 109-pixel camera that can be seen in figure \ref{fig:whipple_cam}.
 
 \begin{figure}
-    \includegraphics[width=0.8\textwidth]{images/whipple_cam.png}
+	\centering
+    \includegraphics[width=0.5\textwidth]{images/whipple_cam.png}
     \caption{Picture of the upgraded camera of the Whipple telescope, installed in 1988 \cite{Cawley1995}.}  % not the best source
     \label{fig:whipple_cam}
 \end{figure}
@@ -144,6 +146,8 @@ Like MAGIC, VERITAS makes use of the DISP-method, especially at large zenith ang
 
 
 \section{Next to come: The Cherenkov Telescope Array (CTA)}
+\label{sec:cta}
+
 The Cherenkov Telescope Array aims to be the next generation of IACT experiments.
 With two sites of operation, one for each hemisphere, and a number of 
 telescopes proposed, CTA is going to expand on the findings of the third 
@@ -162,7 +166,7 @@ The currently planned layouts at LaPalma and in Namibia are shown in
 
 \begin{figure}
 	\center
-	\includegraphics[width=0.8\textwidth]{images/cta_layout.png}
+	\includegraphics[width=0.9\textwidth]{images/cta_layout.png}
 	\caption{The planned layouts for CTA. The dots mark the telescope types.
 	Left: The array on the northern hemisphere. It will be build at LaPalma
 	and feature only LSTs and MSTs.
@@ -175,27 +179,38 @@ The currently planned layouts at LaPalma and in Namibia are shown in
 
 
 \subsection{LST}
-\ref{sec:lst}
+\label{sec:lst}
 
-The LST is going to be biggest telescope of CTA.
-Since it is looking for the lowest energy $\gamma$-rays, it needs
-very large mirror areas. At the same time not all that many telescopes are needed,
-because the event rates are still relatively high.
-The planned south array contains four of these huge \SI{23}{\meter} diameter telescopes,
-looking at the energy range ????.
+The Large-Sized Telescope is going to be biggest telescope of CTA
+with a mirror diameter of \SI{23}{\meter}.
+It will provide the best sensitivity in the energy range from 
+\SI{20}{\giga\electronvolt} to \SI{150}{\giga\electronvolt} with a field ov view of \SI{4.3}{\degree}.
+The camera of the LST, the LSTCamera, has \num{1855} channels 
+with \num{265} photomultiplier tubes (PMT).
+The readout electronic is based on the Domino Ring Sampler 
+Version 4 chip (DRS4), which is also used by the MAGIC experiment
+\cite{drs4 paper} \cite{drs4 at magic paper}. 
 
-The first LST has been inaugurated ???? \cite{????}
+Since the LST is looking for the lowest energy $\gamma$-rays, it needs
+very large mirror areas. At the same time the effective detector area does 
+not need to be very high, compared to higher energy events.
+For this reason only 4 telescopes are planned per array.
+
+The first LST has been inaugurated at the 10 October 2018 in La Palme \cite{lst_debut}.
 
 \begin{figure}
 	\center
-	\includegraphics[width=.5\textwidth]{images/lst.jpeg}
+	\includegraphics[width=.5\textwidth]{images/LST.png}
 	\caption{The large sized telescope (LST). ist das la palma? \cite{cta_web}}
 	\label{fig:lst}
 \end{figure}
 
 \subsection{MST}
-mittel, mittel energie, ...
-The MSTs are going to look at the middle energy ranges from ??? to ???.
+
+KAMERA NOCH NICHT FIX?
+
+The Medium-Sized Telescopes (MST) are primarly going to look at the 
+energy range from \SI{150}{\giga\electronvolt} to \SI{5}{\tera\electronvolt}.
 A total of ?? telescopes on the north site and ?? teelscopes at the south site 
 are going to be the backbones of CTA.
 
@@ -208,6 +223,20 @@ are going to be the backbones of CTA.
 
 \subsection{SST}
 klein, doppel mirror, viele, hohe energien
+The Small-Sized Telescopes (SST) will provide the sensitivity for CTA at the 
+highest energies upwards from \SI{5}{\tera\electronvolt}.
+An upper limit for the sensitivity is expected to be around \SI{300}{\tera\electronvolt}.
+
+The design for the SST includes two mirrors, a \SI{4.3}{\meter} and a \SI{1.8}{\meter}
+mirror, before the light hits the camera.
+
+In contrast to the LST and MST, the SST's camera includes silicon photo-multipliers
+(SiPM) and a total of 2368 pixels. With this the SST is going to cover a field of view 
+of \SI{10.5}{\degree}.
+
+The north array is not going to include any SSTs, the 
+south array on the other hand will contain a total of 70 telescopes over
+several square kilometers.
 
 \begin{figure}
 	\center
@@ -215,10 +244,3 @@ klein, doppel mirror, viele, hohe energien
 	\caption{sst \cite{cta_web}}
 	\label{fig:sst}
 \end{figure}
-
-
-
-\subsection{Open observatory}
-hier dann von \cite{actis2011design} zitieren.
-
-% bis vlt seite 15-25

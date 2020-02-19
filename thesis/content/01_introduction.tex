@@ -106,7 +106,7 @@ the english term cosmic rays eventually winning out.
 
 
 Since the experiments of Jacob Clay in 1927 
-\cite{clay1927penetrating} (finden und lesen)
+\cite{clay1927penetrating}
 it was clear that the main proportion of 
 this radiation must carry an electric charge.
 
@@ -132,7 +132,7 @@ the team around Pierre Auger
 
 In the following years multiple particles with direct use in the 
 astrophysics have been found:
-The pions \cite{LATTES1947} (in tu netz öffnen), the muons \cite{PhysRev.52.1003}
+The pions \cite{LATTES1947}, the muons \cite{PhysRev.52.1003}
 and the neutrinos \cite{Cowan103}.
 
 The so far last discovery on this journey
@@ -172,7 +172,8 @@ a brief look at the different messenger particles.
 		proportion passing through earth
 		\cite{desy_mm_astro}.
 		This illustration lacks gravitational waves 
-		as these have only recently been measured.
+		as these have only recently been measured and play no relevant role 
+		for Imaging Air Cherenkov Telescopes (IACTs).
 	}
 \end{figure}
 
@@ -441,31 +442,57 @@ roughly a third of the pions are neutral pions. This means that
 a third of the hadronic shower eventually becomes an electromagnetic
 subshower.
 
-Figure \ref{fig:gamma_hadron_shower} shows a comparison of simulated 
-$\gamma$- and proton shower.
+Figures \ref{fig:gamma_shower} and \ref{fig:proton_shower}
+show a comparison of simulated 
+$\gamma$- and proton showers.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.7\textwidth}
   		\centering
-  		\includegraphics[width=.9\linewidth]{images/corsika_1tev_photon.png}
+  		\includegraphics[width=\linewidth]{images/em_shower_illustration.png}
 	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.3\textwidth}
+ 		\centering
+		\includegraphics[width=.9\linewidth]{images/corsika_1tev_photon.png}
+	\end{subfigure}
+	\caption{Schematic illustration and simulated air showers as xz-projection.
+		Left: A schematic illustration of the first epochs of the 
+		Bethe-Heitler shower model with equal radiation lengths for
+		bremsstrahlung and pair production.
+		The image is taken from an inaugural thesis 
+		by Stefan Funk \cite{funk_doctor}.
+		Right: A \SI{1}{\tera\electronvolt} gamma-shower.
+		The shower is very contained with only little extent perpendicular 
+		to the shower direction (z-axis). The image is taken from 
+		the CORSIKA-website \cite{corsika_showers}}
+	\label{fig:gamma_shower}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.7\textwidth}
+  		\centering
+  		\includegraphics[width=\linewidth]{images/hadron_shower_illustration.png}
+	\end{subfigure}%
+	\begin{subfigure}{.3\textwidth}
  		\centering
 		\includegraphics[width=.9\linewidth]{images/corsika_1tev_proton.png}
 	\end{subfigure}
-	\caption{Simulated air showers as xz-projection.
-		Both showers are taken from the offical 
-		CORSIKA-Website \cite{corsika_showers}.
-		Left: A \SI{1}{\tera\electronvolt} gamma-shower.
-		The shower is very contained with only little extent perpendicular 
-		to the shower direction (z-axis).
+	\caption{Schematic illustration and simulated air showers as xz-projection.
+		Left: A purely qualitative,
+		schematic illustration of the generation of a hadronic shower.
+		It shows how the primary hadron generates different subshowers
+		with vastly different particles.
+		The image is taken from an inaugural thesis 
+		by Stefan Funk \cite{funk_doctor}.
 		Right: A \SI{1}{\tera\electronvolt} proton-shower.
-		The shower is more turbulent with several subshowers emerging.
-		}
-	\label{fig:shower_cleaning}
+		The shower is less contained than the gamma shower of equal energy in 
+		figure \ref{fig:gamma_shower}.
+		The image is taken from 
+		the CORSIKA-website \cite{corsika_showers}}
+	\label{fig:gamma_shower}
 \end{figure}
-
 
 \subsection{Measuring events}
 As stated earlier, IACTs measure particle showers by their emittance of cherenkov 
@@ -482,9 +509,9 @@ setup.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\textwidth]{images/cta47.png}
+	\includegraphics[width=0.6\textwidth]{images/cta47.png}
 	\caption{A schematic illustration of the working principles of 
-	a stereoscopic setup of two IACTs:
+	a setup of two IACTs:
 	A $\gamma$-ray produces an air shower in the atmosphere
 	that points roughly towards the telescopes.
 	Cherenkov light from the air shower 
@@ -492,6 +519,7 @@ setup.
 	An illusration of the resulting image after after integrating 
 	\SI{10}{\nano\second} of the waveform at the time the shower hits
 	can be seen in the left bottom corner.
+	Any further reconstruction steps are left out.
 	Image from \cite{cta_web}}.
 	\label{fig:iact_mirror_camera}
 \end{figure}
@@ -513,19 +541,19 @@ a famous paper of A.M. Hillas \cite{hillas_params}.
 This allows to describe the shower image with only a handful of parameters.
 
 In most cases the reconstruction can be improved heavily by cleaning the image first.
-Figure \ref{fig:shower_cleaning} shows a simulated $\gamma$-induced shower 
-in the camera of the Large Sized Telescope (see section \ref{sec:lst} for more details)
+Figure \ref{fig:shower_cleaning} shows a simulated $\gamma$-induced shower image
+in the camera of the Large Sized Telescope (LST, see section \ref{sec:lst} for more details of the telescope)
 before and after cleaning.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.4\textwidth}
   		\centering
-  		\includegraphics[width=.9\linewidth]{Plots/hillas_raw.pdf}
+  		\includegraphics[width=\linewidth]{Plots/hillas_raw.pdf}
 	\end{subfigure}%
-	\begin{subfigure}{.5\textwidth}
+	\begin{subfigure}{.4\textwidth}
  		\centering
-		\includegraphics[width=.9\linewidth]{Plots/hillas_cleaned.pdf}
+		\includegraphics[width=\linewidth]{Plots/hillas_cleaned.pdf}
 	\end{subfigure}
 	\caption{A simulated gamma-shower in the camera of a LST.
 		The pixel colors show the intensity as integrated 
@@ -546,13 +574,16 @@ for the same image can be seen in figure \ref{fig:hillas_params}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\textwidth]{Plots/hillas_cleaned_params.pdf}
+	\includegraphics[width=.5\textwidth]{Plots/hillas_complete.pdf}
 	\caption{The same cleaned shower-image as in figure \ref{fig:shower_cleaning}
 	with the hillas-parameters calculated and marked in the camera frame.
 	Two angles $\phi$ and $\psi$ describe the direction of the 
 	main shower axis, two coordinates $x$ and $y$ describe the position of 
 	the center of gravity of the image in the camera frame.
-	The shower axis is used to approximate the photons directon.}
+	The shower axis constrains the reconstruction of the source position to a 
+	point on a line. Via the DISP-method two possible points remain.
+	This is sometimes refferd to as the head-tail-ambiguity.
+	}
 	\label{fig:hillas_params}
 \end{figure}
 
@@ -560,13 +591,16 @@ With the hillas parameters calculated, the reconstruction of the
 primary particles properties can be done.
 
 In first order one can predict the shower origin by 
-transforming the center of gravity(cog) of the image onto the sky plane.
+transforming the center of gravity (cog) of the image onto the sky plane.
 More sophisticated methods assume that the 
 center of gravity is displaced relative to the
 real source position depending on the angle the photon arrived at the telescope.
 With higher angles the shower ellipse gets more eccentric as well.
+The ellipsicity of the ellipse is thus a measure for the displacement of the true 
+source position.
+
 If one assumes the true source position to be on the main shower axis of the ellipse,
-finding this position simplifies to finding a point on the main shower axis.
+finding this position simplifies to finding a single point on the main shower axis.
 This is often times referred to as DISP-method,
 which in a basic form was already getting used at 
 the WHIPPLE-telescope in ???? \cite{???}.
@@ -580,19 +614,22 @@ multiple telescopes, as can be seen in figure \ref{fig:stereo_shower}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\textwidth]{images/stereo_shower.png}
+	\includegraphics[width=0.5\textwidth]{images/stereo_shower.png}
 	\caption{An illustration of an air shower captured with multiple telescopes.
 		Upper right: Each telescope captures an elliptic image.
 		The image axes get intersected to reconstruct the arrival direction
 		of the primary particle. This resolves the head-tail-ambiguity
-		by using the information of all telescopes at the same time.
-	        Image from \cite{holder2015atmospheric}.}
+		by using the information of all telescopes at the same time
+		and removes the need of calculating the displacement altogether by
+		assuming the intersection point as true source position.
+		However, using the displacement still improves the reconstruction 
+		in some cases \cite{some magic paper states that }.
+	    Image taken from \cite{holder2015atmospheric}.}
 	\label{fig:stereo_shower}
 \end{figure}
 
 The primary particle energy is mostly described by the contained light in the image combined with 
 an estimate of how much of the light missed the camera. 
-
 
 The particle type can be reconstructed 
 by looking at the image shape.
@@ -602,16 +639,19 @@ area only works reasonably well for $\gamma$-showers.
 A representation of different shower types can be seen in \ref{fig:compare_showers}
 
 \begin{figure}
-	\includegraphics[width=.8\textwidth]{images/shower_types.png}
-	\caption{compare diff types, explain diffs  and cite source
-	preliminary pic from: \url{https://icecube.wisc.edu/~tmontaruli/801/gammaastronomy_karle.pdf}}
+	\centering
+	\includegraphics[width=.5\textwidth]{images/shower_types.png}
+	\caption{A comparison of different shower types as seen 
+	by the Whipple telescope during later stages of its observation
+	when it had a multiple pixel camera installed.
+	More about the the history of the Whipple telescope in section
+	\ref{sec:1stgen_iact}. The general look of the shower types 
+	is the same for all IACTs.
+	Hadronic showers are more separated than gamma showers and tend to
+	form multiple clusters in the camera.
+	Muons often times produce ring-like images in the camera (WHY?).
+	Background noise can take any form, but is usually constarined to very small
+	areas as the pixel values are mostly random and uncorellated. 	
+	Image taken from an introduction lecture by Albrecht Karle \cite{icecube_showers}.}
 	\label{fig:compare_showers}
 \end{figure}
-
-
-
-
-!!!!!!!!!!!!!photon/gamma/$\gamma$ showers konsistent machen, gamma showers erklären!!!!!!!!!!
-Von hier:
-\url{https://pure.mpg.de/rest/items/item_918679_1/component/file_918678/content}
-plots zu gamma und hadron showern hernehmen.
