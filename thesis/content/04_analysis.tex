@@ -34,21 +34,22 @@ algorithms by comparing the predictions with the MC-truth values.
 The total number of simulated data after the low level analysis 
 is shown in table \ref{tab:mc_info}. (SIMTEL INFOS? ODER DAS HIER SPÄTER?)
 
-\begin{center}
-    \begin{tabular}{| l | l | l | l |}
-    \hline
-     & Pointlike Gamma & Diffuse Gamma & Protons \\
-    \hline
-    MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
-    \hline
-    Array events & \num{955317} & \num{3409290} & \num{4657529} \\
-    \hline
-    Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
-    \end{tabular}
+\begin{table}
+    \begin{center}
+        \begin{tabular}{| l | l | l | l |}
+            \hline
+            & Pointlike Gamma & Diffuse Gamma & Protons \\
+            \hline
+            MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
+            \hline
+            Array events & \num{955317} & \num{3409290} & \num{4657529} \\
+            \hline
+            Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
+        \end{tabular}
+    \end{center}
     \caption{Take the infos from the simtel files instead! List file sizes aswell}
     \label{tab:mc_infos}
-\end{center}
-
+\end{table}
 At the lowest level our observed data consists of uncalibrated waveforms 
 in the camera pixels.
 We will perform several analysis steps that would also be needed for real data.
@@ -115,9 +116,7 @@ After the image is cleaned, image features get calculated.
 This includes the classic hillas parameters among others.
 In total we calculate the following parameters:
 
-########################
 Make these mini Headlines?
-#########################
 
 Hillas Parameters:
 These provide a general, basic description of the image.
@@ -135,33 +134,33 @@ These describe how much of the shower was captured by the camera.
 A lot of information at the edge of the camera indicates that part of the light missed the telescope, 
 which makes some reconstructions less reliable without taking this information into account.
 \begin{itemize}
-    \item{leakage_1_intensity: Percentage of photo-electrons after cleaning in the outer most ring of pixels with respect to the photo-electrons in the whole image}
-    \item{leakage_1_pixel: Percentage of pixels after cleaning in the outer most ring of pixels with respect to the pixels in the whole image}
-    \item{leakage_2_intensity: Percentage of photo-electrons after cleaning in the two outer most rings of pixels with respect to the photo-electrons in the whole image}
-    \item{leakage_2_pixel: Percentage of pixels after cleaning in the two outer most rings of pixels with respect to the pixels in the whole image}
+    \item{leakage\_1\_intensity: Percentage of photo-electrons after cleaning in the outer most ring of pixels with respect to the photo-electrons in the whole image}
+    \item{leakage\_1\_pixel: Percentage of pixels after cleaning in the outer most ring of pixels with respect to the pixels in the whole image}
+    \item{leakage\_2\_intensity: Percentage of photo-electrons after cleaning in the two outer most rings of pixels with respect to the photo-electrons in the whole image}
+    \item{leakage\_2\_pixel: Percentage of pixels after cleaning in the two outer most rings of pixels with respect to the pixels in the whole image}
 \end{itemize}
 
 Concentration:
 These describe how contained the image is.
 \begin{itemize}
-    \item{concentration_cog: Percentage of photo-electrons in the three pixels closest to the cog with respect to the photo-electrons in the whole image}
-    \item{concentration_core: Percentage of photo-electrons inside the hillas ellipse with respect to the photo-electrons in the whole image}
-    \item{concentration_pixel: Percentage of photo-electrons in the brightest pixel with respect to the photo-electrons in the whole image}
+    \item{concentration\_cog: Percentage of photo-electrons in the three pixels closest to the cog with respect to the photo-electrons in the whole image}
+    \item{concentration\_core: Percentage of photo-electrons inside the hillas ellipse with respect to the photo-electrons in the whole image}
+    \item{concentration\_pixel: Percentage of photo-electrons in the brightest pixel with respect to the photo-electrons in the whole image}
 \end{itemize}
 
 Timing information:
 These describe the temporal evolution of the captured light.
 This can be useful to reconstruct the source position, e.g. by resolving the head-tail disambiguity in the monoscopic case.
 \begin{itemize}
-    \item{slope, slope_err: Slope and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
-    \item{intercept, intercep_err: Intercept and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
+    \item{slope, slope\_err: Slope and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
+    \item{intercept, intercep\_err: Intercept and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
     \item{deviation: Root-mean-square deviation between the individual pulse times and the predicted pulse time at the cog.}
 \end{itemize}
 
 Other:
 \begin{itemize}
-    \item{num_islands: Number of individual clusters in the cleaned image.}
-    \item{num_pixel_in_shower: Number of pixels that survived the cleaning.}
+    \item{num\_islands: Number of individual clusters in the cleaned image.}
+    \item{num\_pixel\_in\_shower: Number of pixels that survived the cleaning.}
 \end{itemize}
 
 All these features get used in the machine learning algorithms at later stages.
@@ -205,29 +204,30 @@ $\geq 3$ with higher multiplicity leading to better results.
 In total, this step leads to the following features on array level:
 \begin{itemize}
     \item{alt, az: Reconstructed source position}
-    \item{core_x, core_y: Reconstructed source position}
-    \item{alt, az: Reconstructed source position}
+    \item{core\_x, core\_y: Reconstructed source position}
+    \item{alt, az: Reconstructed source position???????}
 \end{itemize}
 
 \section{High-Level Analysis}
 
-\begin{center}
-    \begin{tabular}{| l | l | l | l |}
-    \hline
-     & Pointlike Gamma & Diffuse Gamma & Protons \\
-    \hline
-    MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
-    \hline
-    Array events & \num{955317} & \num{3409290} & \num{4657529} \\
-    \hline
-    Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
-    \end{tabular}
+\begin{table}
+    \begin{center}
+        \begin{tabular}{| l | l | l | l |}
+            \hline
+            & Pointlike Gamma & Diffuse Gamma & Protons \\
+            \hline
+            MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
+            \hline
+            Array events & \num{955317} & \num{3409290} & \num{4657529} \\
+            \hline
+            Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
+        \end{tabular}
+    \end{center}
     \caption{Number of remaining events for each simulated particle type after the
     preprocessing. These are the numbers that get split into different datasets 
     and used for the machine learning tasks.}
     \label{tab:events_after_prep}
-\end{center}
-
+\end{table}
 
 High level analysis of the preprocessed data is based on the use of
 the aict-tools \cite{aict-tools} package which itself 
