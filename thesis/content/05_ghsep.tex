@@ -1,16 +1,18 @@
 \chapter{results}\label{results}
 
+
 \section{ghsep}\label{ghsep}
+
 The random forest for the gamma-/hadron-separation gets trained on 
 XXX diffuse gamma events and XXX diffuse proton events with a 5-fold cross-validation.
-With this, the model reaches an area under the (Receiver-Operating-) Curve (AUC) 
-of XXXX on the cross-validated set, as can be seen in figure \ref{fig:gh_roc}.
+With this, the model reaches an AUC 
+of XXXX on the cross-validated set of diffuse gammas, as can be seen in figure \ref{fig:gh_roc}.
 
 \begin{figure}
     \centering
     \includegraphics[page=1, width=.8\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
     \caption{ROC for the gamma/hadron separation on the cross validated training set 
-    consisting of XXX proton events and YYY diffuse gamma events.}
+    consisting of XXX proton events and YYY diffuse gamma events (make dummy column on the left to center properly?).}
     \label{fig:gh_roc}
 \end{figure}
 

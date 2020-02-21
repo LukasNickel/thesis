@@ -44,7 +44,8 @@ is shown in table \ref{tab:mc_info}. (SIMTEL INFOS? ODER DAS HIER SPÄTER?)
             \hline
             Array events & \num{955317} & \num{3409290} & \num{4657529} \\
             \hline
-            Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
+            Telescope events & \num{4554313} & \num{14383270} & \num{20106385} \\
+            \hline
         \end{tabular}
     \end{center}
     \caption{Take the infos from the simtel files instead! List file sizes aswell}
@@ -122,10 +123,10 @@ Hillas Parameters:
 These provide a general, basic description of the image.
 \begin{itemize}
     \item{x, y: Coordinates of the image cog}
-    \item{r, \phi: Coordinates of the cog in polar coordinates}
+    \item{r, $\phi$: Coordinates of the cog in polar coordinates}
     \item{intensity: Summed up pixel values}
     \item{length, width: Size of the image ellipse}
-    \item{\psi: Angle between ellipse orientation and x-axis}
+    \item{$\psi$: Angle between ellipse orientation and x-axis}
     \item{skewness, kurtosis: Higher order image moments along the shower axis}
 \end{itemize}
 
@@ -204,15 +205,16 @@ $\geq 3$ with higher multiplicity leading to better results.
 In total, this step leads to the following features on array level:
 \begin{itemize}
     \item{alt, az: Reconstructed source position}
-    \item{core\_x, core\_y: Reconstructed source position}
-    \item{alt, az: Reconstructed source position???????}
+    \item{core\_x, core\_y: Reconstructed core position on the ground}
+    \item{average\_intensity: Mean intensity over all triggered telescopes}
+    \item{h\_max: Reconstructed shower interaction height}
 \end{itemize}
 
 \section{High-Level Analysis}
 
 \begin{table}
     \begin{center}
-        \begin{tabular}{| l | l | l | l |}
+        \begin{tabular}{| r | r | r | r |}
             \hline
             & Pointlike Gamma & Diffuse Gamma & Protons \\
             \hline
@@ -220,7 +222,8 @@ In total, this step leads to the following features on array level:
             \hline
             Array events & \num{955317} & \num{3409290} & \num{4657529} \\
             \hline
-            Telescope events & \num{4554313} & \num{14383270} \num{20106385} & 
+            Telescope events & \num{4554313} & \num{14383270} & \num{20106385} \\
+            \hline
         \end{tabular}
     \end{center}
     \caption{Number of remaining events for each simulated particle type after the
@@ -246,6 +249,16 @@ Separate models are trained for the tasks of gamma/hadron
 separation and signal source position
 reconstruction.
 
+To separate the information in our models (rephrase!), the data gets split into mutiple dataframes.
+The gamma-/hadron-separation model and the DISP-/SIGN-models each get 
+40\% of the available diffuse gamma data. 20\% are left out
+as a test dataframe, that is completely unseen by the models during training.
+
+We only use 10\% of the proton events to have a roughly even class distribution while training 
+the gamma-/hadron-separation (see table \ref{tab_events_after_prep}).
+
+The pointlike gamma events are used to full extent as they are not used for the training,
+but only to evaluate the models later.
 
 \subsection{Gamma-/Hadron-Separation}
 For the task of gamma/hadron separation a random forest can be trained
@@ -277,21 +290,24 @@ array-event.
 
 \subsection{Reconstruction of the Source Position}
 \label{sec:source_position}
+EXPLAIN THE BONUS FEATURES FOR THE MODELS!
+
 The position on the shower axis can be estimated based on 
 the hillas parameters and other image features, as 
-explained in section \ref{??}
+explained in section \ref{sec:??}
 This method is known as the DISP-method in the
 literature (citation needed). The general idea 
 can be seen in figure \ref{fig:disp}.
 
 \begin{figure}
+    \centering
     \includegraphics[width=0.6\linewidth]{Plots/hillas_complete.pdf}
     \caption{Illustration of monoscopic source position reconstruction making use of 
         the Hillas-Parameters and the DISP-method as explained in section \ref{sec:source_position}.
-	A source position is estimated as some point on the main shower axis.
-	In this example the head-/tail-ambiguation is guessed correctly.
-	The position in the sky frame can then be calculated by transforming this
-	point onto the sky plane.Pass das an zu 2 disps!}
+        A source position is estimated as some point on the main shower axis.
+        In this example the head-/tail-ambiguation is guessed correctly.
+        The position in the sky frame can then be calculated by transforming this
+        point onto the sky plane.Pass das an zu 2 disps!}
     \label{fig:disp}
 \end{figure}
 
@@ -306,9 +322,9 @@ is fixed at two points at the main shower axis.
 To resolve the head/tail ambiguity in monoskopic mode,
 we will train a second random forest.
 This is called SIGN-prediction, interpreting the two possible sides
-as +-1, allowing for binary classification.
+as $\pm1$, allowing for binary classification.
 From FACT-analyses we know that accuracies of 70-80\% should be achievable
-if we make no mistakes.
+if we make no mistakes \cite{some fact paper}.
 
 For the stereoskopic analysis, we employ an approach inspired by 
 what the MAGIC-collaboration does in their analysis.
@@ -344,11 +360,14 @@ The most obvious approach seemed to be an iterative one:
 For each pair of triggered telescopes, we combine the results 
 in the way described in \cite{disp magic paper}.
 We cache all intermediate results and average them to get the final prediction.
+Taking the median of the pairwise predictions seemed to be superiour
+over the mean.
 
 Figure \ref{fig:stereo_disp} illustrates this for the case of 4 triggered telescopes.
 
 
 \begin{figure}
+    \centering
     \begin{subfigure}{0.23\textwidth}
         \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_1.pdf} 
         \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_5.pdf} 
@@ -364,9 +383,30 @@ Figure \ref{fig:stereo_disp} illustrates this for the case of 4 triggered telesc
     \begin{subfigure}{0.23\textwidth}
         \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_4.pdf}
         \includegraphics[width=0.9\linewidth]{Plots/stereo_magic_result.pdf}
-    \end{subfigure}   \caption{wrong pics}
+    \end{subfigure}
+    \caption{Plots anpassen, skalieren, erklären. Plots höher/weniger breit machen, damit das layout passt?}
     \label{fig:stereo_disp}
 \end{figure}
 
+For this method we do not need the information from the SIGN model at all.
+We will still train it and look at the results to compare them to 
+the monoscopic case later.
+
 
 \section{Analysis for a single LST}
+Inspired by the current status of CTA with only one LST operating and no MSTs or SSTs,
+we wanted to add a completely monoskopic analysis.
+
+For this reason we chose a single telescope of the simulated data.
+Choosing multiple telescopes and treating them as independent events 
+would most likely be a valid option as well, although the 
+events would not be 100\% uncorellated.
+
+We perform the same analysis for this reduced dataset, leaving out only 
+the stereoscopic parts of the analysis.
+The machine learning models are expected 
+to perform slightly worse as the stereoscopic features are missing.
+
+As explained the HillasReconstructor does not work on a single telescope.
+The only source-position predictions we can make and compare are monoscopic 
+DISP+SIGN-predictions with the MC truth.
