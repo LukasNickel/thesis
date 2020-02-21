@@ -80,8 +80,8 @@ eiffel tower in paris
 Assuming that most radiation came from the 
 earth crust, the decrease was less than expected.
 
-Balloon flights of Albert Gockel in 1909 
-\cite{gockel1909atmosphare} (finden und lesen ggf englische version?)
+Several ballon flights 
+of different physicists (for a contemporary overview of the fiels see e.g. \cite{luftelektrizitaet})
 and underwater experiments of Domenico Pacini in 1910 
 \cite{2011arXiv1101.3015P}
 lead to the conclusion that most of the radiation must indeed be
@@ -104,11 +104,10 @@ The radiation was referenced as "Höhenstrahlung"
 and "cosmic rays" (see e.g. \cite{millikan1928origin}) with 
 the english term cosmic rays eventually winning out.
 
-
-Since the experiments of Jacob Clay in 1927 
+Experiments of Jacob Clay in 1927 
 \cite{clay1927penetrating}
-it was clear that the main proportion of 
-this radiation must carry an electric charge.
+lead to the further insight that the main proportion of 
+the radiation must carry an electric charge.
 
 With experiments resolving around the influence of the earth magnetic 
 field by 
@@ -145,7 +144,7 @@ Nowadays we observe extraterrestrial processes on four channels:
 \begin{enumerate}
 	\item Electromagnetic radiation
 	\item (Charged) cosmic rays
-	\item $\nu$-radiation
+	\item Neutrino-radiation
 	\item Gravitational waves
 \end{enumerate}
 
@@ -153,27 +152,31 @@ All of these have vastly different properties and require different experiments.
 A common thing is to observe the same sources 
 on different channels to learn more about the processes that happen at 
 these far distant sources. This is what is often times 
-referred to as multi messenger astronomy (cite some mma paper, eg magic looking at an icecube alert).
+referred to as multi messenger astronomy (see e.g. \cite{RevModPhys.85.1401}, where
+neutrinos and gravitational waves get combined).
 
 Before we focus on the special field of IACTs, we will have
 a brief look at the different messenger particles.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\textwidth]{images/astro-web-titel.jpg}
+	\includegraphics[width=.6\textwidth]{images/astro-web-titel.jpg}
 	\label{fig:multi_messenger}
 	\caption{Visualisation of the behaviours of different astronomy messengers.
 		Photons and neutrinos 
-		travel the universe without deflection.
+		travel the universe without deflection, because they do not
+		carry an electric charge.
 		Charged cosmic rays get deflected by interstellar
-		magnetic fields and thus do not allow for a assignment to a cosmological source.
-		Neutrinos interact way less than photons both in the universe and in the detector 
+		magnetic fields and thus do not allow for a assignment to a cosmological source
+		(Unless their energy exceeds some ???).
+		Neutrinos interact less than photons both in the universe and in the detector 
 		which requires the detectors to be of huge areas and leads to a high 
-		proportion passing through earth
-		\cite{desy_mm_astro}.
+		proportion passing through earth.
 		This illustration lacks gravitational waves 
 		as these have only recently been measured and play no relevant role 
-		for Imaging Air Cherenkov Telescopes (IACTs).
+		for Imaging Air Cherenkov Telescopes (IACTs) outside of combined 
+		measurements with other experiments yet.
+		The image is taken from the DESY-website at \cite{desy_mm_astro}.
 	}
 \end{figure}
 
@@ -186,7 +189,7 @@ extra terrestrial sources with the main proportion being protons
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\includegraphics[width=.6\textwidth]{images/cr_spectrum.png}
 	\caption{Combined plot of the cosmic ray spectrum,
 		measured by different air shower experiments \cite{pdg19}. 
 		(original sources? stehen im pdg)
@@ -212,8 +215,8 @@ An important description of the acceleration process has been
 worked out by Enrico Fermi in 1949 \cite{PhysRev.75.1169}.
 The main assumption is that the charged particle performs 
 stochastic scattering with a (partially ionized) moving gas cloud.
-Because the gas cloud has a much higher effective mass and
-non constant magnetic fields, it acts as magnetic mirrors.
+Because the gas cloud has a much higher effective mass than the particle and
+includes non constant magnetic fields, it acts as magnetic mirrors.
 The particle would gain energy with each scattering until it breaks free from the 
 gas cloud. This is referenced to as the second-order fermi mechanism, 
 because the energy gain is proportional to $\beta^2$, with $\beta$
@@ -227,6 +230,7 @@ This requires a gas cloud where the gas directions are highly correlated,
 which is the case in SNRs.
 (Das ist mehr oder weniger alles aus \cite{bookap}, 
 aufpassen, dass das nicht direkt übernommen wird und ggf noch quellen finden)
+
 With the shock wave rapidly moving, one can divide the surrounding gas in 
 an upstream and downstream component. In the reference frame of the shock
 the upstream component runs into the shock with 
@@ -250,7 +254,7 @@ is referenced to as a bound-rebound cycle with an energy gain of
 with the scattering angle $\theta$ (?).
 Because this energy gain is pretty much constant, a particle could reach very high 
 energies only limited by the number of bound-rebound cycles $n$.
-The higher the particle energy $E$ (and thus its speed $V$), 
+The higher the particle energy $E$ (and thus its speed), 
 the higher the probability of it escaping the shock region, denoted 
 as $P_{E_n}$.
 This restricts the number of cycles and makes higher particle energies 
@@ -272,7 +276,7 @@ from the Galaxy, the spectrum gets steeper:
 \end{equation}
 (Hierfür Quelle finden:)
 Common models (such as ???) predict $\delta$ to be in the range of 
-$0.3-0.6$, coming pretty colse to the observed spectra.
+$0.3-0.6$, coming pretty close to the observed spectra.
 With this model, energies up to the first ankle can be explained.
 Higher energy particles are sometimes assumed to be of extragalactical origin
 \cite{Baring:1997ka}.
@@ -293,7 +297,7 @@ can be seen in figure \ref{fig:em_spectrum}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.8\textwidth]{images/em_spectrum.png}
+	\includegraphics[width=.6\textwidth]{images/em_spectrum.png}
 	\caption{An overview of properties and applications for a wide 
 		range of photon energies.
 		Radio-waves are at the lowest energies, gamma-rays 
@@ -304,11 +308,96 @@ can be seen in figure \ref{fig:em_spectrum}.
 	\label{fig:em_spectrum}
 \end{figure}
 
+Creation of high-energy gamma-rays is due to a lot of 
+different processes. Among these we want to give a brief 
+overview of two important processes, focussing on 
+photon emission from an initial pure electron distribution. 
+Depending on the studied case other emission factors 
+might play important roles as well, such as 
+the $\gamma$-production from $\pi^0$-decays in cosmic rays.
 
-ENSTEHUNG ERKLÄREN -> synchroton, inverse compton
-Erklärung aus func ray, kais diss zum Verständnis
+\textbf{Synchroton Radiation}
+
+Sources of cosmic and gamma rays often times include 
+high magnetic fields. Any moving charged particle will thus be
+deflected perpendicular to its moving direction
+due to the Lorentz-force, forcing them on a radial trajectory.
+At the same time a relativistic charged particle, 
+that gets accelerated radially, emits synchroton 
+photons with average energy given by 
+equation \ref{eq:synchroton}
+
+\begin{equation}
+	\langle E_{\gamma} \rangle \propto \frac{1}{M_P} E_P^2 B^2.
+	\label{eq:synchroton}
+\end{equation}
+
+Hereby $M_P$ and $E_P$ denote the accelerated particle's 
+mass and energy respectively. It is evident that 
+synchroton radiation plays a major role in leptonic 
+emission and much less in hadronic emission.
+
+It is important to remember that this affects the 
+initial electron distribution, by reducing the electrons energy.
+This is sometimes referred to as synchroton cooling.
+
+The emitted synchroton spectrum needs to be further modified 
+if the emitting region is optically thick and photons 
+get absorbed by the medium.
+This is always true for our cases, as the regions contains 
+both magnetic fields and a high density of electrons.
+
+\textbf{(Inverse) Compton Scattering}
+In a classical particle interpretation photons and electrons 
+can collide exchanging energy and altering their directions.
+For the normal case of Compton scattering the electron 
+is assumed to be at rest and the photon can never gain 
+energy by scattering of the electron.
+This can be 
+seen by the incerase in wavelength in equation \ref{eq:compton},
+with $\lambda^{\prime}$ denoting the the scattered photons 
+wavelength, $\lambda$ denoting the initial photons wavelength  
+and $\Theta$ the scattering angle.
+
+\begin{equation}
+	\lambda^{\prime} - \lambda  \propto \left(1-\cos{\Theta} \right)
+	\label{eq:compton}
+\end{equation}
 
 
+If the electron itself is moving with much higher energy
+than the photon, this changes and the photon can gain substantial energy.
+This is referenced as inverse Compton scattering.
+In that case transforming the equations to the 
+electron's frame of reference and back to the labor frame 
+basically boost the photons energy by a factor $\gamma$, 
+with $\gamma$ being the Lorentz-factor of the electron.
+
+A limit to the photon energies is set by the scattering cross
+section, which reduces with higher photon energies.
+For low energies the cross section can be approximated by 
+the Thomson cross section, for high energies
+one uses the Klein-Nishina cross section.
+
+The Synchroton Self Compton model combines the above mentioned
+effects to produce a photon energy distribution from an
+electron distribution, which is often times assumed to
+initially follow a power-law spectrum.
+The free parameters of the model can be interpreted as 
+three frequencies: The minimum injection frequency $\nu_m$, 
+the cooling frequency $\nu_c$ and the self-absorption frequency $\nu_a$.
+Depending on the order of these parameters, different 
+photon distributions can be generated.
+
+For more general information about the generation of photon 
+and cosmic ray spectra, the reader is referred to 
+\cite{gaisser_engel_resconi_2016}
+or
+\cite{bookap}.
+
+For a detailed analysis of the influence of the parameters of
+the Synchroton Self Compton model, 
+the lecture of \cite{10.1093/mnras/stt1461} is advised.
 
 
 Emitted $\gamma$-rays can be observed either directly
@@ -409,42 +498,36 @@ leading to more continous energy losses.
 These assumptions lead to the most basic model of an 
 electromagnetic shower, proposed by Bhabha and Heitler in 1937
 \cite{doi:10.1098/rspa.1937.0082}.
-MEHR HIER ERKLÄREN
-
+It starts with a high energy primary photon before its interaction in the atmosphere 
+(The original paper starts from a high energy electron interacting in lead actually.
+This does not concern our qualitative look at the model.) and continues 
+the calculation in discrete epochs.
+The photon produces a pair of $e^-$ and $e^+$ in the first epoch.
+Because of the high energies at play, the direction of these secondary 
+particles does not deviate significantly from the photons direction, 
+making the problem essentially one-dimensional.
+The $e^+/e^-$ continue on to radiate a photon each and the cyle continues.
+Each step doubles the number of particles in the shower with each particle 
+on average getting half the energy of its parent particle.
+This can continue until the energy of the $e^+/e^-$ becomes low enough for
+continous ionisation processes to become relevant.
+At this point the particle is considered to be stopped and the shower
+does not evolve further.
 
 Today monte carlo calculations get used to simulate the properties 
 of particle showers in the atmosphere.
 The most common software to model the athmospheric interactions is
 CORSIKA \cite{Engel:2018akg}.
 
-Although the energy losses are mainly negligible, 
-the most important interaction for the detection with IACTs is 
-cherenkov radiation: High energy charged particles pass through 
-matter faster than the speed of light in the medium. This leads
-to the emittance of near-visible photons that get detected 
-in the telescopes camera. 
+Figure \ref{fig:gamma_shower} illustrates the Bhabha-Heitler model (left)
+and a \SI{1}{\tera\electronvolt} gamma shower, simulated with CORSIKA (right).
 
-
-\subsection{Hadronic showers}
-Hadronic shower include all the interactions known from 
-electromagnetic showers, but add nuclear interactions on top.
-These lead to non-negligible additional energy losses 
-and the creation of secondary hadronic particles.
-
-Approximations are more difficult to do and simulations 
-become the only way to reasonably calculate shower behaviour.
-
-At the end of the shower most particles have decayed into the 
-lightest hadronic particles, pions ($\pi^0, \pi^+, \pi^-$), of which the neutral pions 
-rapidly decay into photons.
-\cite{bookap} (vlt gibts da bessere quellen) states that on average
-roughly a third of the pions are neutral pions. This means that 
-a third of the hadronic shower eventually becomes an electromagnetic
-subshower.
-
-Figures \ref{fig:gamma_shower} and \ref{fig:proton_shower}
-show a comparison of simulated 
-$\gamma$- and proton showers.
+% Although the energy losses are mainly negligible, 
+% the most important interaction for the detection with IACTs is 
+% cherenkov radiation: High energy charged particles pass through 
+% matter faster than the speed of light in the medium. This leads
+% to the emittance of near-visible photons that get detected 
+% in the telescopes camera. 
 
 \begin{figure}
 	\centering
@@ -469,6 +552,27 @@ $\gamma$- and proton showers.
 	\label{fig:gamma_shower}
 \end{figure}
 
+\subsection{Hadronic showers}
+Hadronic shower include all the interactions known from 
+electromagnetic showers, but add nuclear interactions on top.
+These lead to non-negligible additional energy losses 
+and the creation of secondary hadronic particles.
+
+Approximations are more difficult to do and simulations 
+become the only way to reasonably calculate shower behaviour.
+
+At the end of the shower a relevant portion of the particles have decayed into the 
+lightest hadronic particles, pions ($\pi^0, \pi^+, \pi^-$), of which the neutral pions 
+rapidly decay into photons.
+\cite{bookap} (vlt gibts da bessere quellen) states that on average
+roughly a third of the pions are neutral pions. This means that 
+a third of the hadronic shower eventually becomes an electromagnetic
+subshower.
+
+Figures \ref{fig:proton_shower}
+shows some of the particles generated in a hadronic shower (left)
+and a \SI{1}{\tera\electronvolt} proton shower, simulated with CORSIKA (right).
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{.7\textwidth}
@@ -489,16 +593,19 @@ $\gamma$- and proton showers.
 		Right: A \SI{1}{\tera\electronvolt} proton-shower.
 		The shower is less contained than the gamma shower of equal energy in 
 		figure \ref{fig:gamma_shower}.
+		Different colors indicate different particle types.
 		The image is taken from 
 		the CORSIKA-website \cite{corsika_showers}}
 	\label{fig:gamma_shower}
 \end{figure}
 
 \subsection{Measuring events}
-As stated earlier, IACTs measure particle showers by their emittance of cherenkov 
-light. The cherenkov light covers a huge area on the floor (rephrase).
+The way IACTs detect particle showers in the atmosphere, is by their emittance 
+of cherenkov light. Cherenkov light gets emitted whenever a 
+charged particle moves through a dielectric medium with a velocity 
+exceeding the local speed of light.
 
-Single photons get collected by the mirror of a telescope (or a composition of 
+Cherenkov photons get collected by the mirror of a telescope (or a composition of 
 multiple smaller mirrors) and projected onto a camera system mounted some 
 meters above the mirror.
 With this setup IACTs usually reach a field of view of 
@@ -516,11 +623,11 @@ setup.
 	that points roughly towards the telescopes.
 	Cherenkov light from the air shower 
 	hits the mirrors and gets focussed into a camera mounted on top.
-	An illusration of the resulting image after after integrating 
-	\SI{10}{\nano\second} of the waveform at the time the shower hits
+	An illustration of the resulting image after integrating 
+	\SI{10}{\nano\second} of the pixel measurements at the time the shower 
+	was detected
 	can be seen in the left bottom corner.
-	Any further reconstruction steps are left out.
-	Image from \cite{cta_web}}.
+	The image is taken from the official CTA-website \cite{cta_web}}.
 	\label{fig:iact_mirror_camera}
 \end{figure}
 
@@ -529,21 +636,26 @@ Upon detection of a shower and performing the low-level analysis,
 the usual tasks of a high-level analysis include reconstructing 
 three key properties of the primary particle:
 \begin{enumerate}
-	\item{Particle type (mostly photon or hadronic)}
+	\item{Shower type (e.g. gamma or hadronic)}
 	\item{Primary particle energy}
-	\item{Direction (leading to the source position)}
+	\item{Shower direction (leading to the source position)}
 \end{enumerate}
 
 This usually involves describing the 
-shower image as an ellipse and calculating the hillas parameters.
+shower image as an ellipse and calculating the so called hillas parameters,
+allowing the description of the shower image with only a handful of parameters.
 The historical approach can be read up in 
 a famous paper of A.M. Hillas \cite{hillas_params}.
-This allows to describe the shower image with only a handful of parameters.
 
 In most cases the reconstruction can be improved heavily by cleaning the image first.
 Figure \ref{fig:shower_cleaning} shows a simulated $\gamma$-induced shower image
 in the camera of the Large Sized Telescope (LST, see section \ref{sec:lst} for more details of the telescope)
 before and after cleaning.
+From the reconstructed image, the hillas parameters can be calculated.
+An illustration with the hillas-ellipse on top of the camera image 
+for the same image can be seen in figure \ref{fig:hillas_params}.
+This also includes an estimate of the true source position with the DISP-method
+which we will describe in the following.
 
 \begin{figure}
 	\centering
@@ -568,13 +680,9 @@ before and after cleaning.
 	\label{fig:shower_cleaning}
 \end{figure}
 
-From the reconstructed image, the hillas parameters can be calculated.
-An illustration with the hillas-ellipse on top of the camera image 
-for the same image can be seen in figure \ref{fig:hillas_params}.
-
 \begin{figure}
 	\centering
-	\includegraphics[width=.5\textwidth]{Plots/hillas_complete.pdf}
+	\includegraphics[width=.6\textwidth]{Plots/hillas_complete.pdf}
 	\caption{The same cleaned shower-image as in figure \ref{fig:shower_cleaning}
 	with the hillas-parameters calculated and marked in the camera frame.
 	Two angles $\phi$ and $\psi$ describe the direction of the 
@@ -582,15 +690,50 @@ for the same image can be seen in figure \ref{fig:hillas_params}.
 	the center of gravity of the image in the camera frame.
 	The shower axis constrains the reconstruction of the source position to a 
 	point on a line. Via the DISP-method two possible points remain.
-	This is sometimes refferd to as the head-tail-ambiguity.
+	This is sometimes refferd to as the head-tail-ambiguity and needs to be resolved
+	with further models or stereoscopic information. 
 	}
 	\label{fig:hillas_params}
 \end{figure}
 
 With the hillas parameters calculated, the reconstruction of the 
-primary particles properties can be done.
+primary particles properties can be done:
+The primary particle energy is mostly described by the contained light in the image combined with 
+an estimate of how much of the light missed the camera. 
 
-In first order one can predict the shower origin by 
+The particle type can be reconstructed 
+by looking at the image shape.
+As we saw earlier, $\gamma$ and hadronic showers have different properties, 
+resulting in different images. The assumption of a single, elliptic signal
+area only works reasonably well for $\gamma$-showers.
+A representation of different shower types can be seen in figure \ref{fig:compare_showers}.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=.5\textwidth]{images/shower_types.png}
+	\caption{A comparison of different shower types as seen 
+	by the Whipple telescope during later stages of its observation
+	when it had a multiple pixel camera installed.
+	More about the the history of the Whipple telescope in section
+	\ref{sec:1stgen_iact}. The general look of the shower types 
+	is the same for all IACTs.
+	Hadronic showers are more separated than gamma showers and tend to
+	form multiple clusters in the camera.
+	Muons often times produce ring-like images in the camera (WHY?).
+	Background noise can take any form, but is usually constrained to very small
+	areas as the pixel values are mostly random and uncorellated.
+	One can derive that the descrption of the image shower as ellipse
+	works best for gamma showers.
+	The image is taken from an introduction lecture by Albrecht Karle \cite{icecube_showers}.}
+	\label{fig:compare_showers}
+\end{figure}
+
+The primary particle, that induced the observed shower, has to have its 
+origin somewhere in the field of view of the telescopes camera.
+In fact the simplest estimation (or the only estimation if the camera consists of a single pixel)
+is to assume the source is equal to the telescopes pointing position.
+
+In second order one can predict the shower origin by 
 transforming the center of gravity (cog) of the image onto the sky plane.
 More sophisticated methods assume that the 
 center of gravity is displaced relative to the
@@ -603,7 +746,7 @@ If one assumes the true source position to be on the main shower axis of the ell
 finding this position simplifies to finding a single point on the main shower axis.
 This is often times referred to as DISP-method,
 which in a basic form was already getting used at 
-the WHIPPLE-telescope in ???? \cite{???}.
+the WHIPPLE-telescope in 2000 \cite{Lessard:2000yf}.
 
 Monoscopic experiments also need to resolve the head-tail-ambiguity:
 Knowing the distance from the cog leaves two possible points, one on either side 
@@ -628,30 +771,3 @@ multiple telescopes, as can be seen in figure \ref{fig:stereo_shower}.
 	\label{fig:stereo_shower}
 \end{figure}
 
-The primary particle energy is mostly described by the contained light in the image combined with 
-an estimate of how much of the light missed the camera. 
-
-The particle type can be reconstructed 
-by looking at the image shape.
-As we saw earlier, $\gamma$ and hadronic showers have different properties, 
-resulting in different images. The assumption of a single, elliptic signal
-area only works reasonably well for $\gamma$-showers.
-A representation of different shower types can be seen in \ref{fig:compare_showers}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=.5\textwidth]{images/shower_types.png}
-	\caption{A comparison of different shower types as seen 
-	by the Whipple telescope during later stages of its observation
-	when it had a multiple pixel camera installed.
-	More about the the history of the Whipple telescope in section
-	\ref{sec:1stgen_iact}. The general look of the shower types 
-	is the same for all IACTs.
-	Hadronic showers are more separated than gamma showers and tend to
-	form multiple clusters in the camera.
-	Muons often times produce ring-like images in the camera (WHY?).
-	Background noise can take any form, but is usually constarined to very small
-	areas as the pixel values are mostly random and uncorellated. 	
-	Image taken from an introduction lecture by Albrecht Karle \cite{icecube_showers}.}
-	\label{fig:compare_showers}
-\end{figure}
