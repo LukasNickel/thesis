@@ -189,10 +189,13 @@ extra terrestrial sources with the main proportion being protons
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.6\textwidth]{images/cr_spectrum.png}
-	\caption{Combined plot of the cosmic ray spectrum,
-		measured by different air shower experiments \cite{pdg19}. 
-		(original sources? stehen im pdg)
+	\includegraphics[width=.8\textwidth]{images/cr_spectrum.png}
+	\caption{Combined plot of the all-particle cosmic ray spectrum,
+		measured by various air shower experiments in different
+		energy ranges. 
+		One can see a the two "knees" where
+		the spectrum gets steeper and the ankle at very high
+		energies where the spectrum sees to get flatter again \cite{pdg19}. 
 	}
 	\label{fig:cr_spectrum}
 \end{figure}
@@ -202,7 +205,19 @@ many orders of magnitude in energy which mainly follows
 a power law $E^{-\gamma}$ with $\gamma$ somewhere between 
 2.7 and 3.3. Deviations from this crude approximation are 
 usually referred to as the first and second knee and the ankle 
-at $\num{5e15}, \num{2e17}$ and $\SI{5e18}{\electronvolt}$ respectively.
+at $\num{5e15}, \num{e17}$ and $\SI{5e18}{\electronvolt}$ respectively,
+with the second knee being less researched and of less importance
+to most models.
+
+The (first) knee could be explained by the assumption that the galactic sources
+reach their maximum energy at around that energy and the higher energy rays
+are mostly produced by extragalactical sources \cite{pdg19}.
+Other explanations assume the knee to not be an intrinsic property of the acceleration process,
+but to form during the propagation either thoughout the galaxy or
+inside the atmosphere (For a more detailed look at different 
+theoretical models have a look
+at \cite{HORANDEL2004241}).
+
 At the very highest energies, the flux seems to rapidly decrease,
 which may point towards a maximum energy
 that cosmological sources can produce or towards destructive interaction with 
@@ -297,14 +312,14 @@ can be seen in figure \ref{fig:em_spectrum}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.6\textwidth]{images/em_spectrum.png}
+	\includegraphics[width=.8\textwidth]{images/em_spectrum.png}
 	\caption{An overview of properties and applications for a wide 
 		range of photon energies.
 		Radio-waves are at the lowest energies, gamma-rays 
 		at the very highest energies.
 		Visible light lies in between, technical 
 		applications exist for all the shown wavelengths.
-		Image from \cite{wiki_em}}
+		The image is taken from \cite{wiki_em}.}
 	\label{fig:em_spectrum}
 \end{figure}
 
@@ -522,13 +537,6 @@ CORSIKA \cite{Engel:2018akg}.
 Figure \ref{fig:gamma_shower} illustrates the Bhabha-Heitler model (left)
 and a \SI{1}{\tera\electronvolt} gamma shower, simulated with CORSIKA (right).
 
-% Although the energy losses are mainly negligible, 
-% the most important interaction for the detection with IACTs is 
-% cherenkov radiation: High energy charged particles pass through 
-% matter faster than the speed of light in the medium. This leads
-% to the emittance of near-visible photons that get detected 
-% in the telescopes camera. 
-
 \begin{figure}
 	\centering
 	\begin{subfigure}{.7\textwidth}
@@ -539,12 +547,12 @@ and a \SI{1}{\tera\electronvolt} gamma shower, simulated with CORSIKA (right).
  		\centering
 		\includegraphics[width=.9\linewidth]{images/corsika_1tev_photon.png}
 	\end{subfigure}
-	\caption{Schematic illustration and simulated air showers as xz-projection.
+	\caption{Schematic illustration and simulated air showers as xz-projection. \\
 		Left: A schematic illustration of the first epochs of the 
 		Bethe-Heitler shower model with equal radiation lengths for
 		bremsstrahlung and pair production.
 		The image is taken from an inaugural thesis 
-		by Stefan Funk \cite{funk_doctor}.
+		by Stefan Funk \cite{funk_doctor}. \\
 		Right: A \SI{1}{\tera\electronvolt} gamma-shower.
 		The shower is very contained with only little extent perpendicular 
 		to the shower direction (z-axis). The image is taken from 
@@ -583,19 +591,19 @@ and a \SI{1}{\tera\electronvolt} proton shower, simulated with CORSIKA (right).
  		\centering
 		\includegraphics[width=.9\linewidth]{images/corsika_1tev_proton.png}
 	\end{subfigure}
-	\caption{Schematic illustration and simulated air showers as xz-projection.
+	\caption{Schematic illustration and simulated air showers as xz-projection.\\
 		Left: A purely qualitative,
 		schematic illustration of the generation of a hadronic shower.
 		It shows how the primary hadron generates different subshowers
 		with vastly different particles.
 		The image is taken from an inaugural thesis 
-		by Stefan Funk \cite{funk_doctor}.
+		by Stefan Funk \cite{funk_doctor}.\\
 		Right: A \SI{1}{\tera\electronvolt} proton-shower.
 		The shower is less contained than the gamma shower of equal energy in 
 		figure \ref{fig:gamma_shower}.
 		Different colors indicate different particle types.
 		The image is taken from 
-		the CORSIKA-website \cite{corsika_showers}}
+		the CORSIKA-website \cite{corsika_showers}.}
 	\label{fig:gamma_shower}
 \end{figure}
 
@@ -651,19 +659,14 @@ In most cases the reconstruction can be improved heavily by cleaning the image f
 Figure \ref{fig:shower_cleaning} shows a simulated $\gamma$-induced shower image
 in the camera of the Large Sized Telescope (LST, see section \ref{sec:lst} for more details of the telescope)
 before and after cleaning.
-From the reconstructed image, the hillas parameters can be calculated.
-An illustration with the hillas-ellipse on top of the camera image 
-for the same image can be seen in figure \ref{fig:hillas_params}.
-This also includes an estimate of the true source position with the DISP-method
-which we will describe in the following.
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.4\textwidth}
+	\begin{subfigure}{.45\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{Plots/hillas_raw.pdf}
 	\end{subfigure}%
-	\begin{subfigure}{.4\textwidth}
+	\begin{subfigure}{.45\textwidth}
  		\centering
 		\includegraphics[width=\linewidth]{Plots/hillas_cleaned.pdf}
 	\end{subfigure}
@@ -680,9 +683,15 @@ which we will describe in the following.
 	\label{fig:shower_cleaning}
 \end{figure}
 
+From the reconstructed image, the hillas parameters can be calculated.
+An illustration with the hillas-ellipse on top of the camera image 
+for the same image can be seen in figure \ref{fig:hillas_params}.
+This also includes an estimate of the true source position with the DISP-method
+which we will describe in the following.
+
 \begin{figure}
 	\centering
-	\includegraphics[width=.6\textwidth]{Plots/hillas_complete.pdf}
+	\includegraphics[width=.8\textwidth]{Plots/hillas_complete.pdf}
 	\caption{The same cleaned shower-image as in figure \ref{fig:shower_cleaning}
 	with the hillas-parameters calculated and marked in the camera frame.
 	Two angles $\phi$ and $\psi$ describe the direction of the 
@@ -710,7 +719,7 @@ A representation of different shower types can be seen in figure \ref{fig:compar
 
 \begin{figure}
 	\centering
-	\includegraphics[width=.5\textwidth]{images/shower_types.png}
+	\includegraphics[width=.8\textwidth]{images/shower_types.png}
 	\caption{A comparison of different shower types as seen 
 	by the Whipple telescope during later stages of its observation
 	when it had a multiple pixel camera installed.
@@ -757,7 +766,7 @@ multiple telescopes, as can be seen in figure \ref{fig:stereo_shower}.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/stereo_shower.png}
+	\includegraphics[width=0.6\textwidth]{images/stereo_shower.png}
 	\caption{An illustration of an air shower captured with multiple telescopes.
 		Upper right: Each telescope captures an elliptic image.
 		The image axes get intersected to reconstruct the arrival direction

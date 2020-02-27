@@ -69,14 +69,14 @@ with $pos$ referring to the positive (i.e. signal)
 and $neg$ referring to the negative (i.e. background) class.
 
 \begin{center}
-    \begin{tabular}{ | l | l | l |}
-    \hline
+    \begin{tabular}{ l l l}
+    %\hline
     True label & Predicted as $pos$ & Predicted as $neg$ \\
     \hline
     $pos$ & true positive ($tp$) & false negative ($fn$) \\ 
-    \hline
+    %\hline
     $neg$ & false positive ($fp$) & true negative ($tn$) \\
-    \hline
+    %\hline
     \end{tabular}
     %\caption{Confusion matrix for a binary classification task with
     %the two labels $pos$ and $neg$.}
@@ -93,18 +93,24 @@ can be constructed to examine the classifiers performance.
 Some of the more common ones include:
 
 \begin{center}
-    \begin{tabularx}{\textwidth}{|l|l|X|}
+    \caption{
+      Common metrics for classification tasks, taken from \cite{sokolova2009systematic}.}
+    \begin{tabularx}{\textwidth}{l c X}
+    %\hline
+    Measure & Formula & Evaluation Focus \\ 
     \hline
-    Measure & Formula & Evaluation Focus \\ \hline
-    Accuracy & $\frac{tp+tn}{tp+fn+fp+tn}$ & Overall effectiveness of a classifier \\ \hline
+    Accuracy & $\frac{tp+tn}{tp+fn+fp+tn}$ & Overall effectiveness of a classifier \\ 
+    %\hline
     Precision & $\frac{tp}{tp+fp}$ & Class agreement with the positive labels given by the classifier \\
-    \hline
+    %\hline
     Recall/Sensitivity & $\frac{tp}{tp+fn}$ & Effectiveness of a classifier to identify positive labels \\
-    \hline
+    %\hline
     F-score & $\frac{(\beta^2+1)tp}{(\beta^2+1)tp+\beta^2fn+fp}$ & Relations between positive labels and predicted labels\\
-    \hline
-    Specificity & $\frac{tn}{fp+tn}$ & How effectively a classifier identifies negative labels \\ \hline
-    AUC & $\frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn})$ & Classifier’s ability to avoid false classification \\ \hline
+    %\hline
+    Specificity & $\frac{tn}{fp+tn}$ & How effectively a classifier identifies negative labels \\ 
+    %\hline
+    Balanced Accuracy & $\frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn})$ & Classifier’s ability to avoid false classification \\ 
+    %\hline
     \end{tabularx}
     %\caption{Overview of common metrics for classification tasks based on the 
     %intermediate metrics shown in table \ref{tab:confusion}}
