@@ -1,0 +1,63 @@
+#### Backend
+backend: pgf
+
+### PGF PARAMETERS
+# use fontspec and unicode-math in header
+pgf.rcfonts: False
+pgf.texsystem : lualatex
+pgf.preamble : \input{header.tex}
+
+#### LINES
+lines.linewidth   : 2.0
+
+#### Patches
+
+#### Boxplot
+boxplot.notch       : True
+#boxplot.meanline    : True
+boxplot.medianprops.linewidth : 1.5
+
+
+#### FONT
+font.family: serif
+font.size: 12
+
+#### TEXT
+text.usetex : True
+
+#### AXES
+axes.spines.top    : False
+axes.spines.right  : False
+axes.grid : True
+axes.grid.which     : both
+axes.labelsize      : large  ## fontsize of the x any y labels
+
+#### DATES
+
+#### TICKS
+xtick.labelsize: 12
+ytick.labelsize: 12
+
+#### GRIDS
+grid.alpha: 0.3
+
+#### LEGEND
+legend.fontsize: medium
+
+#### FIGURE
+figure.figsize: 8, 6
+figure.dpi: 300
+figure.autolayout: True
+
+#### IMAGES
+image.interpolation: none
+image.cmap: inferno
+
+#### SAVING FIGURES
+savefig.bbox: tight
+savefig.pad_inches: 0.0
+#savefig.transparent: True
+
+
+
+
