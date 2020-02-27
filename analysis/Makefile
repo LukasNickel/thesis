@@ -154,15 +154,19 @@ merge_data:
 
 # we need specific mono data!!!!
 
+# 		-f 0.2 -n train_energy \
+		-f 0.2 -n train_array_energy \
+
+# 		-f 0.2 -n train_energy \
+		-f 0.2 -n train_array_energy \
+
 split_data:
 	aict_split_data \
 		$(merged_f)/diffuse_merged.hdf5 \
 		$(merged_f)/diffuse \
 		-f 0.2 -n test \
-		-f 0.2 -n train_disp \
-		-f 0.2 -n train_energy \
-		-f 0.2 -n train_array_energy \
-		-f 0.2 -n train_separation \
+		-f 0.4 -n train_disp \
+		-f 0.4 -n train_separation \
 		-t cta \
 		-v
 	aict_split_data \
@@ -174,17 +178,15 @@ split_data:
 	aict_split_data \
 		$(merged_f)/proton_merged.hdf5 \
 		$(merged_f)/proton \
-		-f 1 -n train_separation \
+		-f 0.1 -n train_separation \
 		-t cta \
 		-v
 	aict_split_data \
 		$(merged_f)/diffuse_mono_merged.hdf5 \
 		$(merged_f)/diffuse_mono \
 		-f 0.2 -n test \
-		-f 0.2 -n train_disp \
-		-f 0.2 -n train_energy \
-		-f 0.2 -n train_array_energy \
-		-f 0.2 -n train_separation \
+		-f 0.4 -n train_disp \
+		-f 0.4 -n train_separation \
 		-t cta \
 		-v
 	aict_split_data \
@@ -196,7 +198,7 @@ split_data:
 	aict_split_data \
 		$(merged_f)/proton_mono_merged.hdf5 \
 		$(merged_f)/proton_mono \
-		-f 1 -n train_separation \
+		-f 0.1 -n train_separation \
 		-t cta \
 		-v
 

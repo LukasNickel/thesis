@@ -56,7 +56,7 @@ image.cmap: inferno
 #### SAVING FIGURES
 savefig.bbox: tight
 savefig.pad_inches: 0.0
-savefig.transparent: True
+#savefig.transparent: True
 
 
 
