@@ -1,12 +1,8 @@
 \chapter{analysis}\label{analysis}
 
-ToDo:
-\begin{enumerate}[nosep]
-    \item Datenformat Input, verwendete Daten, Worte zu Simulation, trainingsdaten
-    \item Preprocessing - Schritte erklären
-    \item Datenformat Output Preprocessing
-    \item Signifikanzkurve
-\end{enumerate}
+The analysis consists of multiple steps, that will be explained in the following.
+All parameters for the analysis as well as the features used for the
+different random forests can be found in the appendix (link setzen optimalerweise).
 
 \section{Simulated Data and Preprocessing}
 % configuration in appendix! + algorithmen beim prep
@@ -24,7 +20,12 @@ different layouts and telescope positions.
 We will choose the relevant telescopes in a way, that
 our array resembles the earlier mentioned south array (See section \ref{sec:cta}).
 
-This data contains everything the telescopes are going to measure
+The CORSIKA-simulations start with particles of a given energy that hit the atmosphere,
+propagate through the air and arrive at the telescopes locations.
+The SIMTEL-simulations include the instrument response and trigger settings to
+evaluate if an event is going to be recorded.
+
+Our data contains everything the telescopes are going to measure
 at a low level
 plus additional MC information, that will not be present at real experiments.
 This includes the simulated particle direction and energy and type.
@@ -32,53 +33,58 @@ This ground-truth or MC-truth allows us to gauge the efffectiveness of our
 algorithms by comparing the predictions with the MC-truth values.
 
 The total number of simulated data after the low level analysis 
-is shown in table \ref{tab:mc_info}. (SIMTEL INFOS? ODER DAS HIER SPÄTER?)
+is shown in table \ref{tab:mc_infos}.
 
 \begin{table}
     \begin{center}
-        \begin{tabular}{| l | l | l | l |}
+        \begin{tabular}{l r r r}
             \hline
             & Pointlike Gamma & Diffuse Gamma & Protons \\
-            \hline
+            %\hline
             MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
-            \hline
+            %\hline
             Array events & \num{955317} & \num{3409290} & \num{4657529} \\
-            \hline
+            %\hline
             Telescope events & \num{4554313} & \num{14383270} & \num{20106385} \\
-            \hline
+            %\hline
+            Accumulated file sizes & 0 & 0 & 0 \\
         \end{tabular}
     \end{center}
     \caption{Take the infos from the simtel files instead! List file sizes aswell}
     \label{tab:mc_infos}
 \end{table}
-At the lowest level our observed data consists of uncalibrated waveforms 
+
+At the lowest available level our "observed" data consists of uncalibrated waveforms 
 in the camera pixels.
 We will perform several analysis steps that would also be needed for real data.
 The choice of parameters for the low level processing 
 is based on values from earlier studies, such as \cite{kai_diss}.
 These will be listed in the appendix(Link setzen!).
 
-To specify a specific event, we will identificate an event based on 
-three layers:
+To adress a specific event, we will split the event information into
+three layers, that will be saved as separate dataframes:
 \begin{enumerate}
-    \item{Run: This contains non-event-specific information about the monte carlo run, e.g.
+    \item{$run$: This contains non-event-specific information about the monte carlo run, e.g.
     spectral\_index, particle injection height, ...}
-    \item{Array-events: Any shower that triggered the array at some point 
+    \item{$array\_events$: Any shower that triggered the array at some point 
     is considered to be an array event.
     Array-level features consist of array-wide shared event information 
-    (e.g. number of triggered telescopes, average intensity)
+    (e.g. number of triggered telescopes, average intensity),
     reconstructed high-level features of the primary particle (energy, source position, ...) and the 
     event specific monte carlo information to compare these features against.}
-    \item{Telescope-events: This specifies how a specific telescope has seen the shower and
+    \item{$telescope\_events$: This specifies how a specific telescope has seen the shower and
     contains information about the telescope itself (e.g.focal length). Telescope-level features 
     describe the camera image and contain reconstructed features that were retrieved based on 
-    the telescopes specific measurements. The number of triggered telescopes will be referred
-    to as the event multiplicity.}
+    the telescopes specific measurements.}
 \end{enumerate}
 In the following we will 
-distinguish between "array-events" and "telescope-events" when describing the reconstruction methods.
+distinguish between "array-events" and "telescope-events" when describing the reconstruction methods
+with available information as mentioned above.
+The number of triggered telescopes will be referred to as the event multiplicity.
 
 \subsection{Reconstruction on the Telescope Tevel}
+\label{sec:tel_analysis}
+
 % definition datenlevel
 - pixel value vs arrival time wording?
 - calibration
@@ -94,7 +100,7 @@ Processing of the simtel-files is done with the aforementioned ctapipe, starting
 the calibration of the event. This performs an integration of the waveforms in 
 each pixel of the camera of a triggered telescope. 
 This reduces the waveforms to two values each: An integrated value which describes 
-the amount of light captured in total and a peak value indication the arrival 
+the amount of light captured during the pulse and a peak value indication the arrival 
 time of the measured pulse. These are referred to as 
 photo-electrons and pulse time in the following.
 Inside ctapipe the initial data is referred to as R1
@@ -105,11 +111,11 @@ used to calculate image features, such as the hillas parameters.
 The tailcuts cleaning is a two-step method based on the pixel value:
 First, all pixels with a value below an upper threshold get discarded from 
 the image. Second, all discarded pixels above a lower threshold, that also 
-happen to have at least a fixed amount of neighbouring pixels 
+happen to have at least a fixed amount of neighbouring pixels,
 that survived the first step, get added back in.
 Another cleaning method, that also includes the arrival time information, 
-was tested, but did not lead to any better results.
-To keep the analysis comparable to earlier works, we stayed with 
+was implemented tested, but did not lead to any better results.
+To keep the analysis more comparable to other works, we stayed with 
 the tailcuts cleaning algorithm, which was the default algorithm at the time 
 of this analysis.
 
@@ -117,51 +123,58 @@ After the image is cleaned, image features get calculated.
 This includes the classic hillas parameters among others.
 In total we calculate the following parameters:
 
-Make these mini Headlines?
+\textbf{Hillas Parameters:}
 
-Hillas Parameters:
-These provide a general, basic description of the image.
+These provide a general, basic description of the image and form the base for 
+all subsequent analyses.
 \begin{itemize}
-    \item{x, y: Coordinates of the image cog}
-    \item{r, $\phi$: Coordinates of the cog in polar coordinates}
-    \item{intensity: Summed up pixel values}
-    \item{length, width: Size of the image ellipse}
+    \item{$x, y$: Coordinates of the image cog}
+    \item{$r, \phi$: Coordinates of the cog in polar coordinates}
+    \item{$intensity$: Summed up pixel values}
+    \item{$length, width$: Size of the image ellipse}
     \item{$\psi$: Angle between ellipse orientation and x-axis}
-    \item{skewness, kurtosis: Higher order image moments along the shower axis}
+    \item{$skewness, kurtosis$: Higher order image moments along the shower axis}
 \end{itemize}
 
-Leakage:
+\textbf{Leakage:}
+
 These describe how much of the shower was captured by the camera.
 A lot of information at the edge of the camera indicates that part of the light missed the telescope, 
-which makes some reconstructions less reliable without taking this information into account.
+which makes the hillas parameters less reliable.
+Besides, this information is important to estimate the primary energy.
+
 \begin{itemize}
-    \item{leakage\_1\_intensity: Percentage of photo-electrons after cleaning in the outer most ring of pixels with respect to the photo-electrons in the whole image}
-    \item{leakage\_1\_pixel: Percentage of pixels after cleaning in the outer most ring of pixels with respect to the pixels in the whole image}
-    \item{leakage\_2\_intensity: Percentage of photo-electrons after cleaning in the two outer most rings of pixels with respect to the photo-electrons in the whole image}
-    \item{leakage\_2\_pixel: Percentage of pixels after cleaning in the two outer most rings of pixels with respect to the pixels in the whole image}
+    \item{$leakage\_1\_intensity$: Percentage of photo-electrons after cleaning in the outer most ring of pixels with respect to the photo-electrons in the whole image}
+    \item{$leakage\_1\_pixel$: Percentage of pixels after cleaning in the outer most ring of pixels with respect to the pixels in the whole image}
+    \item{$leakage\_2\_intensity$: Percentage of photo-electrons after cleaning in the two outer most rings of pixels with respect to the photo-electrons in the whole image}
+    \item{$leakage\_2\_pixel$: Percentage of pixels after cleaning in the two outer most rings of pixels with respect to the pixels in the whole image}
 \end{itemize}
 
-Concentration:
-These describe how contained the image is.
+\textbf{Concentration:}
+
+These describe how the light is distributed inside of the image.
 \begin{itemize}
-    \item{concentration\_cog: Percentage of photo-electrons in the three pixels closest to the cog with respect to the photo-electrons in the whole image}
-    \item{concentration\_core: Percentage of photo-electrons inside the hillas ellipse with respect to the photo-electrons in the whole image}
-    \item{concentration\_pixel: Percentage of photo-electrons in the brightest pixel with respect to the photo-electrons in the whole image}
+    \item{$concentration\_cog$: Percentage of photo-electrons in the three pixels closest to the cog with respect to the photo-electrons in the whole image}
+    \item{$concentration\_core$: Percentage of photo-electrons inside the hillas ellipse with respect to the photo-electrons in the whole image}
+    \item{$concentration\_pixel$: Percentage of photo-electrons in the brightest pixel with respect to the photo-electrons in the whole image}
 \end{itemize}
 
-Timing information:
+\textbf{Timing information:}
+
 These describe the temporal evolution of the captured light.
-This can be useful to reconstruct the source position, e.g. by resolving the head-tail disambiguity in the monoscopic case.
+This can be useful to improve the reconstruction of the source position.
 \begin{itemize}
-    \item{slope, slope\_err: Slope and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
-    \item{intercept, intercep\_err: Intercept and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
-    \item{deviation: Root-mean-square deviation between the individual pulse times and the predicted pulse time at the cog.}
+    \item{$slope, slope\_err$: Slope and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
+    \item{$intercept, intercep\_err$: Intercept and corresponding  error of a linear regression to the pixel-wise pulse times along the main shower axis.}
+    \item{$deviation$: Root-mean-square deviation between the individual pulse times and the predicted pulse time at the cog.}
 \end{itemize}
 
-Other:
+\textbf{Other:}
+
+The way clusters form in the image can give hints towards the classification of the primary particle.
 \begin{itemize}
-    \item{num\_islands: Number of individual clusters in the cleaned image.}
-    \item{num\_pixel\_in\_shower: Number of pixels that survived the cleaning.}
+    \item{$num\_islands$: Number of individual clusters in the cleaned image.}
+    \item{$num\_pixel\_in\_shower$: Number of pixels that survived the cleaning.}
 \end{itemize}
 
 All these features get used in the machine learning algorithms at later stages.
@@ -171,16 +184,19 @@ After the image processing of each associated telescope image has been finished,
 the predictions of our "baseline" source position estimator get calculated.
 This algorithm is referred to as HillasReconstructor inside ctapipe, because 
 it works based on the hillas parametrisations of the images.
-For each triggered telescope, a 2D-plane is drawn into the 3D-space based on the main shower 
+
+For each triggered telescope, a 2D-plane is drawn into the spatial 3D-space based on the main shower 
 axis and the telescope orientation. These planes intersect and 
 the weighted average of all intersections gives the 
-interaction point leading to the observed shower,
-see figure \ref{fig:hillas_reconstructor} (cite code or paper).
+interaction point leading to the observed shower.
+For a general illustration see figure \ref{fig:hillas_reconstructor}.
+
 Intersecting the main shower axes on the ground frame leads to 
 an estimation of the core position (the position where the 
 shower hits the ground).
+
 Together this can be used to reconstruct the shower origin.
-It is the default reconstruction algorithm inside ctapipe.
+Right now this is the default reconstruction algorithm inside ctapipe.
 The current implementation does not provide an 
 estimation for the uncertainty of the reconstructed parameters.
 
@@ -188,77 +204,84 @@ estimation for the uncertainty of the reconstructed parameters.
 	\centering
 	\includegraphics[width=0.6\textwidth]{images/hillas_reco.png}
 	\caption{Illustration of a stereoscopic reconstruction of the source position.
-    From each telescope a plane is drawn, the weighted intersection gives the interaction 
-    point somewhere above the telescopes. The intersection of the projection to 
-    the ground frame results in the core position (red circle). 
-    The image is taken from a (Habitilations??) thesis by 
-    Mathieu de Naurois \cite{hillas_reco}.}
+    From each telescope a plane is drawn, the direct intersection 
+    on the ground leads to the impact point ($core$, red circle).
+    The image is taken from a habilitation thesis by 
+    Mathieu de Naurois \cite{hillas_reco}.
+    Not included is the reconstruction of the main interaction point ($h_max$),
+    that could be obtained by calculating a weighted average of the plane
+    intersections.}
 	\label{fig:hillas_reconstructor}
 \end{figure}
 
 Since this method inherently requires a stereoscopic experiment
 and multiple triggered telescopes, it will not work for a single telescope.
-From earlier studies (see e.g. again \cite{kai_diss}), it is expected
+From geometric considerations, it is expected
 that this method works best with an event multiplicity 
 $\geq 3$ with higher multiplicity leading to better results.
 
 In total, this step leads to the following features on array level:
 \begin{itemize}
-    \item{alt, az: Reconstructed source position}
-    \item{core\_x, core\_y: Reconstructed core position on the ground}
-    \item{average\_intensity: Mean intensity over all triggered telescopes}
-    \item{h\_max: Reconstructed shower interaction height}
+    \item{$alt, az$: Reconstructed source position}
+    \item{$core\_x, core\_y$: Reconstructed core position on the ground}
+    \item{$average\_intensity$: Mean intensity over all triggered telescopes}
+    \item{$h\_max$: Reconstructed shower interaction height}
 \end{itemize}
 
 \section{High-Level Analysis}
 
 \begin{table}
-    \begin{center}
-        \begin{tabular}{| r | r | r | r |}
-            \hline
-            & Pointlike Gamma & Diffuse Gamma & Protons \\
-            \hline
-            MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
-            \hline
-            Array events & \num{955317} & \num{3409290} & \num{4657529} \\
-            \hline
-            Telescope events & \num{4554313} & \num{14383270} & \num{20106385} \\
-            \hline
-        \end{tabular}
-    \end{center}
     \caption{Number of remaining events for each simulated particle type after the
     preprocessing. These are the numbers that get split into different datasets 
     and used for the machine learning tasks.}
+    \begin{center}
+        \begin{tabular}{l r r r}
+            %\hline
+            & Pointlike Gamma & Diffuse Gamma & Protons \\
+            \hline
+            MC runs & \num{1113} & \num{17382} &  \num{9273} \\ 
+            %\hline
+            Array events & \num{955317} & \num{3409290} & \num{4657529} \\
+            %\hline
+            Telescope events & \num{4554313} & \num{14383270} & \num{20106385} \\
+            %\hline
+        \end{tabular}
+    \end{center}
     \label{tab:events_after_prep}
 \end{table}
 
 High level analysis of the preprocessed data is based on the use of
-the aict-tools \cite{aict-tools} package which itself 
+the aict-tools \cite{aict-tools} package which itself makes use of
 sklearn \cite{sklearn_api} for the implementation of the machine learning algorithms.
 The aict-tools have originally been developed for the FACT-experiment
-(citation needed) which is a single IACT. For this reason
+which is a single IACT. 
+For this reason
 adaptions had to be made compared to the status of the project at the start 
 of this thesis to perform a stereoscopic analysis.
+
 The algorithm of choice is the Random Forest algorithm
-as it is well suited for the use with tabluar data and tends to rarely overfit
-(citation needed).
+as it is well suited for the use with tabular data.
 Model feature importance will be calculated
 based on the sklearn functionality, which
-uses a XXX algorithm.
+uses the mean decrease impurity (See \cite{hastie2017springer} for a discussion on
+feature importance estimations.).
 Separate models are trained for the tasks of gamma/hadron
 separation and signal source position
 reconstruction.
 
-To separate the information in our models (rephrase!), the data gets split into mutiple dataframes.
+To achieve more robust models and avoid overfitting, the data gets split into mutiple dataframes.
 The gamma-/hadron-separation model and the DISP-/SIGN-models each get 
-40\% of the available diffuse gamma data. 20\% are left out
+40\% of the available diffuse gamma data for training. 20\% are left out
 as a test dataframe, that is completely unseen by the models during training.
 
-We only use 10\% of the proton events to have a roughly even class distribution while training 
-the gamma-/hadron-separation (see table \ref{tab_events_after_prep}).
-
-The pointlike gamma events are used to full extent as they are not used for the training,
+The pointlike gamma events are not used for the training of the models,
 but only to evaluate the models later.
+For this all available data gets used.
+
+We only use 30\% of the proton events to have a roughly even class distribution while training 
+the gamma-/hadron-separation model (see table \ref{tab:events_after_prep}).
+
+
 
 \subsection{Gamma-/Hadron-Separation}
 For the task of gamma/hadron separation a random forest can be trained
@@ -290,32 +313,14 @@ array-event.
 
 \subsection{Reconstruction of the Source Position}
 \label{sec:source_position}
-EXPLAIN THE BONUS FEATURES FOR THE MODELS!
 
 The position on the shower axis can be estimated based on 
 the hillas parameters and other image features, as 
-explained in section \ref{sec:??}
-This method is known as the DISP-method in the
-literature (citation needed). The general idea 
-can be seen in figure \ref{fig:disp}.
+explained in section \ref{sec:measuring}.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.6\linewidth]{Plots/hillas_complete.pdf}
-    \caption{Illustration of monoscopic source position reconstruction making use of 
-        the Hillas-Parameters and the DISP-method as explained in section \ref{sec:source_position}.
-        A source position is estimated as some point on the main shower axis.
-        In this example the head-/tail-ambiguation is guessed correctly.
-        The position in the sky frame can then be calculated by transforming this
-        point onto the sky plane.Pass das an zu 2 disps!}
-    \label{fig:disp}
-\end{figure}
-
-With the DISP-method the estimated distance between the source
-position and the center of gravity of the hillas ellipse gets calculated
-based on the form of the ellipse, timing information and potentially
-more features.
-This will be done using machine learning models.
+The calculation of the DISP is based on all the image-level
+features listed in \ref{sec:tel_analysis}.
+In this case this is done using machine learning models.
 At this point the reconstructed source position
 is fixed at two points at the main shower axis.
 
@@ -327,29 +332,27 @@ From FACT-analyses we know that accuracies of 70-80\% should be achievable
 if we make no mistakes \cite{some fact paper}.
 
 For the stereoskopic analysis, we employ an approach inspired by 
-what the MAGIC-collaboration does in their analysis.
+what the MAGIC-collaboration does in some of their analyses.
 In the case of the MAGIC-telescopes the ambiguity does not
 get resolved until the individual results get combined
 on the stereo level. The choice of the correct
 pair out of the four reconstructed positions can be done either
 by calculating the crossing point of both main shower axises
-or by calculating the pairwise distances between the positions \cite{magic disp paper}.
+or by calculating the pairwise distances between the positions \cite{ALEKSIC201676}.
 
-
-These methods are illustrated in figure \ref{fig:disp_magic}
+The method, where all four distances get calculated, is illustrated in figure \ref{fig:disp_magic}
 
 \begin{figure}
-    \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=0.9\linewidth]{Plots/hillas_raw.pdf} 
-        %\caption{Caption1}
-        \label{fig:3}
-    \end{subfigure}
-    \begin{subfigure}{0.5\textwidth}
-        \includegraphics[width=0.9\linewidth]{Plots/hillas_cleaned.pdf}
-        %\caption{Caption 2}
-        \label{fig:2}
-    \end{subfigure}
-    \caption{wrong pics}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/magic_stereo_disp.png}
+    \caption{Illustration of the stereoscopic DISP-reconstruction used in magic.
+        Two shower ellipses are drawn with the respective main shower axes as dashed lines
+        and the two disp predictions each marked as 1A, 1B, 2A, 2B.
+        The pairwise distances are displayed by the dotted lines.
+        The closest pair is 1B-2B, the resulting prediction lies in the middle of
+        the 2 points. The true source position is marked with a diamond.
+        The illustration has been taken from a study of the Crab Nebula with MAGIC,
+        showing the effect of extensive upgrades in 2011-2012 \cite{ALEKSIC201676}.}
     \label{fig:disp_magic}
 \end{figure}
 
@@ -358,10 +361,16 @@ we need to adapt this method in a scalable way.
 
 The most obvious approach seemed to be an iterative one:
 For each pair of triggered telescopes, we combine the results 
-in the way described in \cite{disp magic paper}.
-We cache all intermediate results and average them to get the final prediction.
-Taking the median of the pairwise predictions seemed to be superiour
-over the mean.
+in the way described above (In fact we forgo the part where events get discarded 
+if the minimum distance is too big. This is done to keep the same event count as 
+the HillasReconstructor to not accidentially create a bias in the dataset.)
+From our research it seemed to have no positive effect to weight
+the average of the two points based on common image features such as 
+the intensity or size.
+
+We then cache all intermediate results and average them to get the final prediction.
+In this case taking the median of the pairwise predictions seemed to be more robust
+than the mean, weighted or unweighted.
 
 Figure \ref{fig:stereo_disp} illustrates this for the case of 4 triggered telescopes.
 
@@ -381,22 +390,34 @@ Figure \ref{fig:stereo_disp} illustrates this for the case of 4 triggered telesc
         \includegraphics[width=0.8\linewidth]{Plots/stereo_magic_6.pdf} 
     \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=0.8\linewidth]{Plots/stereo_magic_6.pdf}
+        \includegraphics[width=0.8\linewidth]{Plots/stereo_magic_5.pdf}
         \includegraphics[width=0.8\linewidth]{Plots/stereo_magic_result.pdf}
     \end{subfigure}
-    \caption{Plots anpassen, skalieren, erklären. Plots höher/weniger breit machen, damit das layout passt?}
+    \caption{(Plots anpassen, sodass das etwa wie beim magic ding aussieht. GGf auch Größe und Layout)
+    Illustration of our iterative extension to the stereoscopic magic approach.
+    Four telescopes have triggered, leading to a total of eight individual DISP-predictions (top left).
+    For each pair of telescopes, the four predictoins get evaluated according to \cite{ALEKSIC201676}
+    without dismissing poor events based on the minimum distance.
+    This leads to 6 intermediate results, from which the median in
+    alt and az respectively grant the final prediction.}
     \label{fig:stereo_disp}
 \end{figure}
 
 For this method we do not need the information from the SIGN model at all.
-We will still train it and look at the results to compare them to 
-the monoscopic case later.
+We will still train it and look at the results of the monoscopic
+predictions to have a baseline for the LST-only analysis at the end of this thesis.
 
 
 \section{Analysis for a single LST}
-Inspired by the current status of CTA with only one LST operating and no MSTs or SSTs,
+Inspired by the current status of CTA with only one LST operating and no MSTs or SSTs
+on the north side just yet,
 we wanted to add a completely monoskopic analysis.
 
+This is in fact not a real monoscopic analysis and not performed on the north 
+side as well. It is merely meant to show that the DISp+SIGn approach works as
+expected for the monoscopic LST case.
+
+(MEHR TELESKOPE?? VOLLES MODELL? ALLGEMEIN ALLES NOCH ZIEMLICH WHACKY HIER)
 For this reason we chose a single telescope of the simulated data.
 Choosing multiple telescopes and treating them as independent events 
 would most likely be a valid option as well, although the 
