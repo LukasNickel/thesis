@@ -6,22 +6,20 @@ FEATURE IMPORTANCE FOR THE SIGN MODEL
 
 The random forests for the DISP- and SIGN-prediction get trained on
 XXX diffuse gamma events with a 3-fold cross-validation.
-The SIGN-model is not needed for this part, but can be useful as 
-a cross-check for the LST-mono analysis in section \ref{lst mono part}.
 
 The performance of the models can be gauged by looking at the 
 figures \ref{fig:disp_test_perf} for the cross-validated set and 
-\ref{fig:disp_test_perf} for the performance our 
+\ref{fig:disp_gamma_perf} for the performance our 
 pointlike data. Be aware that due to the chosen binning (constant bin width),
 the bins do not necessarily contain a comparable amount of events.
-This is especially relevant for the highest energy bins.
+This is especially relevant for the outermost bins.
+For this reason figures \ref{fig:disp_test_perf2} and \ref{fig:disp_gamma_perf2}
+show the same results with equally filled bins.
 
 In both cases we can see that the DISP-model gets rapidly more
 powerful with higher energies up until ~\SI{1}{\tera\electronvolt} from 
 where on the performance does not improve anymore and in fact seems to decline
-again. 
-
-For the diffuse test set, a dip around \SI{3}{\tera\electronvolt}
+again. For the diffuse test set, a dip around \SI{3}{\tera\electronvolt}
 up to \SI{70}{\tera\electronvolt} can be made out.
 This seems to be independent of the binning, as equally filled bins 
 do not change this behaviour, see figure \ref{fig:disp_test_perf_2}.
@@ -29,11 +27,13 @@ do not change this behaviour, see figure \ref{fig:disp_test_perf_2}.
 For pointlike gamma events the performance seems to decrease as well, but does not 
 recover at the highest energies.
 This effect is less prominent with equally filled bins for the pointlike
-gammas, see figure \ref{fig:disp_gamma_perf_2}.
+gammas, see figure \ref{fig:disp_gamma_perf_2}, indicating that the decreasing 
+performance might be related to low statistic in the training data.
+VIELLEICHT MAL LEAKAGE ANGUCKEN?  
 
-The SIGN-model does not saturate like this and improves pretty linear up until
-the highest energies. The optimal performance on diffuse events seems 
-to be capped earlier than on pointlike events.
+The SIGN-model does not saturate like this and improves up until the highest energies. 
+The optimal performance on diffuse events seems 
+to be capped whereas high energy pointlike gamma events can be classified almost perfectly.
 
 \begin{figure}
     \begin{subfigure}{0.45\textwidth}
@@ -44,7 +44,14 @@ to be capped earlier than on pointlike events.
         \includegraphics[width=0.9\linewidth]{../analysis/plots/disp_test_acc_equal_sized.pdf}
         \caption{SIGN-accuracy}
     \end{subfigure}
-    \caption{Performance of the DISP- and SIGN-estimation algorithm on the test-dataset.}
+    \caption{
+    	Performance of the DISP- and SIGN-estimation algorithm on the diffuse test-dataset.
+	The R2-score for the disp is very low up until $\approx \SI{100}{\giga\electronvolt}$
+	where it rapidly increases. From \SI{1}{\tera\electronvolt} onwards 
+	the performance stays constant besides a short dip of unknown origin 
+	in the range of \SI{5}{\tera\electronvolt} to \SI{50}{\tera\electronvolt}.
+	The DISPs model R2-score and the SIGNs model accuracy both seem to saturate
+	at $\approx\num{0.95}$ each.}
     \label{fig:disp_test_perf}
 \end{figure}
 
@@ -57,7 +64,13 @@ to be capped earlier than on pointlike events.
         \includegraphics[width=0.9\linewidth]{../analysis/plots/disp_gamma_acc_equal_sized.pdf}
         \caption{SIGN-accuracy}
     \end{subfigure}
-    \caption{Performance of the DISP- and SIGN-estimation algorithm on the pointlike dataset..}
+    \caption{
+	Performance of the DISP- and SIGN-estimation algorithm on the pointlike dataset.
+    	The R2-score of the DISP predictions shows a different form on pointlike
+	compared to diffuse gammas: The performance generally seems to be a bit better, 
+	with saturation closer to 1. The obscure dip is gone, but the highest energy bins
+	show a decreasing performance. The SIGN accuracy is worse in the lowest energy bins,
+	but is higher everywhere else. The highest energy bins come close to an accuracy of 1.}
     \label{fig:disp_gamma_perf}
 \end{figure}
 
@@ -70,7 +83,12 @@ to be capped earlier than on pointlike events.
         \includegraphics[width=0.9\linewidth]{../analysis/plots/disp_test_acc_equal_filled.pdf}
         \caption{SIGN-accuracy}
     \end{subfigure}
-    \caption{Performance of the DISP- and SIGN-estimation algorithm on the test-dataset.}
+    \caption{
+	Performance of the DISP- and SIGN-estimation algorithm on the test-dataset
+	with fixed number of events per bin. This mainly shows that there are very few
+	events below \SI{40}{\giga\electronvolt} and fewer events above \SI{30}{\tera\electronvolt}.
+	The general shape stays intact though and the R2-dip at high energies remains.}
+
     \label{fig:disp_test_perf_2}
 \end{figure}
 
@@ -83,33 +101,57 @@ to be capped earlier than on pointlike events.
         \includegraphics[width=0.9\linewidth]{../analysis/plots/disp_gamma_acc_equal_filled.pdf}
         \caption{SIGN-accuracy}
     \end{subfigure}
-    \caption{Performance of the DISP- and SIGN-estimation algorithm on the pointlike dataset..}
+    \caption{
+	Performance of the DISP- and SIGN-estimation algorithm on the pointlike dataset
+	with fixed number of events per bin. We can once again see that there are very few events below
+	\SI{30}{\giga\electronvolt} or above \SI{20}{\tera\electronvolt}.
+	Interestingly the decrease of the R2-score happens only in the 
+	highest energy bin, "stützen" the hypothesis, that low statistic faults the model here.
+    	}
     \label{fig:disp_gamma_perf_2}
 \end{figure}
 
 
 Having a look at figure \ref{fig:disp_features} we can learn that 
-the stereoscopic features "$distance_to_reconstructed_core_position$"
+the stereoscopic features "$distance\_to\_reconstructed\_core\_position$"
 and $h_max$ have a high influence on the DISP-prediction.
 Apart from that the most influence seems to come from the constructed 
 feature log\_size\_area, which roughly describes how much light per 
 area hit the camera. The timing parameters seem to provide information as 
 well. The model also learns on the features focal\_length,  
 camera\_type\_id and telescope\_type\_id. This is expected 
-behaviour as we have different types of telescopes in the datasets.
+behaviour as we have different types of telescopes in the datasets that
+need to be separated in order to provide meaningful estimations.
+
+The feature importances for the SIGN model can be seen in figure \ref{fig:sign_features}.
+EXPLAIN WHAT WE SEE HERE
+
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\textwidth]{../analysis/plots/disp_features.pdf}
-	\caption{disp features}
+	\caption{
+	    Feature importance of the random forest for the DISP model.
+	    The added stereoscopic features have high influence on the prediction.
+    	    From the monoscopic features the specifically constructed feature
+    	    $log\_size\_area$ seems to include the most information.}
 	\label{fig:disp_features}
 \end{figure}
 
-The final results can be seen in figure \ref{fig:sens_telescope}.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.8\textwidth]{../analysis/plots/disp_features.pdf}
+	\caption{add sign plot}
+	\label{fig:sign_features}
+\end{figure}
+
+
+The error of the resulting source position reconstruction 
+can be seen in figure \ref{fig:sens_telescope}.
 One can derive - in accordance to the previously discussed metrics - 
 that the DISP-prediction improves with increasing energies and there are less
 missclassified SiGNs at higher energies.
-We can also see the saturated DISP-performance at \SI{1}{\tera\electronvolt}.
+We can also seei how the DISP-performance saturates at $\approx \SI{1}{\tera\electronvolt}$.
 
 \begin{figure}
     \centering
@@ -126,7 +168,7 @@ We can also see the saturated DISP-performance at \SI{1}{\tera\electronvolt}.
 
 
 \subsection{Analysis for the stereoscopic array}
-MEDIAN NUTZT SIGN -> VORHER KORRIGIEREN UND HIER ERWÄHNEN
+MEDIAN NUTZT SIGN -> VORHER KORRIGIEREN UND HIER ERWÄHNEN (IST DAS SO?)
 
 As a baseline comparison we compare the median DISP-prediction 
 with the results obtained with the Hillas-reconstructor.
@@ -134,14 +176,14 @@ Choosing the median should get rid of some misclassification
 problems as events with more correctly than incorrectly 
 predicted SIGNs will lead to decent predictions.
 These results can be seen in figure \ref{fig:stereo_double_median}
-with the 68\% containment of the HillasReconstructor in green 
-and the median predictions in blue.
+with the 68\% containment of the HillasReconstructor results in green 
+and of the median predictions in blue.
 The 2d-histogram in the back refers to the median DISP-predictions,
 the HillasReconstructor predictoins are not shown (other than the blue line).
 
 At each energy the Hillas-reconstructor performs considerably better.
 One can see that the median predictions do not improve considerably after
-\SI{3}{\tera\electronvolt} and gets worse after \SI{20}{\tera\electronvolt}.
+\SI{3}{\tera\electronvolt} and get worse after \SI{20}{\tera\electronvolt}.
 The Hillas-reconstructor shows a similar bump at the highest energies.
 Due to the low statistics in these regions we can not really tell 
 if this shows the limitations of the telescopes sensitivity range 
