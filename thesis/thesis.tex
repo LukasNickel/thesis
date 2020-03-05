@@ -32,11 +32,11 @@
 \defaultfontfeatures{Ligatures=TeX}  % -- becomes en-dash etc.
 
 % german language
-\usepackage{polyglossia}
-\setdefaultlanguage{english}
+\usepackage[main=english, ngerman]{babel}
+%\setdefaultlanguage{english}
 
 % for english abstract and english titles in the toc
-\setotherlanguages{german}
+%\setotherlanguages{german}
 
 % intelligent quotation marks, language and nesting sensitive
 \usepackage[autostyle]{csquotes}
@@ -74,6 +74,7 @@
   locale=DE,
   separate-uncertainty=true,
   per-mode=symbol-or-fraction,
+  binary-units=true,
 ]{siunitx}
 \sisetup{math-micro=\text{µ},text-micro=µ}
 
@@ -116,25 +117,24 @@
   autolang=hyphen, % load hyphenation rules for if language of bibentry is not
                    % german, has to be loaded with \setotherlanguages
                    % in the references.bib use langid={en} for english sources
-  sorting=none,
+  %sorting=none,
+  style=numeric,
 ]{biblatex}
 \addbibresource{references.bib}  % the bib file to use
 \DefineBibliographyStrings{german}{andothers = {{et\,al\adddot}}}  % replace u.a. with et al.
-
 
 % Last packages, do not change order or insert new packages after these ones
 \usepackage[pdfusetitle, unicode, linkbordercolor=tugreen]{hyperref}
 \usepackage{bookmark}
 \usepackage[shortcuts]{extdash}
-\usepackage{ulem}
-\DeclareRobustCommand{\hsout}[1]{\texorpdfstring{\sout{#1}}{#1}}
+
 %------------------------------------------------------------------------------
 %-------------------------    Angaben zur Arbeit   ----------------------------
 %------------------------------------------------------------------------------
 
 \author{Lukas Nickel}
 \title{Stereo Reconstruction for the Early Days of CTA}
-\date{2019}
+\date{\today}
 \birthplace{Bielefeld}
 \chair{Chair for Experimental Physics V}
 \division{Faculty of Physics}
@@ -167,13 +167,18 @@
 \input{content/06_position.tex}
 \input{content/08_conclusion.tex}
 
-%\appendix
+
+\newpage
+\appendix
 % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
-%\input{content/template/a_anhang.tex}
+\input{content/appendix.tex}
+
 
 \backmatter
 \printbibliography
 
-\cleardoublepage
-\input{content/eid_versicherung.tex}
+
+
+% \cleardoublepage
+% \input{content/eid_versicherung.tex}
 \end{document}

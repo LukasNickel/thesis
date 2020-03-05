@@ -6,7 +6,7 @@
 In the time between the discovery of cosmic radiation by Victor Hess
 and today there have been various different attempts to investigate its origins.
 Experiments have been conducted in various forms like Cherenkov telescopes, scintillator 
-arrays and satellites.
+arrays and satelites.
 
 To understand the motivation behind CTA, 
 we will focus on the ground-based 
@@ -22,11 +22,11 @@ concepts to modern experiments.
 \label{sec:1stgen_iact}
 The first generation of Cherenkov telescopes 
 lacked any kind of imaging as is present in all of the bigger new experiments.
-Instead they initially consisted of a single mirror with a single photo multiplier on top.
+Instead they initially consisted of a single mirror with a single photomultiplier on top.
 One of the earliest attempts to catch the cherenkov light emitted by cosmic rays 
 was by Galbraith and Jelley in 1953 \cite{1953Natur.171..349G}, who found very few pulses
 above background level with their experiment consisting of a very simple 
-telescope and an array of Geiger-Müller counters used for coincidence measurements.
+telescope and an array of Geiger-Müller counters used for conincidence measurements.
 
 A more sophisticated approach was later taken with the Whipple telescope \cite{whipple1968}:
 It consisted of 252 small mirrors providing a large detector area and operated between 
@@ -38,8 +38,8 @@ and used the telescope to test new hardware and upgrades.
 
 
 \subsection{The second generation}
-To research the effectiveness of the "imaging approach", in 1982 the groups around Fegan and Weekes
-installed an imager consisting of 37 photo multipliers at the no longer used Whipple telescope.
+To research the efectiveness of the "imaging approach", in 1982 the groups around Fegan and Weekes
+installed an imager consisting of 37 photomultipliers at the no longer used Whipple telescope.
 This later got replaced by a more capable 109-pixel camera that can be seen in figure \ref{fig:whipple_cam}.
 
 \begin{figure}
@@ -152,8 +152,8 @@ The old and new layout can be seen in figure \ref{fig:veritas_relocation}.
 		highlighted for the old(blue) and the new(red) array.
 		In the old setup the telescopes T1, T2 and T3 were too closely
 		located, making their measurements redundant.
-	 	The image is taken from an official paper, that investigates
-		the improved performance gained by relocating the telescope \cite{2009arXiv0912.3841P}.}
+	 	The image is taken from an official paper, that invesitigates
+		the imprvoed performance gained by relocating the telescope \cite{2009arXiv0912.3841P}.}
 	\label{fig:veritas_relocation}
 \end{figure}
 
@@ -174,7 +174,7 @@ the Large Sized Telescope (LST, \SI{23}{\meter}),
 the Medium Sized Telescope (MST, \SI{12}{\meter}) 
 and the Small Sized Telescope (SST, \SI{4.3}{\meter}).
 
-Extensive Monte Carlo simulations have been performed to find optimal array arrangements
+Extensive monte carlo simulations have been performed to find optimal array arrangements
 \cite{BERNLOHR2013171}.
 
 The currently planned layouts at LaPalma and in Namibia are shown in 
@@ -227,9 +227,9 @@ The first LST has been inaugurated at the 10 October 2018 in La Palme \cite{lst_
 
 \subsection{MST}
 
-The Medium-Sized Telescopes (MST) are primarily going to look at the 
+The Medium-Sized Telescopes (MST) are primarly going to look at the 
 energy range from \SI{150}{\giga\electronvolt} to \SI{5}{\tera\electronvolt}.
-A total of 15 telescopes on the north site and 25 telescopes at the south site 
+A total of 15 telescopes on the north site and 25 teelscopes at the south site 
 are going to be the backbones of CTA.
 Two camera designs are being tested for the MST:
 The 1764 pixel FlashCam and the 1855 pixel NectarCam \cite{cta_web}.

@@ -13,10 +13,10 @@ there are still many questions about the structure of the universe, that we do n
 answer for yet.
 Some of the prominent ones are (see \cite{funcray} for more details):
 \begin{itemize}
-    \item{How does the space between galaxies look like? 
+    \item{How does the space between galaxis look like? 
 		Most of the known $\gamma$-ray sources are active galactic nuclei. 
 		Knowing their properties allows to put constrains on the properties of
-		intergalactic photon radiation and magnetic fields.}
+		intergalacitc photon radiation and magnetic fields.}
     \item{Which particles form the dark matter and how do they interact? 
 		We should be able to detect dark matter annihilation by their emitted $\gamma$-rays.}
     \item{How exactly do relativistic outflows form in black holes?
@@ -24,12 +24,12 @@ Some of the prominent ones are (see \cite{funcray} for more details):
 		jets is still unknown.}
     \item{By which processes and sources do cosmic rays get accelerated to the highest energies?
 		Both the spectrum and acceleration mechanisms are still not completely known to this date.
-		Also its hard to impossible to attribute cosmic rays to their sources due to their
+		Alos its hard to impossible to attribute cosmis rays to their sources due to their
 		nature of being charged particles.}
 \end{itemize}
 
 Nowadays there exists a wide range of experiments trying to
-solve these questions, not all focused on 
+solve these questions, not all focussed on 
 $\gamma$-ray physics.
 In fact they look on different particles and detection
 mechanisms to detect
@@ -41,7 +41,7 @@ of the emergence
 of astroparticle physics and explain the key differences between 
 the different observable messenger particles.
 We will then focus at the 
-most influential IACT experiments to motivate the construction of 
+most influencal IACT experiments to motivate the construction of 
 the Cherenkov Telescope Array and explain the key aspects of
 the experiment.
 
@@ -56,11 +56,11 @@ depended on the pressure of the surrounding air
 This lead to the insight that the air must be ionized, but an 
 explanation was not yet available.
 
-A step towards the solution of this mystery was the discovery 
+A step towards the solution of this mistery was the discovery 
 of radioactivity by Henri Becquerel in 1896 
 \cite{becquerel1903radioactivity}
 and the following studies of Marie and Pierre Curie, 
-that awarded all three of them the Nobel prize \cite{nobel_curie}
+that awarded all three of them the nobel prize \cite{nobel_curie}
 
 With experimental improvements, quantitative measurements
 of the spontaneous discharge became possible.
@@ -71,7 +71,7 @@ results independently
 \cite{doi:10.1098/rspl.1901.0032}.
 In their experiments the electroscope was insulated into a closed vessel.
 With these measurements it became evident that the source 
-of the ionized particles was indeed outside of the vessel.
+of the ionised particles was indeed outside of the vessel.
 The obvious explanation seemed to be that the surrounding material 
 emitted radioactivity.
 Although Wilson proposed a penetrating extraterrestrial radiation, 
@@ -87,12 +87,12 @@ To test these hypotheses, the following years included many experiments
 above or under sea level to measure if the radiation strength changes.
 
 In 1909 Theodor Wulff measured the radiation on top of the 
-Eiffel tower in Paris
+eiffel tower in paris
 \cite{horandel2013early}.
 Assuming that most radiation came from the 
 earth crust, the decrease was less than expected.
 
-Several balloon flights 
+Several ballon flights 
 of different physicists (for a contemporary overview of the field see e.g. \cite{luftelektrizitaet})
 and underwater experiments of Domenico Pacini in 1910 
 \cite{2011arXiv1101.3015P}
@@ -100,7 +100,7 @@ lead to the conclusion that most of the radiation must indeed be
 of extraterrestrial origin, which was not immediately accepted 
 in the community though \cite{bookap}.
 
-Evidence came with the extended balloon flights of Victor Hess
+Evidence came with the extended ballon flights of Victor Hess
 \cite{Hess:1912srp}:
 Not only was the intensity decrease with higher altitude not 
 matching the expectations, but at a certain point at around 
@@ -133,7 +133,7 @@ The remaining puzzles towards astroparticle and $\gamma$-ray
 astronomy were solved with the discovery of antimatter in a cloud chamber
 by Carl D. Anderson in 1933 \cite{PhysRev.43.491}
 and the discovery of air showers by detecting coincident 
-events in separated Geiger-müller tubes by 
+events in separated geiger-müller tubes by 
 Bruno Rossi in 1934
 \cite{PhysRev.45.212}
 and their later description by
@@ -176,7 +176,7 @@ a brief look at the different messenger particles.
 	\centering
 	\includegraphics[width=.6\textwidth]{images/astro-web-titel.jpg}
 	\label{fig:multi_messenger}
-	\caption{Visualization of the behaviors of different messengers
+	\caption{Visualisation of the behaviours of different messengers
 		particles in modern astronomy.
 		Photons and neutrinos travel the universe without deflection,
 		because they do not carry an electric charge.
@@ -195,7 +195,7 @@ a brief look at the different messenger particles.
 
 
 \subsection{Charged cosmic rays}
-The term charged cosmic rays summates all types of charged particles from
+The term charged cosmic rays summarizes all types of charged particles from
 extra terrestrial sources with the main proportion being protons
 \cite{Dembinski:2017zsh}.
 
@@ -229,7 +229,7 @@ The (first) knee could be explained by the assumption that the galactic sources
 reach their maximum energy at around that energy and the higher energy rays
 are mostly produced by extragalactical sources \cite{pdg19}.
 Other explanations assume the knee to not be an intrinsic property of the acceleration process,
-but to form during the propagation either thoughout the galaxy or
+but to form during the propagation either throughout the galaxy or
 inside the atmosphere (For a more detailed look at different 
 theoretical models have a look
 at \cite{HORANDEL2004241}).
@@ -252,13 +252,13 @@ stochastic scattering with a (partially ionized) moving gas cloud.
 Because the gas cloud has a much higher effective mass than the particle and
 includes non constant magnetic fields, it acts as magnetic mirrors.
 The particle would gain energy with each scattering until it breaks free from the 
-gas cloud. This is nowadays referenced to as the second-order Fermi mechanism, 
+gas cloud. This is nowadays referenced to as the second-order fermi mechanism, 
 because the energy gain is proportional to $\beta^2$, with $\beta$
 the velocity of the gas cloud and $\beta \ll 1$.
 
 This however is not enough to accelerate particles to the observed energies.
 An acceleration linear in $\beta$ can be explained through a model called
-Diffuse Schock Acceleration (DSA), also referenced as first-order
+Diffuse Shock Acceleration (DSA), also referenced as first-order
 Fermi mechanism.
 
 This requires a gas cloud where the gas directions are highly correlated,
@@ -301,7 +301,7 @@ The first-order Fermi mechanism leads to a exponential energy spectrum
 with$\Gamma \approx 2$.
 This primary energy spectrum gets modified further during the particles 
 journey from the galactic sources to the earth.
-Since particles with a higher energy have a higher probability to escape 
+Since particles with a higher energy have a higher propability to escape 
 from the Galaxy, the spectrum gets steeper:
 \begin{equation}
 	\frac{dN}{dE} \propto \left(\frac{E}{E_0}\right)^{-\Gamma-\delta}
@@ -314,10 +314,6 @@ finding values of \num{0.234} and \num{0.86}, depending on the model.
 With this model, energies up to the first ankle can be explained.
 Higher energy particles are sometimes assumed to be of extragalactical origin
 \cite{Baring:1997ka}.
-
-Cosmic rays get researched by a lot of different experiments,
-also with IACTs. 
-(Hier mehr schreiben?)
 
 
 \subsection{Gamma-radiation}
@@ -347,7 +343,7 @@ can be seen in figure \ref{fig:em_spectrum}.
 
 Creation of high-energy gamma-rays is due to a lot of 
 different processes. Among these we want to give a brief 
-overview of two important processes, focusing on 
+overview of two important processes, focussing on 
 photon emission from an initial pure electron distribution.
 Depending on the studied case other emission factors 
 might play important roles as well, such as 
@@ -370,8 +366,8 @@ equation \ref{eq:synchroton}
 \end{equation}
 
 Hereby $M_P$ and $E_P$ denote the accelerated particle's 
-mass and energy respectively. With the inverse mass dependency 
-it is immediately evident that 
+mass and energy respectively. With the inverse mass dependencey 
+it is immedialy evident that 
 synchroton radiation plays a major role in leptonic 
 emission and much less in hadronic emission.
 
@@ -467,8 +463,11 @@ is shown in figure \ref{fig:icecube}.
 	\includegraphics[width=0.8\textwidth]{images/icecube.png}
 	\caption{icecube illustration, cite that \cite{Abbasi:2008aa}}
 	\label{fig:icecube}
-\endrvation.
-They are a direct result from general relativity and occur
+\end{figure}
+
+\subsection{Gravitational waves}
+Gravitational waves are the newest channel available for observation.
+They are a direkt result from general relativity and occur
 at certain constellations of very high masses, such as 
 merging black holes.
 
@@ -527,8 +526,8 @@ most of their energy by radiation, leading to a photon with
 an energy close to the electron energy.
 
 Only at lower particle energies other interaction forms show their impact,
-with particle scattering and ionization 
-leading to more continuous energy losses.
+with particle scattering and ionisation 
+leading to more continous energy losses.
 
 These assumptions lead to the most basic model of an 
 electromagnetic shower, proposed by Bhabha and Heitler in 1937
@@ -541,15 +540,15 @@ The photon produces a pair of $e^-$ and $e^+$ in the first epoch.
 Because of the high energies at play, the direction of these secondary 
 particles does not deviate significantly from the photons direction, 
 making the problem essentially one-dimensional.
-The $e^+/e^-$ continue on to radiate a photon each and the cycle continues.
+The $e^+/e^-$ continue on to radiate a photon each and the cyle continues.
 Each step doubles the number of particles in the shower with each particle 
 on average getting half the energy of its parent particle.
 These processes continue until the energy of the $e^+/e^-$ becomes low enough for
-continuous ionization processes to become relevant.
+continous ionisation processes to become relevant.
 At this point the particle is considered to be stopped and the shower
 does not evolve further.
 
-Today Monte Carlo calculations get used to simulate the properties 
+Today monte carlo calculations get used to simulate the properties 
 of particle showers in the atmosphere.
 The most common software to model the atmospheric interactions is
 CORSIKA \cite{Engel:2018akg}.
@@ -587,7 +586,7 @@ These lead to non-negligible additional energy losses
 and the creation of secondary hadronic particles.
 
 Approximations are more difficult to do and simulations 
-become the only way to reasonably calculate shower behavior.
+become the only way to reasonably calculate shower behaviour.
 
 At the end of the shower a relevant portion of the particles have decayed into the 
 lightest hadronic particles, pions ($\pi^0, \pi^+, \pi^-$), of which the neutral pions 
@@ -651,7 +650,7 @@ setup.
 	A $\gamma$-ray produces an air shower in the atmosphere
 	that points roughly towards the telescopes.
 	Cherenkov light from the air shower 
-	hits the mirrors and gets focused into a camera mounted on top.
+	hits the mirrors and gets focussed into a camera mounted on top.
 	An illustration of the resulting image after integrating 
 	\SI{10}{\nano\second} of the pixel measurements at the time the shower 
 	was detected
@@ -753,8 +752,8 @@ A representation of different shower types can be seen in figure \ref{fig:compar
 	form multiple clusters in the camera.
 	Muons often times produce ring-like images in the camera (WHY?).
 	Background noise can take any form, but is usually constrained to small
-	areas as the pixel values are mostly random and uncorrelated.
-	One can derive that the description of the image shower as ellipse
+	areas as the pixel values are mostly random and uncorellated.
+	One can derive that the descrption of the image shower as ellipse
 	works best for gamma showers.
 	The image is taken from an introduction lecture by Albrecht Karle \cite{icecube_showers}.}
 	\label{fig:compare_showers}
@@ -802,5 +801,4 @@ multiple telescopes, as can be seen in figure \ref{fig:stereo_shower}.
 	    The image is taken from \cite{2015arXiv151005675H}.}
 	\label{fig:stereo_shower}
 \end{figure}
-
 

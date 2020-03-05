@@ -1,21 +1,21 @@
-\chapter{Machine Learning Basics}
+\chapter{Machine Learning Foundations}
 \label{ml}
 
 CTA, much like every other big experiment in (astro-)particle physics,
 is going to produce enormous amounts of data.
 Depending on the number of installed telescopes, multiple
-\si{\peta\byte} per year are expected to be saved
+\si{\peta\byte} per year are expected to be saved 
 on disk and tape \cite{lamanna2015cherenkov}.
 
 Given these enormous amounts of data, it comes as no surprise that
-various data reduction techniques need to get applied in
+various data reduction techniques need to get applied in 
 order to reduce data size.
 Multiple machine learning models have proven to be
-quite successful in solving classification and
-regression problems
+quite sucessfull in solving classification and
+regression problems 
 \cite{bigdata_astronomy}.
 
-This thesis focuses on using random forests to
+This thesis focusses on using random forests to
 perform gamma/hadron separation
 and estimation of the source position.
 To understand how these algorithms work, we will
@@ -24,17 +24,16 @@ of the necessary machine learning concepts.
 
 \section{Supervised learning}
 In the task of supervised machine learning a model is trained on a
-dataset with full information available.
-This data will come from Monte Carlo simulations in our case, but in other contexts
-could also be e.g. historical or hand labeled datasets.
+dataset, which we define as having a number of samples with a fixed number of 
+variables (features) each, with full information available.
+This data will come from monte carlo simulations in our case, but in other contexts 
+could also be e.g. historical or handlabeled datasets.
 The trained model can then later be used to estimate features on a dataset, which
 lacks the needed information.
 
-We define a dataset as having a number of samples with a fixed number of
-variables (features) each.
 In the following we split
 the features of our dataset into a set of \textbf{input} variables $X$ and
-a set of \textbf{output} variables $y$.
+a set of \textbf{output} variables $y$. 
 A model generally takes $X$ and predicts $y$.
 
 The naming convention for
@@ -48,11 +47,11 @@ responses or dependent variables for the output.
 
 
 \subsection{Classification}
-In (supervised) classification tasks, we want to predict of which of some
+In (supervised) classification tasks, we want to predict of which of some 
 predefined classes the given sample is a member. The possible solutions for $y$
-are from a discrete set of values in
-contrast to a regression problem with a continuous solution space.
-A model that performs classification on data is sometimes referred to as a
+are from a discrete set of values in 
+contrast to a regression problem with a continous solution space.
+A model that performs classification on data is sometimes referred to as
 classifier.
 
 The simplest and most popular case of classification problems
@@ -60,81 +59,69 @@ is \textbf{binary classification} \cite{sokolova2009systematic}.
 In this case only two distinct
 classes exist, which fortunately is all we will need for
 our signal/background-separation.
-A common example for a classification problem is an Email spam filter,
+A common example for a classification problem is an e-mail spam filter,
 where mails get categorized in at least two categories based
 on their content and meta data \cite{DBLP:journals/corr/cs-CL-0006013}.
 
 For binary classification we can define a set of measures
-to define the quality of our prediction, starting with the confusion matrix
-shown in table \ref{tab:confusion}
+to define the quality of our prediction, starting with the confusion matrix.
 These follow the notation and description of
 Sokolova and Lapalme \cite{sokolova2009systematic},
 with $pos$ referring to the true label of the positive (i.e. signal)
 and $neg$ referring to the label of the negative (i.e. background) class.
 
-\begin{table}
-    \caption{Definition of a confusion matrix for binary classification.
-    The main diagonal includes the correct predictions, wrong predictions are on the off diagonal.}
-    \begin{center}
-        \begin{tabular}{ l| l l}
-            %\hline
-            {} & Predicted as $pos$ & Predicted as $neg$ \\
-            \hline
-            $pos$ & true positive ($tp$) & false negative ($fn$) \\
-            %\hline
-            $neg$ & false positive ($fp$) & true negative ($tn$) \\
-            %\hline
-        \end{tabular}
-    \end{center}
+\begin{center}
+    \begin{tabular}{ l| l l}
+    %\hline
+    {} & Predicted as $pos$ & Predicted as $neg$ \\
+    \hline
+    $pos$ & true positive ($tp$) & false negative ($fn$) \\ 
+    %\hline
+    $neg$ & false positive ($fp$) & true negative ($tn$) \\
+    %\hline
+    \end{tabular}
+    %\caption{Confusion matrix for a binary classification task with
+    %the two labels $pos$ and $neg$.}
     \label{tab:confusion}
-\end{table}
+\end{center}
 
 An ideal classification would result in
 \begin{equation*}
   fp = fn = 0.
 \end{equation*}
 
-Based on the confusion matrix, multiple measures
+Based on the confusion matrix, multiple measures 
 can be constructed to examine the classifiers performance.
-Some of the more common ones are listed in table \ref{tab:class_metrics}.
+Some of the more common ones include:
 
-\begin{table}
-    \caption{Popular metrics for binary classification tasks.}
-    \begin{center}
-        %\caption{
-         % Common metrics for classification tasks, taken from \cite{sokolova2009systematic}.}
-        \begin{tabularx}{\textwidth}{l c X}
-            %\hline
-            Measure & Formula & Interpretation \\
-            \hline
-            Accuracy & $\frac{tp+tn}{tp+fn+fp+tn}$ & Overall effectiveness of a classifier \\
-            %\hline
-            Precision & $\frac{tp}{tp+fp}$ & Class agreement with the positive labels given by the classifier \\
-            %\hline
-            Recall/Sensitivity & $\frac{tp}{tp+fn}$ & Effectiveness of a classifier to identify positive labels \\
-            %\hline
-            F$_{\beta}$-score & $\frac{(\beta^2+1)tp}{(\beta^2+1)tp+\beta^2fn+fp}$ & Harmonic mean between precision and recall with choosable $\beta$ \\
-            %\hline
-            Specificity & $\frac{tn}{fp+tn}$ & How effectively a classifier identifies negative labels \\
-            %\hline
-            Balanced Accuracy & $\frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn})$ & Classifier’s ability to avoid false classification \\
-        %\hline
-        \end{tabularx}
-        %\caption{Overview of common metrics for classification tasks based on the
-        %intermediate metrics shown in table \ref{tab:confusion}}
-    \end{center}
-\end{table}
+\begin{center}
+    %\caption{
+     % Common metrics for classification tasks, taken from \cite{sokolova2009systematic}.}
+    \begin{tabularx}{\textwidth}{l c X}
+    %\hline
+    Measure & Formula & Evaluation Focus \\ 
+    \hline
+    Accuracy & $\frac{tp+tn}{tp+fn+fp+tn}$ & Overall effectiveness of a classifier \\ 
+    %\hline
+    Precision & $\frac{tp}{tp+fp}$ & Class agreement with the positive labels given by the classifier \\
+    %\hline
+    Recall/Sensitivity & $\frac{tp}{tp+fn}$ & Effectiveness of a classifier to identify positive labels \\
+    %\hline
+    F-score & $\frac{(\beta^2+1)tp}{(\beta^2+1)tp+\beta^2fn+fp}$ & Harmonic mean between precision and recall with choosable $\beta$ \\
+    %\hline
+    Specificity & $\frac{tn}{fp+tn}$ & How effectively a classifier identifies negative labels \\ 
+    %\hline
+    Balanced Accuracy & $\frac{1}{2}(\frac{tp}{tp+fn}+\frac{tn}{fp+tn})$ & Classifier’s ability to avoid false classification \\ 
+    %\hline
+    \end{tabularx}
+    %\caption{Overview of common metrics for classification tasks based on the 
+    %intermediate metrics shown in table \ref{tab:confusion}}
+\end{center}
 
-We will make use of the precision, recall and F-score with varying classifier thresholds later.
-Additionally we will measure the Area Under the Curve (AUC) with regard to the Receiver Operating Characteristic (ROC) curve.
-The ROC-curve is gained by plotting the true positive rate against the false positive rate while varying the classifier threshold.
-The area under the (normalised) ROC-curve is thus a measure for whether the classifier will
-rank a randomly chosen positive sample higher than a randomly chosen negative sample \cite{FAWCETT2006861}.
-
-\subsection{Regression}
-Regression is the task of predicting a continuous variable
+\subsection{Regression (Naming convention anpassen-> X/y als Input/Output, Formeln für Metriken tabellarisch hinzufügen wie bei classification)}
+Regression is the task of predicting a continous variable
 from a set of input variables.
-The simplest approach
+The simplest approach 
 to this problem is the ordinary linear least squares method.
 
 Given an unrestricted linear model
@@ -144,9 +131,9 @@ Given an unrestricted linear model
 	Cov(y) &= \sigma^2 I_n
 \end{align}
 with a measured vector $y$, the design matrix $X$,
-an unknown parameter vector $\beta$, a random error $e$
+an unknown parameter vector $\beta$, a random error $e$ 
 and pairwise orthogonal features $y_i$,
-the least-squares solution is given by the solution of
+the least-squares solution is given by the solution of 
 the minimizing problem in equation \ref{eq:min_least_squares}.
 
 \begin{equation}
@@ -154,49 +141,22 @@ the minimizing problem in equation \ref{eq:min_least_squares}.
 	\label{eq:min_least_squares}
 \end{equation}
 
-If $(X^TX)^{-1}$ exists, the unique solution for the
+If $(X^TX)^{-1}$ exists, the unique solution for the 
 least square estimation of $\beta$ becomes:
 \begin{equation}
-	\hat{\beta} = X^+ y,
-\end{equation}
-
-with the Moore-Penrose inverse $X^+ = (X^TX)^{-1}X^T$.
-The estimation of $y$ then becomes:
-\begin{equation}
-  \hat{y} = X\hat{\beta}.
+	\hat{\beta} = (X^TX)^{-1}X^T y.
 \end{equation}
 
 The metric, that is minimized by the least-squares solution
 is the Mean Squared Error (MSE).
-
 Other metrics for regression tasks include the
 Root-Mean-Squared-Error(RMSE),
 Mean-Absolute-Error(MAE)
-or the Coefficient of Determination ($R^2$), all of which are listed in table
-\ref{tab:regr_metrics}.
+or the Coefficient of Determination ($R^2$).
 
-\begin{table}
-  \caption{Popular simple metrics for a regression problem with $n$ samples.}
-  \begin{center}
-    \begin{tabularx}{\textwidth}{l c X}
-      Measure & Formula & Interpretation \\
-      \hline
-      Mean squared error & $\frac{1}{n}\sum_i^n |y_i-\hat{y_i}|$ & Prediction error disregarding the direction of over- and underprediction \\
-      Mean absolute error & $\frac{1}{n}\sum_i^n (y_i-\hat{y_i})^2$ & For an unbiased predictor: Variance of the regressor. Heavily weights outliers. \\
-      Coefficent of Determination & $1 - \frac{\sum_i^n (\bar{y_i}-\bar{y})^2}{\sum_i^n (y_i-\bar{y})^2}$ & Share of observed variance that is explained by the model.\\
-    \end{tabularx}
-  \end{center}
-\end{table}
-
-Many metrics closely connected to these metrics exist, such as root mean squared error (RMSE)
-or the mean absolute percentage error (MAPE).
-Our analysis will be based on the use of the MSE.
-
-\iffalse
-% nicht mehr nötig, da keine Energieregression?
 \subsection{Bias and Variance}
 Bias und Varianz erklären!
-\fi
+
 
 \section{Decision Trees and Random Forests}
 Methods based on Decision Trees work by recursively partitioning
@@ -207,7 +167,7 @@ Forest methods combine multiple tree predictors to get more stable
 predictions.
 
 \subsection{Decision trees, parameter estimation, gini?}
-A simple (binary) decision tree
+A simple decision tree
 for an example classification on the iris dataset
 is shown in figure \ref{fig:03_tree}.
 
@@ -215,17 +175,17 @@ is shown in figure \ref{fig:03_tree}.
   \centering
   \includegraphics[width=0.7\textwidth]{Plots/decision_tree.pdf}
   \caption{A very simple decision tree for demonstrational purposes.
-      The dataset in use is the famous iris dataset that includes
-      measurements of the petal and sepal width and length
+      The dataset in use is the famous iris dataset, that includes
+      measurements of the petal and sepal width and length 
       for three different flower classes \cite{fisher1936use}.
-      Each node lists (from top to bottom): The cut that will
-      be applied with the samples fulfilling the condition going
+      Each node lists (from top to bottom): First the cut that will
+      be applied with the samples fulfulling the condition going 
       into the left node and the remaining samples in the right node.
-      The gini coefficient evaluated on the associated samples.
+      Second the gini coefficient evaluated on the associated samples.
       Once it reaches zero, no further splits are performed.
-      The number of samples that ended up in the node and last the
-      class distribution in the samples.
-      One can derive that the first class can immediately be separated from
+      Third the number of samples that ended up in the node and last the
+      class distibution in the samples.
+      One can derive, that the first class can immediately be seperated from
       the other two classes (left node, first split), while the other two classes
       are harder to separate and require multiple cuts for a perfect separation.}
   \label{fig:03_tree}
@@ -249,30 +209,15 @@ Both are defined in equation \ref{eq:gini_ce}
   \label{eq:gini_ce}
 \end{align}
 
-with $p_{mk}$ denoting the proportion of class $k$ in node $m$.
+with BUCHSTABEN ERKLÄREN UND MIT UNTEN BEI CART ABGLEICHEN
 
 A stopping criterion can be defined as the measure reaching a
 a defined threshold or not improving anymore.
-Alternatively the tree can stop at a predefined depth to
+Alternatively the tree can stop at a predefined depth to 
 avoid overly complex models.
 
-For regression tasks sklearn uses the mean squared error
+For regression tasks sklearn uses the mean squared error 
 or mean absolute error and the same principles apply.
-
-The implementation in sklearn is based on the one by
-Leo Breiman et al \cite{breimanclassification}.
-A single tree performs binary splits $\Theta = (j, t_m)$
-at each node $m$ in order to split
-the data at this node $Q$ into two subsets
-$Q_\text{left}$
-and
-$Q_\text{right}$.
-The split consists of a feature $j$ and a threshold $t_m$ and is
-chosen in a way to minimize a given criterion.
-Features, that are more important for the task, will
-thus appear at the top nodes of the tree.
-We will later use the Gini impurity and the Mean Squared Error
-for the classification and regression tasks respectively.
 
 While decision trees have the benefit of providing
 easily interpretable, low bias models there are some drawbacks to this
@@ -299,15 +244,30 @@ decision trees to suppress the problems single trees have, while
 keeping their advantages.
 For this to work, the individual trees need not to be correlated.
 Consequently the trees cannot all be constructed the same way.
-To make sure the individual trees
-- and their predictions -
+To make sure the individual trees 
+- and their predictions - 
 are somewhat independent from each other,
 some kind of randomness has to be introduced to the prediction.
-In random forests this is on the one hand achieved by giving each tree a
+In random forests this is for once achieved by giving each tree a 
 randomly drawn subsample from the training data.
 This is referred to as bootstrapping \cite{efron1992bootstrap}.
-Another source of randomness is to perform splits on a node
+Another source of randomness is to perform splits on a node 
 based on only a random subsample of the available features.
+
+The implementation in sklearn is based on the CART-algorithm by 
+Leo Breiman et al (Paper nicht online?).
+A single tree performs binary splits $\Theta = (j, t_m)$ 
+at each node $m$ in order to split 
+the data at this node $Q$ into two subsets 
+$Q_\text{left}$
+and 
+$Q_\text{right}$.
+The split consists of a feature $j$ and a threshold $t_m$ and is 
+chosen in a way to minimize a given criterion.
+Features, that are more important for the task, will
+thus appear at the top nodes of the tree.
+We will later use the Gini-coefficient and the Mean Squared Error
+for the classification and regression tasks respectively.
 
 The prediction of the random forest in sklearn is then the average of
 the single trees predictions.
