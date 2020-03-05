@@ -8,9 +8,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     a = read_data(args.data_path, 'array_events') 
-    t = read_data(args.data_path, 'telescope_events') 
+    t = read_data(args.data_path, 'telescope_events')[['run_id', 'array_event_id', 'width']]
     new_t = t.merge(
         a[['run_id', 'array_event_id', args.column]],
         on=['run_id', 'array_event_id'],
         how='left')
+
     append_column_to_hdf5(args.data_path, new_t[args.column], 'telescope_events', args.column)
