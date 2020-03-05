@@ -20,7 +20,8 @@ if __name__ == '__main__':
     recos = [
         ('source_alt_median', 'source_az_median', 'Median of telescope predictions', 'median'),
         ('source_alt_pairwise_mean_10.0', 'source_az_pairwise_mean_10.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100'),
-        ('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100'),]
+        ('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100'),
+        ('source_alt_median_all', 'source_az_median_all', 'double median', 'median_all')]
     recos = [reco for reco in recos if reco[0] in df.columns]
     
     for reco in recos:
