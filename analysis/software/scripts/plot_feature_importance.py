@@ -14,12 +14,16 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PATH AND STUFF')
     parser.add_argument('model_path', type=str)
+    parser.add_argument('model_name', type=str)
     parser.add_argument('config_path', type=str)
     parser.add_argument('output_path', type=str)
     args = parser.parse_args()
 
     config = AICTConfig.from_yaml(args.config_path)
-    model_config = config.disp
+    if args.model_name == 'disp':
+        model_config = config.disp
+    elif args.model_name == 'separator':
+        model_config = config.separator
     features = model_config.features
     #features = [f.replace('_', r'\_') for f in features]
     model = joblib.load(args.model_path)

@@ -93,9 +93,9 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
         ax.set_yscale('log')
     if hexbin:
         if log:
-            im = ax.hexbin(x, y, xscale='log', yscale='log', extent=(log_emin, log_emax, log_ymin, log_ymax), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
+            im = ax.hexbin(x, y, xscale='log', yscale='log', extent=(log_emin, log_emax, log_ymin, log_ymax), cmap=default_cmap, linewidths=0.1)
         else:
-            im = ax.hexbin(x, y, extent=(log_emin, log_emax, bins_y_lin.min(), bins_y_lin.max()), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
+            im = ax.hexbin(x, y, extent=(log_emin, log_emax, bins_y_lin.min(), bins_y_lin.max()), cmap=default_cmap, linewidths=0.1)
         add_colorbar_to_figure(im, fig, ax)
 
     ax.plot(bin_centers, b_68, 'b--', lw=2, color=main_color, label='68% Percentile')

@@ -67,7 +67,7 @@ def make_linear_binning(x_min, x_max):
     return bin_edges, bin_centers, bin_widths
 
 
-def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=None):
+def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=None, second_color=None, hexbin=True):
     e_min, e_max = 0.005 * u.TeV, 200 * u.TeV
     if log:
         bins, bin_center, _ = make_default_cta_binning(e_min=e_min, e_max=e_max)
@@ -90,18 +90,20 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
     ax.set_xscale('log')
     if log:
        ax.set_yscale('log')
-    if log:
-        im = ax.hexbin(x, y, xscale='log', yscale='log', extent=(log_emin, log_emax, log_ymin, log_ymax), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
-    else:
-        im = ax.hexbin(x, y, extent=(log_emin, log_emax, bins_y_lin.min(), bins_y_lin.max()), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
 
-    add_colorbar_to_figure(im, fig, ax)
+    if hexbin:
+        if log:
+            im = ax.hexbin(x, y, xscale='log', yscale='log', extent=(log_emin, log_emax, log_ymin, log_ymax), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
+        else:
+            im = ax.hexbin(x, y, extent=(log_emin, log_emax, bins_y_lin.min(), bins_y_lin.max()), cmap=default_cmap, norm=PowerNorm(0.5), linewidths=0.1)
+        add_colorbar_to_figure(im, fig, ax)
+    
     ax.plot(bin_centers, b_68, 'b--', lw=2, color=main_color, label='68% Percentile')
 
     if x2 is not None and y2 is not None:
         b_68, bin_edges, _ = binned_statistic(x2, y2, statistic=lambda y2: np.nanpercentile(y2, 68), bins=bins)
         bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
-        ax.plot(bin_centers, b_68, 'g--', lw=2, color='green', label='68% Percentile Hillas')
+        ax.plot(bin_centers, b_68, 'g--', lw=2, color=second_color or 'green', label='68% Percentile Hillas')
 
 
     ax.axhline(y=1)

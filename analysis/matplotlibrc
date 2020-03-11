@@ -20,7 +20,7 @@ boxplot.medianprops.linewidth : 1.5
 
 #### FONT
 font.family: serif
-font.size: 12
+font.size: 14
 
 #### TEXT
 text.usetex : True
@@ -46,7 +46,7 @@ legend.fontsize: medium
 
 #### FIGURE
 figure.figsize: 8, 6
-figure.dpi: 300
+figure.dpi: 200
 figure.autolayout: True
 
 #### IMAGES

@@ -28,9 +28,7 @@ if __name__ == '__main__':
         ('alt', 'az', 'HillasReconstructor', 'hillas')]
     recos = [reco for reco in recos if reco[0] in df.columns]
 
-    second_color='red'
-
-    
+   
     for reco in recos:
         ## this removes all events hillas failed on!!!! these might still work with other methods!
         df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  

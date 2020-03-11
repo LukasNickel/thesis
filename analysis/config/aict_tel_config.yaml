@@ -111,24 +111,35 @@ separator:
   output_name: gamma_prediction
 
   features:   # array event features??
+    - num_pixel_in_shower
+    - intensity
     - width
     - length
-    - skewness
-    - kurtosis
-    - intensity
-    - camera_type_id
-    - telescope_type_id
     - psi
     - phi
     - r
+    - kurtosis
+    - skewness
+    - slope
+    - intercept
+    - deviation
+    - slope_err
+    - intercept_err
     - leakage1_intensity
     - leakage1_pixel
     - leakage2_intensity
     - leakage2_pixel
-    - slope
-    - intercept
-    - num_pixel_in_shower
-
+    - num_islands
+    - telescope_type_id
+    - camera_type_id
+    - focal_length
+    - concentration_cog
+    - concentration_core
+    - concentration_pixel
+    - distance_to_reconstructed_core_position
+    - h_max
+    - total_intensity
+    - average_intensity
   feature_generation:
     needed_columns:
       - width
@@ -187,28 +198,31 @@ disp:
     - intensity
     - width
     - length
+    - psi
+    - phi
+    - r
     - kurtosis
-    - leakage1_intensity
-    - leakage1_pixel
-    - leakage2_intensity
-    - leakage2_pixel
-    - num_islands
     - skewness
     - slope
     - intercept
     - deviation
     - slope_err
     - intercept_err
+    - leakage1_intensity
+    - leakage1_pixel
+    - leakage2_intensity
+    - leakage2_pixel
+    - num_islands
     - telescope_type_id
     - camera_type_id
     - focal_length
     - concentration_cog
     - concentration_core
     - concentration_pixel
-# this is fishy:
     - distance_to_reconstructed_core_position
     - h_max
-
+    - total_intensity
+    - average_intensity
 
   feature_generation:
     needed_columns:
