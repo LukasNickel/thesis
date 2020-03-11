@@ -81,8 +81,7 @@
 
 % set title page elements
 \subject{Project Submitted in Partial Fulfillment of the
-Requirements for the Degree of
-Master of Science\\ \thethesisclass}
+Requirements for the Degree of\\ \thethesisclass}
 \publishers{\thechair \\ \thedivision \\ Technical University of Dortmund}
 
 % page for the correctors

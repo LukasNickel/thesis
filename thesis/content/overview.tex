@@ -1,0 +1,106 @@
+\chapter{Introduction V0.0}
+\section{astro V0.0}
+kurz halten, wenig aus dem bisherigen nehmen
+kurze erwähnung von multi messenger, aber neutrinos und 
+grav waves juckt uns eh nicht.
+gammas pointen zur quelle, hadrons nicht
+wir machen gammas!
+ohne viel history
+\section{gamma V0.0}
+\subsection{physik, die uns interessiert V0.0}
+quellen, offene physik fragen in verbindung mit gamma rays.
+kurz
+\subsection{gamma signal, hadron background V0.0}
+entstehung gammas. mit kleinen erweiterungen schon da.
+kurz: hadrons gibts auch. ist für uns background, weil mans auch misst
+und es viel mehr gibt. gleichzeitig für den fall nicht so interessant.
+\subsection{types of experiments, vor und nachteile V0.0}
+direkt vs indirekt.
+satelliten, tanks und iacts -> unterschiede/vorteile/nachteile.
+Wir machen indirekt mit aicts.
+\subsection{iacts V0.0}
+entspricht quasi 1.3 von vorher
+\subsubsection{gamma shower V0.0}
+passt grob
+\subsubsection{hadron shower V0.0}
+mini anpassungen
+\subsubsection{cherenkov licht, messen am boden V0.0}
+das meiste kann eigentlich weg, da in methods erklärt.
+
+\chapter{CTA V0.0}
+sensitivity relativ zum crab für alle + cta angeben 
+lst,mst,sst plots vielleicht text drum wrappen?
+\section{current gen V0.0}
+wir haben aktuell diese experimente:
+\subsection{magic V0.0}
+\subsection{veritas V0.0}
+\subsection{hess V0.0}
+\section{wie viel besser wird cta V0.0}
+vergleich zu vorher: arrays auf beiden hemisphären, verschiedene teleskope, viele teleskope
+status cta aktuell.
+cta besonderheiten.
+auflösungsrequirements unterbringen!
+\subsection{lst V0.0}
+passt grob
+\subsection{mst V0.0}
+passt grob
+\subsection{sst V0.0}
+passt grob
+
+\chapter{Methods: Relativ allgemein V0.0}
+wie werden daten genommen?
+what needs to be done in an analysis?
+we want to simulate stuff to do supervised learning and control algorithms.
+\section{Coordinate Frames}
+wichtig, vor allem altaz, camera, nominal, ground
+\section{Monte carlo V0.0}
+ist wichtig duh
+\subsection{corsika V0.0}
+atmosphäre
+\subsection{simtel V0.0}
+telescope response
+\section{ctapipe V0.0}
+was ist das, warum ist das und was habe ich gemacht?
+-> neu: num islands, fact cleaning
+\subsection{"preprocessing" V0.0}
+damit wir damit arbeiten können, muss erstmal kram gemacht werden, den
+wir mal preprocessing nennen.
+ctapipe ist nicht fertig, daher machen wir eigenen kram -> kai auf basis von ctapipe
+liste der steps im detail.
+\subsection{high level V0.0}
+das sind so sachen wie energie, typ, richtung.
+das kann man teilweise analytisch machen oder
+per machine learning. wir nutzen nachher random forests 
+\subsection{hillas reconstructor V0.0}
+\section{ersatz für missing ctapipe stuff / alternative}
+\subsection{disp methode, mono wie stereo V0.0}
+\subsection{machine learning V0.0}
+etwas angepasst das, was ich dazu schon habe.
+aict tools nennen.
+
+
+\chapter{Analysis: Methods spezifiziert für unser Problem! V0.0}
+mit zuvor erklärten methoden zusammen fassen was getan wird
+\section{preprocessing auflisten V0.0}
+erhaltene features hier oder dadrunter?
+\section{high level auflisten V0.0}
+\subsection{gamma hadron sep V0.0}
+machen wir auch per random forest 
+\subsection{mono V0.0}
+random forest
+\subsection{stereo V0.0}
+median und iterative
+\subsection{cut V0.0}
+ist nicht so pralle das so zu machen, aber naja
+\subsection{mono modell? V0.0}
+wenn zeit ist als vergleich bei multi 2&3
+-> vlt machen die core und hmax schätzungen das da tatsächlich schlechter?
+
+\chapter{Results V0.0}
+\section{gamma/hadron V0.0}
+\section{position mono V0.0}
+\section{position stereo V0.0}
+\section{position stereo cut V0.0}
+\section{position stereo ohne hillas features, optimized for multi 2 ? V0.0}
+
+\chapter{Conclusion V0.0}

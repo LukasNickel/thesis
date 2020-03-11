@@ -2,81 +2,16 @@
 \label{cta}
 
 
-\section{A brief history of ground-based atmospheric cherenkov astronomy}
+\section{A Brief History of Ground Based Atmospheric Cherenkov Astronomy}
 In the time between the discovery of cosmic radiation by Victor Hess
 and today there have been various different attempts to investigate its origins.
 Experiments have been conducted in various forms like Cherenkov telescopes, scintillator 
 arrays and satellites.
 
-To understand the motivation behind CTA, 
-we will focus on the ground-based 
-cherenkov telescopes and split our brief look at history 
-into three generations as proposed by Turver and Weekes \cite{turver1980}.
 
-During a Royal Society Meeting in 1981 they presented ways to improve on
-the so called first generation of telescopes by taking images of the shower
-and exploiting stereoscopy with multiple telescopes, which are both central
-concepts to modern experiments.
+\subsection{The Current Generation}
 
-\subsection{The first generation}
-\label{sec:1stgen_iact}
-The first generation of Cherenkov telescopes 
-lacked any kind of imaging as is present in all of the bigger new experiments.
-Instead they initially consisted of a single mirror with a single photo multiplier on top.
-One of the earliest attempts to catch the cherenkov light emitted by cosmic rays 
-was by Galbraith and Jelley in 1953 \cite{1953Natur.171..349G}, who found very few pulses
-above background level with their experiment consisting of a very simple 
-telescope and an array of Geiger-Müller counters used for coincidence measurements.
-
-A more sophisticated approach was later taken with the Whipple telescope \cite{whipple1968}:
-It consisted of 252 small mirrors providing a large detector area and operated between 
-1968 and 1976. The multi-mirror design made it feasible to build the large 10m diameter 
-mirror without exploding on the construction cost.
-The telescope stayed operational for long after its primary observation time
-when the Whipple collaboration eventually became the VERITAS collaboration 
-and used the telescope to test new hardware and upgrades.
-
-
-\subsection{The second generation}
-To research the effectiveness of the "imaging approach", in 1982 the groups around Fegan and Weekes
-installed an imager consisting of 37 photo multipliers at the no longer used Whipple telescope.
-This later got replaced by a more capable 109-pixel camera that can be seen in figure \ref{fig:whipple_cam}.
-
-\begin{figure}
-	\centering
-    \includegraphics[width=0.5\textwidth]{images/whipple_cam.png}
-    \caption{
-		Picture of the upgraded camera of the Whipple telescope as it was in use in 1994.
-		In this form it includes 109 pixels, spaced at \SI{0.25}{\degree} \cite{Cawley1995}.}  % not the best source
-    \label{fig:whipple_cam}
-\end{figure}
-
-The shower images in combination with better computer simulations allowed for 
-superior background rejection based on the  hillas-parameters.
-1989 had the telescope observing the Crab Nebula with 9$\sigma$ 
-\cite{1989ApJ...342..379W}.
-
-To improve on the sensitivity, a new method to reconstruct 
-the arrival direction was tested in 2000 \cite{Lessard:2000yf}.
-For this method a new parameter was defined, that describes a correction factor 
-for the source position in the camera field relative to the center of gravity.
-This method was further refined at the MAGIC-telescopes as DISP-method and will be described 
-in detail in chapter \ref{sec:source_position} as we will build on the idea
-for this analysis.
-
-Another big experiment of the time was the HEGRA experiment, an array consisting 
-of 37 \SI{1}{\meter^2} scintillation detectors \cite{ALLKOFER1990345} in the first stage.
-While at this stage not technically an IACT-experiment, later upgrade plans
-brought multiple \SI{8.5}{\meter^2} diameter telescopes, starting with the first 
-telescope in 1985 \cite{DAUM19971}.
-While each telescope does not look too impressive on its own,
-the so called HEGRA-IACT array made for a great use of the stereo principle,
-marking the transition to the third generation of IACTs.
-
-
-\subsection{The third generation}
-
-Towards the end of the 1990s several third generation telescopes were
+Towards the end of the 1990s several third generation experiments were
 proposed:
 H.E.S.S and MAGIC, deriving from parts of the HEGRA collaboration, 
 VERITAS from Whipple and the no longer operating CANGAROO from Adelaide and 
@@ -86,7 +21,7 @@ second generation with two experiments located on each the north and the south h
 
 \subsubsection{Major Atmospheric Gamma Imaging Telescopes (MAGIC)}
 MAGIC is a experiment nowadays operating as a stereo setup of two telescopes.
-Both telescopes are located at LaPalma and have a \SI{17}{\meter} diameter mirror \cite{ALEKSIC201676}.
+Both telescopes are located at La Palma and have a \SI{17}{\meter} diameter mirror \cite{ALEKSIC201676}.
 
 In the first phase MAGIC consisted of a single telescope, for differentiation usually
 referred to as MAGIC-I, making MAGIC a second generation experiment. This first phase started 
@@ -95,7 +30,6 @@ operation in 2004 and had MAGIC-I be the largest IACT of its time.
 The addition of MAGIC-2, the second mostly identical telescope, in 2012 marked the 
 start of the second phase of the experiment and the transition to a third 
 generation experiment \cite{2009arXiv0907.1211C}.
-
 In the second phase MAGIC operates in the energy range from \SI{30}{\giga\eV}
 up to \SI{100}{\TeV} \cite{magic_website}.
 
@@ -106,47 +40,31 @@ results for stereoscopy than the simple crossing of the main shower axis \cite{A
 A specialty of the MAGIC experiment lies in its ability to 
 perform fast skews and thus react to gamma ray bursts after they have been observed 
 by satellite experiments \cite{2003ICRC....5.2943B}.
-
 This enabled the recent observation of the very first \si{\TeV}
 gamma ray burst observed with IACTs \cite{collaboration2019teraelectronvolt}.
 
 
-\subsubsection{High Energy Stereoscopic System (HESS)}
-
-The HESS experiment consists of five telescopes and 
-is - in contrast to MAGIC and VERITAS - operating in the southern 
-Hemisphere, in Namibia.
-
-A similar distinction in phase I and phase II as with MAGIC can be taken with 
-HESS phase I consisting of four \SI{13}{\meter} diameter telescopes,
-arranged at the edge of a square of \SI{120}{\meter} long sides \cite{HINTON2004331}.
-These operated from 2004 to 2012 when the experiment went into phase II.
-
-Phase II brought the fifth, larger telescope with the aim to lower the energy threshold
-further. This $\SI{24}{\meter} \times \SI{32}{\meter}$-mirror telescope 
-was placed in the middle of the other telescopes.
-HESS aims at a similar energy range as MAGIC, stating a lower threshold as low as 
-\SI{20}{\giga\electronvolt} \cite{vincent2005hess}.
-
 \subsubsection{Very Energetic Radiation Imaging Telescope Array System (VERITAS)}
 VERITAS	was initially planned as a seven-telescope array, arranged in a diamond shape
 \cite{WEEKES2002221}.
-Each telescope covers a 3.5° FoV with a \SI{12}{\meter} diameter mirror and 
-a 499 pixel PMT camera.
-
 
 Eventually the collaboration settled 
 with four telescopes. 
-The VERITAS collaboration mentions a lower threshold of \SI{100}{\giga\electronvolt}
-with the four telescope setup.
+Each telescope covers a 3.5° FoV with a \SI{12}{\meter} diameter mirror and 
+a 499 pixel PMT camera.
+
 A relocation of telescope 1 in 2009 meant that the 
 experiment made better use of the given area and its four telescopes,
 improving the sensitivity by up to 30\% \cite{2009arXiv0912.3841P}.
 The old and new layout can be seen in figure \ref{fig:veritas_relocation}.
 
+The VERITAS collaboration mentions a lower threshold of \SI{100}{\giga\electronvolt}
+with the four telescope setup.
+
 \begin{figure}
 	\center
-	\includegraphics[width=.8\textwidth]{images/veritas_relocation.png}
+	\captionsetup{width=0.9\linewidth}
+	\includegraphics[width=.9\textwidth]{images/veritas_relocation.png}
 	\caption{The VERITAS array layout after relocation of the first 
 		telescope. The distances between the telescopes are 
 		highlighted for the old(blue) and the new(red) array.
@@ -160,14 +78,31 @@ The old and new layout can be seen in figure \ref{fig:veritas_relocation}.
 Like MAGIC, VERITAS makes use of the DISP-method, especially at large zenith angles 
 \cite{2015ICRC...34..771P}.
 
+\subsubsection{High Energy Stereoscopic System (HESS)}
+
+The HESS experiment consists of five telescopes and 
+is - in contrast to MAGIC and VERITAS - operating in the southern 
+Hemisphere, in Namibia.
+
+A similar distinction in phase I and phase II as with MAGIC can be taken with 
+HESS phase I consisting of four \SI{13}{\meter} diameter telescopes,
+arranged at the edge of a square of \SI{120}{\meter} long sides \cite{HINTON2004331}.
+These operated from 2004 to 2012 when the experiment went into phase II.
+
+Phase II brought the larger, fifth telescope with the aim to lower the energy threshold
+further. This $\SI{24}{\meter} \times \SI{32}{\meter}$-mirror telescope 
+was placed in the middle of the other telescopes.
+HESS operates at a similar energy range as MAGIC, stating a lower threshold as low as 
+\SI{20}{\giga\electronvolt} \cite{vincent2005hess}.
+
 
 \section{Next to come: The Cherenkov Telescope Array (CTA)}
 \label{sec:cta}
 
 The Cherenkov Telescope Array aims to be a next generation IACT experiment.
-With two sites of operation, one for each hemisphere, and a number of 
+With two sites of operation, one for each hemisphere, and a number of different 
 telescopes proposed, CTA is going to expand on the findings of the third 
-generation of telescopes.
+generation experiments.
 
 Like HESS in phase II, the CTA arrays are going to consist of different sized telescopes, namely
 the Large Sized Telescope (LST, \SI{23}{\meter}), 
@@ -177,12 +112,13 @@ and the Small Sized Telescope (SST, \SI{4.3}{\meter}).
 Extensive Monte Carlo simulations have been performed to find optimal array arrangements
 \cite{BERNLOHR2013171}.
 
-The currently planned layouts at LaPalma and in Namibia are shown in 
+The currently planned layouts at LaPalma and in Chile are shown in 
 \ref{fig:cta_layout}
 
 \begin{figure}
 	\center
-	\includegraphics[width=\textwidth]{images/cta_layout.png}
+	\captionsetup{width=0.9\linewidth}
+	\includegraphics[width=0.9\textwidth]{images/cta_layout.png}
 	\caption{The planned layouts for CTA. The dots mark the telescope types.
 	Left: The array on the northern hemisphere. It will be build at LaPalma
 	and feature only LSTs and MSTs.
@@ -202,23 +138,24 @@ with a mirror diameter of \SI{23}{\meter}.
 It will provide the best sensitivity in the energy range from 
 \SI{20}{\giga\electronvolt} to \SI{150}{\giga\electronvolt} with a field of view of \SI{4.3}{\degree}.
 The camera of the LST, the LSTCamera, has \num{1855} channels 
-with \num{265} photomultiplier tubes (PMT) \cite{cta_web}.
+with \num{265} photomultiplier tubes \cite{cta_web}.
 The readout electronic is based on the Domino Ring Sampler 
-Version 4 chip (DRS4), which is also used by the MAGIC experiment
+Version 4 chip, which is also used by the MAGIC experiment
 \cite{Kubo:2013pwa}. 
 
 Since the LST is looking for the lowest energy $\gamma$-rays, it needs
 very large mirror areas. At the same time the effective detector area does 
-not need to be very high, compared to higher energy events.
+not need to be as high as for higher energy events.
 For this reason only 4 telescopes are planned per array.
 
-The first LST has been inaugurated at the 10 October 2018 in La Palme \cite{lst_debut}.
+The first LST has been inaugurated at the 10 October 2018 in La Palma \cite{lst_debut}.
 
 \begin{figure}
 	\center
+	\captionsetup{width=0.9\linewidth}
 	\includegraphics[width=.4\textwidth]{images/LST.png}
 	\caption{
-		An illustration of the LST with its huge
+		An illustration of the Large Sized Telescope (LST) with its
 		\SI{23}{\meter} diameter parabolic mirror.
 		In the lower left corner a human is included for scale.
 		The image can be found at the official CTA-website \cite{cta_web}.}
@@ -236,6 +173,7 @@ The 1764 pixel FlashCam and the 1855 pixel NectarCam \cite{cta_web}.
 
 \begin{figure}
 	\center
+	\captionsetup{width=0.9\linewidth}
 	\includegraphics[width=.4\textwidth]{images/MST-1.png}
 	\caption{An illustration of the Mid Sized Telescope (MST) with its
 	\SI{11.5}{\meter} diameter mirror.
@@ -264,7 +202,8 @@ several square kilometers \cite{cta_web}.
 
 \begin{figure}
 	\center
-	\includegraphics[width=.6\textwidth]{images/sst.jpg}
+	\captionsetup{width=0.9\linewidth}
+	\includegraphics[width=.9\textwidth]{images/sst.jpg}
 	\caption{An illustration of the Small Sized Telescope (SST) with its
 	two mirrors.
 	The dual-mirror Schwarzschild-Couder setup includes mirrors of

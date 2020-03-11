@@ -11,8 +11,9 @@
 % make
 
 \documentclass[
+  %oneside, % if not printed
   tucolor,       % remove for less green,
-  BCOR=12mm,     % 12mm binding corrections, adjust to fit your binding
+  BCOR=12mm,     % 12mm binding corrections, adjust to fit your binding % 0 if oneside
   parskip=half,  % new paragraphs start with half line vertical space
   open=any,      % chapters start on both odd and even pages
   cleardoublepage=plain,  % no header/footer on blank pages
@@ -95,8 +96,8 @@
 % allow figures to be placed in the running text by default:
 \usepackage{scrhack}
 \usepackage{float}
-\floatplacement{figure}{htbp}
-\floatplacement{table}{htbp}
+\floatplacement{figure}{htb}
+\floatplacement{table}{htb}
 
 % keep figures and tables in the section
 \usepackage[section, below]{placeins}
@@ -117,7 +118,7 @@
   autolang=hyphen, % load hyphenation rules for if language of bibentry is not
                    % german, has to be loaded with \setotherlanguages
                    % in the references.bib use langid={en} for english sources
-  %sorting=none,
+  sorting=none,
   style=numeric,
 ]{biblatex}
 \addbibresource{references.bib}  % the bib file to use
@@ -128,19 +129,61 @@
 \usepackage{bookmark}
 \usepackage[shortcuts]{extdash}
 
+% yaml highlighting for the appendix
+\usepackage{xcolor}
+\usepackage{listings}
+
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\makeatletter
+
+% here is a macro expanding to the name of the language
+% (handy if you decide to change it further down the road)
+\newcommand\language@yaml{yaml}
+
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}
+{
+  keywords={true,false,null,y,n},
+  keywordstyle=\color{darkgray}\bfseries,
+  basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\YAMLvaluestyle\ttfamily,
+  moredelim=[l][\color{orange}]{\&},
+  moredelim=[l][\color{magenta}]{*},
+  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+  morestring=[b]',
+  morestring=[b]",
+  literate =    {---}{{\ProcessThreeDashes}}3
+                {>}{{\textcolor{red}\textgreater}}1     
+                {|}{{\textcolor{red}\textbar}}1 
+                {\ -\ }{{\mdseries\ -\ }}3,
+}
+
+% switch to key style at EOL
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+\makeatother
+
+\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
 %------------------------------------------------------------------------------
 %-------------------------    Angaben zur Arbeit   ----------------------------
 %------------------------------------------------------------------------------
 
 \author{Lukas Nickel}
 \title{Stereo Reconstruction for the Early Days of CTA}
-\date{\today}
+\date{27.03.2020}
 \birthplace{Bielefeld}
 \chair{Chair for Experimental Physics V}
 \division{Faculty of Physics}
 \thesisclass{Master of Science}
 \submissiondate{27.03.2020}
-\firstcorrector{Prof.~Dr.~Wolfgang Rhode}
+\firstcorrector{Prof.~Dr.~Dr.~Wolfgang Rhode}
 \secondcorrector{Prof.~Dr.~Bernhard Spaan}
 
 % tu logo on top of the titlepage
@@ -154,24 +197,26 @@
 \makecorrectorpage
 
 % hier beginnt der Vorspann, nummeriert in römischen Zahlen
-\input{content/00_abstract.tex}
+%\input{content/00_abstract.tex}
+\setcounter{tocdepth}{6}
 \tableofcontents
 
 \mainmatter
 % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
-\input{content/01_introduction.tex}
-\input{content/02_cta.tex}
-\input{content/03_ml.tex}
-\input{content/04_analysis.tex}
-\input{content/05_ghsep.tex}
-\input{content/06_position.tex}
-\input{content/08_conclusion.tex}
+\input{content/overview.tex}
+% \input{content/01_introduction.tex}
+% \input{content/02_cta.tex}
+% \input{content/03_methods.tex}
+% \input{content/04_analysis.tex}
+% \input{content/05_ghsep.tex}
+% \input{content/06_position.tex}
+% \input{content/08_conclusion.tex}
 
 
-\newpage
-\appendix
-% Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
-\input{content/appendix.tex}
+% \newpage
+% \appendix
+% % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
+% \input{content/appendix.tex}
 
 
 \backmatter
