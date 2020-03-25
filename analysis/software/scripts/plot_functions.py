@@ -1,5 +1,6 @@
 from aict_tools.io import read_telescope_data, append_column_to_hdf5
 import pandas as pd
+from astropy.stats import binom_conf_interval
 from astropy.coordinates.angle_utilities import angular_separation
 import matplotlib.pyplot as plt
 from scipy.stats import binned_statistic
@@ -87,7 +88,7 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
     log_emin, log_emax = np.log10(bins.min().value), np.log10(bins.max().value)
     log_ymin, log_ymax = np.log10(bins_y.min()), np.log10(bins_y.max())
 
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(8,6))
     ax.set_xscale('log')
     if log:
         ax.set_yscale('log')
@@ -128,7 +129,7 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
     log_emin, log_emax = np.log10(bins.min()), np.log10(bins.max())
     log_ymin, log_ymax = np.log10(bins_y.min()), np.log10(bins_y.max())
 
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(8,6))
 
 
     im = ax.hexbin(x, y, yscale='log', extent=(bins.min(), bins.max(), log_ymin, log_ymax), cmap=default_cmap, norm=PowerNorm(0.5))
@@ -155,7 +156,7 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
 
 
 def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='hillas'):
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(8,6))
     percentiles = [25, 50, 68, 90]
     alphas = [0.8, 0.6, 0.4, 0.2]
 
@@ -190,7 +191,7 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='h
 # get columns for this
 # maybe 2dhist?
 def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(8,6))
     im = ax.plot(x, y, label='stereo method')
     ax.plot(x2, y2, 'b--', lw=2, color='green', label='hillas')
 
@@ -208,7 +209,7 @@ def plot_multi_vs_energy(x, y, out_file=None):
     x_bins, x_bin_center, _ = make_default_cta_binning(e_min=min(x)*u.TeV, e_max=max(x)*u.TeV)
     y_bins = np.arange(0,30,1)
     num_tel_events = np.sum(y)
-    fig, ax = plt.subplots(1, 1)
+    fig, ax = plt.subplots(1, 1, figsize=(8,6))
     h,xedges,yedges,im = ax.hist2d(
         x,
         y/num_tel_events,
@@ -226,3 +227,31 @@ def plot_multi_vs_energy(x, y, out_file=None):
         fig.savefig(out_file)
         return 0
     return fig, ax 
+
+def plot_effective_area(df_cuts, mc_spectrum, out_path):
+    bins, bin_centers, bin_widths = make_default_cta_binning(bins_per_decade=15)
+    hist_mc = mc_spectrum.expected_events_for_bins(energy_bins=bins)
+    hist_df, _ = np.histogram(df_cuts.mc_energy.values, bins=bins)
+
+    invalid = hist_df > hist_mc
+    hist_df[invalid] = hist_mc[invalid]
+
+    lower_conf, upper_conf = binom_conf_interval(hist_df, hist_mc, 0.95)
+    gen_area = mc_spectrum.generation_area
+    lower_conf = lower_conf * gen_area
+    upper_conf = upper_conf * gen_area
+    area = (hist_df/hist_mc)*gen_area
+    lower_error = area - lower_conf
+    upper_error = upper_conf - area
+    mask = area > 0
+    plt.errorbar(
+        bin_centers.value[mask],
+        area.value[mask],
+        xerr = bin_widths.value[mask]/2.0,
+        yerr = [lower_error.value[mask], upper_error.value[mask]],
+        linestyle="")
+
+    plt.title('optisch anpassen, legende adden')
+    plt.xscale('log')
+    plt.yscale('log')
+    plt.savefig(out_path)
