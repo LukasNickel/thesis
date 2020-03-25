@@ -1,9 +1,8 @@
-\chapter{Cherenkov Astronomy and CTA}
+\chapter{IACT Experiments}
 \label{cta}
 
 sensitivity in crab flux angeben
 
-cta performance vs other experiments plots
 \section{The Current Generation}
 
 Towards the end of the 1990s several third generation experiments were
@@ -16,7 +15,7 @@ earlier experiments with two experiments located on each the north and the south
 
 \subsection{Major Atmospheric Gamma Imaging Telescopes (MAGIC)}
 MAGIC is a experiment nowadays operating as a stereo setup of two telescopes.
-The two telescopes are located at La Palma and have a \SI{17}{\meter} diameter mirror \cite{ALEKSIC201676}.
+The two telescopes are located at La Palma and have a \SI{17}{\meter} diameter mirror setup each \cite{ALEKSIC201676}.
 
 In the first phase MAGIC consisted of a single telescope, for differentiation usually
 referred to as MAGIC-I. This first phase started 
@@ -108,19 +107,21 @@ Extensive Monte Carlo simulations have been performed to find optimal array arra
 \cite{BERNLOHR2013171}.
 
 The currently planned layouts at LaPalma and in Chile are shown in 
-\ref{fig:cta_layout}
+\ref{fig:cta_layout}.
+The expected sensitivity compared against other currently operating
+experiments is shown in figure \ref{fig:cta_performance}.
 
 \begin{figure}[H]
 	\center
 	\captionsetup{width=0.9\linewidth}
 	\includegraphics[width=0.9\textwidth]{images/cta_layout.png}
-	\caption{The planned layouts for CTA. The dots mark the telescope types.
+	\caption{
 	Left: The array on the northern hemisphere. It will be build at LaPalma
 	and feature only LSTs and MSTs.
 	Right: The array at the southern hemisphere.
 	It will consist of more telescopes and thus 
 	work at a bigger energy range.
-	\cite{cta_web}}
+	The image is taken from the CTA-website \cite{cta_web}.}
 	\label{fig:cta_layout}
 \end{figure}
 
@@ -128,18 +129,41 @@ The currently planned layouts at LaPalma and in Chile are shown in
 	\center
 	\captionsetup{width=0.9\linewidth}
 	\includegraphics[width=0.9\textwidth]{images/cta_performance.png}
-	\caption{performance plot erklären}
+	\caption{A rough comparison of the expected differential sensitivity of CTA compared against
+	other experiments. The differential sensitivity is defined as the
+	minimum required flux to detect a point source with 5$\sigma$.
+	The image is taken from the CTA-website \cite{cta_web}.}
 	\label{fig:cta_performance}
 \end{figure}
 
-\newpage
+%\newpage
 \subsection{LST}
 \label{sec:lst}
+The Large-Sized Telescope is going to be biggest telescope of CTA
+with a mirror diameter of \SI{23}{\meter}.
+It will provide the best sensitivity in the energy range from 
+\SI{20}{\giga\electronvolt} to \SI{150}{\giga\electronvolt} with a field of view of \SI{4.3}{\degree}.
+The camera of the LST, the LSTCamera, has \num{1855} channels 
+with \num{265} photomultiplier tubes \cite{cta_web}.
+
+The readout electronic is based on the Domino Ring Sampler 
+Version 4 chip, which is also used by the MAGIC experiment
+\cite{Kubo:2013pwa}. 
+
+Since the LST is looking for the lowest energy $\gamma$-rays, it needs
+very large mirror areas. At the same, time the effective detector area does 
+not need to be as high as for higher energy events.
+For this reason only 4 telescopes are planned per array.
+
+The first LST has been inaugurated at the 10 October 2018 in La Palma \cite{lst_debut}.
+It is foreseen to be the first telescope to be operated by the CTA Observatory.
+Until the it has to undergo a critical design review to make sure the performance 
+complies with the requirements and expectations.
 
 \begin{figure}
 		\centering
 		\captionsetup{width=0.9\linewidth}
-		\includegraphics[width=.4\textwidth]{images/LST.png}
+		\includegraphics[width=.5\textwidth]{images/LST.png}
 		\caption{
 			An illustration of the Large Sized Telescope (LST) with its
 			\SI{23}{\meter} diameter parabolic mirror.
@@ -148,31 +172,13 @@ The currently planned layouts at LaPalma and in Chile are shown in
 		\label{fig:lst}
 \end{figure}
 
-The Large-Sized Telescope is going to be biggest telescope of CTA
-with a mirror diameter of \SI{23}{\meter}.
-It will provide the best sensitivity in the energy range from 
-\SI{20}{\giga\electronvolt} to \SI{150}{\giga\electronvolt} with a field of view of \SI{4.3}{\degree}.
-The camera of the LST, the LSTCamera, has \num{1855} channels 
-with \num{265} photomultiplier tubes \cite{cta_web}.
-The readout electronic is based on the Domino Ring Sampler 
-Version 4 chip, which is also used by the MAGIC experiment
-\cite{Kubo:2013pwa}. 
-
-Since the LST is looking for the lowest energy $\gamma$-rays, it needs
-very large mirror areas. At the same time the effective detector area does 
-not need to be as high as for higher energy events.
-For this reason only 4 telescopes are planned per array.
-
-The first LST has been inaugurated at the 10 October 2018 in La Palma \cite{lst_debut}.
-
-
-\newpage
+%\newpage
 \subsection{MST}
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{wrapfigure}{R}{0.5\textwidth}
 	\centering
 	\captionsetup{width=0.9\linewidth}
-	\includegraphics[width=.2\textwidth]{images/MST-1.png}
+	\includegraphics[width=.4\textwidth]{images/MST-1.png}
 	\caption{An illustration of the Mediium Sized Telescope (MST) with its
 	\SI{11.5}{\meter} diameter mirror.
 	The mirror design is based on the Davies-Cotton design.
@@ -187,17 +193,26 @@ are going to be the backbones of CTA.
 
 Two camera designs are being tested for the MST:
 The 1764 pixel FlashCam and the 1855 pixel NectarCam \cite{cta_web}.
-
-The flashcam ....
-
-The nectracam...
+The flashcam combines twelve PMTs to one module and features a completely
+digital readout system.
+The nectarcam contains an anlogue readout chip with a high-gain and a low-gain
+channel. 7 PMTs are comined to one module \cite{doi:10.1063/1.4969023}.
 
 A prototype for the MST is standing in Berlin .
 Besides the camera and readout electronics it is a fully operational telescope
 to validate the component design and assembly processes.
+% \\
+% \\
+% \\
+% \\
+% \\
+% \\
+% \\
+% \\
+% \\
+% \\
 
-
-\newpage
+%\newpage
 \subsection{SST}
 
 The Small-Sized Telescopes (SST) will provide the sensitivity for CTA at the 
@@ -218,7 +233,7 @@ several square kilometers \cite{cta_web}.
 \begin{figure}
 		\centering
 		\captionsetup{width=0.9\linewidth}
-		\includegraphics[width=.4\textwidth]{images/sst.jpg}
+		\includegraphics[width=.9\textwidth]{images/sst.jpg}
 		\caption{An illustration of the Small Sized Telescope (SST) with its
 		two mirrors.
 		The dual-mirror Schwarzschild-Couder setup includes mirrors of

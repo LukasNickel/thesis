@@ -4,23 +4,32 @@
 
 The performance of the models trained with the previously mentioned setup,
 can be gauged by looking at the 
-figures \ref{fig:disp_test_perf} for the cross-validated set and 
-\ref{fig:disp_gamma_perf} for the performance on our 
+figures \ref{fig:disp_test_perf} for the diffuse test set and 
+\ref{fig:disp_gamma_perf} for the performance on the 
 pointlike data. Be aware that due to the chosen binning,
 the bins do not necessarily contain a comparable amount of events.
 This is especially relevant for the bins at very low and very high energies.
 
-In both cases we can see that the DISP-model gets rapidly more
-powerful with higher energies up until ~\SI{1}{\tera\electronvolt} from 
-where on the performance does not improve anymore and in fact seems to decline
+In both cases, we can see that the DISP-model gets rapidly more
+powerful with higher energies up until ~\SI{1}{\tera\electronvolt}. From 
+thereon, the performance does not improve anymore and in fact seems to decline
 again. For the diffuse test set, a dip around \SI{3}{\tera\electronvolt}
 up to \SI{70}{\tera\electronvolt} can be made out.
 For pointlike gamma events the performance seems to decrease less at high energies, but does not 
 recover at the highest energies.
 
-The SIGN-model does not saturate early and improves up until the highest energies. 
+The SIGN-model does not saturate early and improves up to the highest energies. 
 
 For both models the performance on the pointlike data is generally better.
+This is expected if the monte carlo data contains no significant differences besides
+the injection angle and the model learns on the desired features, as
+the sensitiviy (?) is expected to be best in the middle of the camera.
+It also indicates, that events away from the camera center do not behave abnormal 
+in terms of the images being formed in the camera.
+
+LEAKAGE AUF DIFFUSEN EVENTS ANSCHAUEN?
+
+ERKLÄRUNG FÜR DEN DIP AUF DIFFUSEN DATEN?
 
 \begin{figure}
     \centering
@@ -38,7 +47,7 @@ For both models the performance on the pointlike data is generally better.
 	Both model predictions improve with higher energies and saturate
 	at $\approx\num{0.95}$ for the $R2$ and accuracy respectively.
     The DISP-performance shows a dip in the energy range of \SI{3}{\tera\electronvolt}
-    up to \SI{70}{\tera\electronvolt}, that cannot be explained at this point.}
+    up to \SI{70}{\tera\electronvolt}.}
     \label{fig:disp_test_perf}
 \end{figure}
 
@@ -64,7 +73,7 @@ For both models the performance on the pointlike data is generally better.
     \label{fig:disp_gamma_perf}
 \end{figure}
 
-The error of the resulting (monoscopic) source position reconstruction 
+The error of the resulting monoscopic source position reconstruction 
 can be seen in figures \ref{fig:sens_telescope_test} and \ref{fig:sens_telescope}
 respectively.
 One can derive - in accordance to the previously discussed metrics - 
@@ -102,8 +111,9 @@ on the DISP-predictions saturates and decays.
 The feature importances for the DISP model can be seen in figure \ref{fig:disp_features},
 the one for the SIGN model in figure \ref{fig:sign_features}.
 For the DISP-model the reconstructed interaction heigth and core position
-show the most impact alongside the features, that describe light content and size of
-the shower ellipse. 
+show the most impact alongside the features, that describe  the light content of
+the shower ellipse. The $length$ provides a lot of information whereas the
+$width$ is of little relevance for the prediction.
 The SIGN-predictions on the other hand are dominated by the observed 
 $skewness$ and $slope$.
 
@@ -150,7 +160,7 @@ At each energy the HillasReconstructor performs considerably better.
 One can derive that the median predictions do not improve considerably after
 \SI{3}{\tera\electronvolt} and get worse after \SI{10}{\tera\electronvolt}.
 The HillasReconstructor shows a similar stauration at the highest energies,
-but without the prominently decaying performance of the median peridctions.
+but without the prominently decaying performance of the median predictions.
 Due to the low statistics we can not get to statistically relevant
 conclusions in this region however.
 
@@ -168,8 +178,7 @@ the multiplicities going up.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.9\linewidth]{../analysis/plots/gamma/median_vs_energy.pdf} 
     \caption{Distance between predicted and true position over true energy as obtained by taking the median of
-    the DISP+SIGN predictions.
-    The binned results refer to the median DISP+SIGN-predictions. The blue line shows the 
+    the DISP+SIGN predictions. The blue line shows the 
     68\% containment of these results. The green line refers to the 68\%
     results of the HillasReconstructor which are not shown in bins.
     Despite the short bump in the range of \SI{200}{\giga\electronvolt}
@@ -182,27 +191,27 @@ the multiplicities going up.
     \centering
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.9\linewidth]{../analysis/plots/gamma/median_vs_multi_comp.pdf}
-    \caption{Distance between predicted and true position over event multiplicity. Both algorithms require
+    \caption{Distance between predicted and true position over event multiplicity as obtained by taking
+    the median if the DISP+SIGN predictions (blue) and using the HillasReconstructor (green). 
+    The different dots refer to the 25,50,68 and 90\% percentiles with 
+    lowering alpha. Both algorithms require
     multiplicities $\geq 2$. Higher multiplicity events are cut off, because 
     statistical fluctuations dominate as not many events are recorded.
-    Blue and green refer to the median predictions (blue) and the HillasReconstructor (green) predictions.
-    The different lines refer to the 25,50,68 and 90\% percentiles with 
-    lowering alpha.
     The median predictions are worse at every multiplicity and the gap increases with higher event multiplicity.}
     \label{fig:stereo_median_multi}
 \end{figure}
 
-The results of the more sophisticated iterative DISP-approach can be seen in figures
+The results of the iterative DISP-approach can be seen in figures
 \ref{fig:stereo_magic_energy} and \ref{fig:stereo_magic_multi}.
 Compared to the median predictions, the completely misreconstructed events are almost
 completely resolved and the 68\% percentile is much improved throughout the complete energy range besides 
 the very highest energies. At this point the error of the DISP-prediction is probably limiting and the 
-Hillas-reconstructor leads to much better results.
-At the lower energy range our approach seems to be working pretty well, 
+HillasReconstructor leads to much better results.
+At the lower energy range the approach seems to be working well, 
 slightly outperforming the HillasReconstructor.
 
-When looking at the multiplicity-plot, we see a similar picture as before but with 
-better results. At high event multiplicities the Hillas-reconstructor 
+When looking at the multiplicity-plot, we see improved results as well. 
+At high event multiplicities the Hillas-reconstructor 
 leads to better results. Improvements can be seen especially at 2- and 3-multiplicity 
 events. In the case of 2 telescopes the iterative approach reduces to the 
 base Magic algorithm without the cut for too distant predictions.
@@ -215,15 +224,13 @@ already especially at the 90\% percentile.
     \centering
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.9\linewidth]{../analysis/plots/gamma/pairwise_median_100_vs_energy.pdf} 
-    \caption{Distance between predicted and true position over true event energy as obtained with our
+    \caption{Distance between predicted and true position over true event energy as obtained with the
     iterative DISP approach.
     The binned results refer to the iterative DISP-predictions. The blue line shows the 
     68\% containment of these results. The green line refers to the 68\%
     results of the HillasReconstructor which are not shown in bins.
     The DISP-approach outperforms the HillasReconstructor up to
-    $\approx \SI{2}{\tera\electronvolt}$.
-    At higher energies we see the same behaviour as earlier, with the performance actually
-    decreasing again.}
+    $\approx \SI{2}{\tera\electronvolt}$.}
     \label{fig:stereo_magic_energy}
 \end{figure}
 
@@ -231,12 +238,13 @@ already especially at the 90\% percentile.
     \centering
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.9\linewidth]{../analysis/plots/gamma/pairwise_median_100_vs_multi_comp.pdf}
-    \caption{Distance between predicted and true position over event multiplicity. Both algorithms require
-    multiplicities $\geq 2$. Higher multiplicity events are cut off, because 
-    statistical fluctuations dominate as not many events are recorded.
-    Blue and green refer to the median predictions and the HillasReconstructor predictions.
+    \caption{Distance between predicted and true position over event multiplicity as obtained with
+    the iterative DISP approach (blue) and the HillasReconstructor (green).
     The different lines refer to the 25,50,68 and 90\% percentiles with 
     lowering alpha.
+    Both algorithms require
+    multiplicities $\geq 2$. Higher multiplicity events are cut off, because 
+    statistical fluctuations dominate as not many events are recorded.
     For low multiplicities the combined DISP-predictions are superiour, 
     for high multiplicities the HillasReconstructor results win out.
     The breakeven point seems to be at 4-6 telescopes, depending on 

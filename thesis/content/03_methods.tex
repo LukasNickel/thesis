@@ -1,31 +1,29 @@
 \chapter{Methods for IACT Analyses}
-warum brauchen wir das und ach ja jetzt folgt das
-\url{https://cta-observatory.github.io/ctapipe/tutorials/coordinates_example.html}
-
 
 \section{Coordinate Frames}
-horizon frame???
+In the following the coordinate frames, that are used in this analysis,
+are defined as per the ctapipe conventions \cite{karl_kosack_2019_3372211}.
 
-\subsection{AltAz}
+\subsection{AltAz/Horizon Frame?}
 A spherical coordinate system with the two angles azimuth and altitude.
-In ctapipe Azimuth is oriented east of north and altitude between the horizon 
+This is used to describe the position of stars and shower origins.
+In ctapipe, Azimuth is oriented east of north and altitude between the horizon 
 and the zenith.
 
 \subsection{CameraFrame}
 A 2D cartesian frame to describe the shower in the focal plane.
-the two coordinates are defined as they are in CORSIKA.
-$X$ points north and $y$ points west, with the telescope
+The telescope orientation is defined as 
 starting at the horizon, then pointed to the 
-magnetic north in azimuth and up to zenith. ??
-
-% \subsection{TelescopeFrame}
-% A spherical frame with the center at the telescopes location.
+magnetic north in azimuth and up to zenith.
+The two coordinates are defined as they are in CORSIKA:
+$X$ points north and $y$ points west, with the telescope
 
 
 \subsection{NominalFrame}
 A common, spherical frame for all telescopes to perform 2D-reconstruction,
 such as DISP-methods or intersection of Hillas-axes.
-This is also used if telescopes are in divergent pointing mode.
+This is also necessary if telescopes are in divergent pointing mode.
+
 
 % \subsection{GroundFrame}
 % A cartesian frame with the origin in the array center. The positions of the
@@ -35,17 +33,17 @@ This is also used if telescopes are in divergent pointing mode.
 % For impact reconstruction, we dont need that?
 
 \section{Monte Carlo Simulations}
-Today monte carlo simulations are a crucial part to 
+Monte carlo simulations are a crucial part to 
 understand the behaviour of an experiment. 
 Simulating the underlying physic and the response of the experiment
 allows the testing of new algorithms aswell as improving the general understanding
 of the physical processes at work. 
-% Since simulations are always based on our 
-% current level of understanding, any difference to the measured data
-% points towards insufficient understanding of the underlying processes.
 
 For CTA, monte carlo simulations are done using a combination of the
-programs CORSIKA and sim\_telarray
+programs CORSIKA and sim\_telarray.
+While CORSIKA handels the formation and propagation of air showers,
+the detector response can be simulated using the software
+sim\_telarray \cite{BERNLOHR2008149}.
 
 \subsection{Air Shower Simulation with CORSIKA}
 CORSIKA \cite{heck1998corsika} is the standard software to simulate different types of
@@ -67,21 +65,25 @@ Simulation options include, amongst other:
 \end{itemize}
 
 \subsection{Detector Simulation with sim\_telarray}
-While CORSIKA handels the formation and propagation of air showers,
-the detector response can be simulated using the software
-sim\_telarray \cite{BERNLOHR2008149}.
+sim\_telarray is a software developed for the HEGRA IACT experiment,
+but has since been developed to support arbitrary experiment setups \cite{BERNLOHR2008149}.
+% It is able to simulate the full detector response and can be used to either
+% perform complete simulations or use short-cuts in order to
+% improve on the computational efficiency.
 
-THIS NEEDS CONTENT!
+The main steps of the anaysis concern the optical raytracing of the cherenkov photons
+and the simulation of the readout electronics and triggers.
 
+The resulting data is meant to resemble the telescope raw data as closely as possible,
+be it digitized pulse shapes or integrated signal sums.
 
-\section{CTA's processing pipeline: ctapipe}
-The main processing pipeline for low-level  CTA data is goint to be ctapipe,
-an open-source project developed on github cite{ctapipe}.
+\section{CTA's Processing Pipeline: ctapipe}
+The main processing pipeline for low-level  CTA data is going to be ctapipe,
+an open-source project hosted on github cite{ctapipe}.
 It is currently in development and not all the planned 
-possibilities are yet available.
+features are yet available.
 At the time of writing, the latest stable version is 0.7
-\cite{karl_kosack_2019_3372211}, the analysis is based on a slightly earlier 
-build (spezifizieren).
+\cite{karl_kosack_2019_3372211}.
 Besides handling CTA-data, ctapipe also includes code to work with
 other telescope geometries such as MAGIC.
 
@@ -111,11 +113,11 @@ at distant times.
 \begin{figure}
 	\centering
 	\captionsetup{width=0.9\linewidth}
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.42\textwidth}
   		\centering
   		\includegraphics[width=\linewidth]{Plots/hillas_raw.pdf}
 	\end{subfigure}%
-	\begin{subfigure}{.45\textwidth}
+	\begin{subfigure}{.48\textwidth}
  		\centering
 		\includegraphics[width=\linewidth]{Plots/hillas_cleaned.pdf}
 	\end{subfigure}
@@ -133,12 +135,12 @@ hillas parameters, illustrated in figure \ref{fig:hillas_params}.
 \begin{figure}
 	\centering	
 	\captionsetup{width=0.9\linewidth}
-	\includegraphics[width=.6\textwidth]{Plots/hillas_complete.pdf}
+	\includegraphics[width=.6\textwidth]{Plots/hillas_cleaned_params.pdf}
 	\caption{The same cleaned shower-image as in figure \ref{fig:shower_cleaning}
 	with the hillas-parameters calculated and marked in the camera frame.
 	The parameters $\phi$, $\psi$, $x$ and $y$ describe the 
 	orientation and position of the shower ellipse in the camera frame.
-  main shower axis nennen!}
+  The blue line marks the main shower axis.}
 	\label{fig:hillas_params}
 \end{figure}
 
@@ -437,15 +439,17 @@ or the mean absolute percentage error (MAPE).
 
 \subsubsection{Decision Trees and Random Forests}
 A simple (binary) decision tree
-for an example classification on the iris dataset 
-NEUEN TREE MIT GAMMA/HADRON DATA ERSTELLEN
-is shown in figure \ref{fig:03_tree}.
+for an example dataset with 50 proton and 50 gamma
+events is shown in figure \ref{fig:03_tree}.
 
 \begin{figure}
   \centering
   \captionsetup{width=0.9\linewidth}
   \includegraphics[width=0.9\textwidth]{Plots/decision_tree.pdf}
-  \caption{dummy, gamma hadron plot erstellen}
+  \caption{A decision tree for a small sample dataset consisting of 50 proton and
+  50 gamma events. The tree is capped at a depth of 4 and splits only on the 
+  features width, length and intensity. On the training data, this tree reaches an
+  accuracy of \num{0.81}.}
   \label{fig:03_tree}
 \end{figure}
 
