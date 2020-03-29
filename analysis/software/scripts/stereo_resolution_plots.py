@@ -8,6 +8,7 @@ from astropy.coordinates.angle_utilities import angular_separation
 from astropy import units as u
 import argparse
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 
 if __name__ == '__main__':
@@ -18,13 +19,15 @@ if __name__ == '__main__':
 
     df = read_data(args.df_path, 'array_events')
     recos = [
+        ('source_alt_median_true_signs', 'source_az_median_true_signs', 'Median of telescope predictions', 'median_true_signs'),
+        ('source_alt_pairwise_mean_10.0_true_signs', 'source_az_pairwise_mean_10.0_true_signs', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100_true_signs'),
+        ('source_alt_pairwise_median_10.0_true_signs', 'source_az_pairwise_median_10.0_true_signs', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100_true_signs'),
         ('source_alt_median', 'source_az_median', 'Median of telescope predictions', 'median'),
-        ('source_alt_pairwise_mean_10.0', 'source_az_pairwise_mean_10.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100'),
-        ('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100'),
-        ('source_alt_median_all', 'source_az_median_all', 'double median', 'median_all')]
+        ('source_alt_pairwise_mean_10.0_true_signs', 'source_az_pairwise_mean_10.0_true_signs', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100_true_signs'),
+        ('source_alt_pairwise_median_10.0_true_signs', 'source_az_pairwise_median_10.0_true_signs', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100_true_signs')]
     recos = [reco for reco in recos if reco[0] in df.columns]
     
-    for reco in recos:
+    for reco in tqdm(recos):
         ## this removes all events hillas failed on!!!! these might still work with other methods!
         df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  
         df_hillas = df[['num_triggered_telescopes', 'mc_energy', 'alt', 'az', 'mc_alt', 'mc_az']].dropna(how='any')
@@ -38,20 +41,32 @@ if __name__ == '__main__':
             df_hillas['mc_alt'].values * u.deg,
             df_hillas['az'].values * u.deg,
             df_hillas['alt'].values * u.deg).to(u.deg)
+        print('plotting')
+        print(reco[3])
         plot_angular_resolution(df_['mc_energy'], theta, name='', x2=df_hillas['mc_energy'], y2=theta_hillas, out_file=args.output_folder+'/'+reco[3]+'_vs_energy.pdf', log=True)
         plt.clf()
         mask = df_['num_triggered_telescopes'] < 20
+        mask_2 = df_hillas['num_triggered_telescopes'] < 20
         # plot_angular_resolution_vs_multi(
         #     df_['num_triggered_telescopes'][mask],
         #     theta[mask],
         #     name='',
         #     out_file=args.output_folder+'/'+reco[3]+'_vs_multi.pdf')
         # plt.clf()
+        print('multi')
+        x = df_['num_triggered_telescopes'][mask]
+        print('x done')
+        y = theta[mask]
+        print('y done')
+        x2 = df_hillas['num_triggered_telescopes'][mask_2]
+        print('x2 done')
+        y2 = theta_hillas[mask_2]
+        print('y2 done')
         plot_angular_resolution_comp(
-            x=df_['num_triggered_telescopes'][mask],
-            y=theta[mask],
-            x2 = df_hillas['num_triggered_telescopes'][mask],
-            y2=theta_hillas[mask],
+            x=x,
+            y=y,
+            x2=x2,
+            y2=y2,
             name='',
             out_file=args.output_folder+'/'+reco[3]+'_vs_multi_comp.pdf')
         plt.close('all')

@@ -162,9 +162,8 @@ split_data:
 	aict_split_data \
 		$(merged_f)/diffuse_merged.hdf5 \
 		$(merged_f)/diffuse \
-		-f 0.2 -n test \
-		-f 0.4 -n train_disp \
-		-f 0.4 -n train_separation \
+		-f 0.7 -n test \
+		-f 0.3 -n train \
 		-t cta \
 		-v
 	aict_split_data \
@@ -182,9 +181,8 @@ split_data:
 	aict_split_data \
 		$(merged_f)/diffuse_mono_merged.hdf5 \
 		$(merged_f)/diffuse_mono \
-		-f 0.2 -n test \
-		-f 0.4 -n train_disp \
-		-f 0.4 -n train_separation \
+		-f 0.7 -n test \
+		-f 0.3 -n train \
 		-t cta \
 		-v
 	aict_split_data \
@@ -203,14 +201,13 @@ split_data:
 
 train_models: \
 	$(models_f)/separator_model.pkl \
-	$(models_f)/disp_model.pkl \
-	$(models_f)/mono_disp_model.pkl
+	$(models_f)/disp_model.pkl 
 
 
-$(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_conf)  $(merged_f)/proton_train_separation.hdf5 $(merged_f)/diffuse_train_separation.hdf5
+$(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_conf)  $(merged_f)/proton_train_separation.hdf5 $(merged_f)/diffuse_train.hdf5
 	aict_train_separation_model \
 		$(tel_conf) \
-		$(merged_f)/diffuse_train_separation.hdf5 \
+		$(merged_f)/diffuse_train.hdf5 \
 		$(merged_f)/proton_train_separation.hdf5 \
 		$(models_f)/separator_performance.hdf5 \
 		$(models_f)/separator_model.pkl
@@ -219,7 +216,7 @@ $(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_co
 $(models_f)/regressor_model.pkl $(models_f)/regressor_performance.hdf5: $(tel_conf)  $(merged_f)/diffuse_train_energy.hdf5
 	aict_train_energy_regressor\
 		$(tel_conf) \
-		$(merged_f)/diffuse_train_energy.hdf5 \
+		$(merged_f)/diffuse_train.hdf5 \
 		$(models_f)/regressor_performance.hdf5 \
 		$(models_f)/regressor_model.pkl
 
@@ -240,10 +237,10 @@ $(models_f)/array_regressor_model.pkl $(models_f)/array_regressor_performance.hd
 		$(models_f)/array_regressor_model.pkl
 
 
-$(models_f)/disp_model.pkl $(models_f)/sign_model.pkl $(models_f)/cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_train_disp.hdf5
+$(models_f)/disp_model.pkl $(models_f)/sign_model.pkl $(models_f)/cv_disp.hdf5: $(tel_conf) $(merged_f)/diffuse_train.hdf5
 	aict_train_disp_regressor \
 		$(tel_conf) \
-		$(merged_f)/diffuse_train_disp.hdf5 \
+		$(merged_f)/diffuse_train.hdf5 \
 		$(models_f)/cv_disp.hdf5 \
 		$(models_f)/disp_model.pkl \
 		$(models_f)/sign_model.pkl
@@ -306,16 +303,18 @@ $(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separa
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(models_f)/disp_model.pkl \
 		$(models_f)/sign_model.pkl
-	aict_apply_stereo_disp \
-		$(tel_conf) \
-		$(dl2_f)/diffuse_test_dl2.hdf5 \
-		-n 20 \
-		-e 10.0
 	aict_apply_separation_model \
 		$(tel_conf) \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(models_f)/separator_model.pkl
 
+
+	aict_apply_stereo_disp \
+		$(tel_conf) \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		-n 20 \
+		-e 10.0
+	
 cut: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 
 $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5: $(dl2_f)/diffuse_test_dl2.hdf5 $(selection_conf)
@@ -360,10 +359,12 @@ gh_evaluation: \
 test_plots: \
 	$(plots_f)/test/tel_vs_energy.pdf \
 	$(plots_f)/test/multiplicity.pdf \
+	$(plots_f)/test/effective_area_prep.pdf 
 
 gamma_plots: \
 	$(plots_f)/gamma/tel_vs_energy.pdf \
 	$(plots_f)/gamma/multiplicity.pdf \
+	$(plots_f)/gamma/effective_area_prep.pdf 
 
 
 cut_plots: \
@@ -491,6 +492,7 @@ $(plots_f)/gamma/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
+		$(tel_conf) \
 		$(plots_f)/gamma
 
 $(plots_f)/gamma_mono_lst/tel_vs_energy.pdf: $(dl2_f)/gamma_mono_dl2.hdf5
@@ -505,10 +507,24 @@ $(plots_f)/gamma/multiplicity.pdf: $(dl2_f)/gamma_dl2.hdf5
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(plots_f)/gamma
 
+$(plots_f)/gamma/effective_area_prep.pdf: $(dl2_f)/gamma_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_effective_area.py \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(plots_f)/effective_area_prep.pdf
+
+$(plots_f)/gamma/effective_area_prep_signs.pdf: $(dl2_f)/gamma_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_effective_area.py \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(plots_f)/effective_area_prep_signs.pdf \
+		-correct_signs
+
 $(plots_f)/gamma_cut/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
+		$(tel_conf) \
 		$(plots_f)/gamma_cut
 
 $(plots_f)/gamma_cut/multiplicity.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
@@ -521,6 +537,7 @@ $(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(tel_conf) \
 		$(plots_f)/test
 
 $(plots_f)/test/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
@@ -529,10 +546,24 @@ $(plots_f)/test/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(plots_f)/test
 
+$(plots_f)/test/effective_area_prep.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_effective_area.py \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(plots_f)/effective_area_prep.pdf
+
+$(plots_f)/test/effective_area_prep_signs.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_effective_area.py \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(plots_f)/effective_area_prep_signs.pdf \
+		-correct_signs
+
 $(plots_f)/test_cut/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/mono_resolution_plots.py \
 		$(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 \
+		$(tel_conf) \
 		$(plots_f)/test_cut
 
 $(plots_f)/test_cut/multiplicity.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5

@@ -30,7 +30,7 @@ main_color = '#4386dd'
 main_color_complement = '#d63434'
 dark_main_color = '#707070'
 color_cycle = cycle(color_pallete)
-
+figsize = (10,6)
 
 def add_colorbar_to_figure(im, fig, ax):
     divider = make_axes_locatable(ax)
@@ -77,7 +77,6 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
         bins, bin_center, _ = make_default_cta_binning(e_min=e_min, e_max=e_max, centering='lin')
 
 
-
     b_68, bin_edges, _ = binned_statistic(x, y, statistic=lambda y: np.nanpercentile(y, 68), bins=bins)
 
     bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
@@ -88,8 +87,9 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
     log_emin, log_emax = np.log10(bins.min().value), np.log10(bins.max().value)
     log_ymin, log_ymax = np.log10(bins_y.min()), np.log10(bins_y.max())
 
-    fig, ax = plt.subplots(1, 1, figsize=(8,6))
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
     ax.set_xscale('log')
+    ax.set_ylim([0.02, 20])
     if log:
         ax.set_yscale('log')
     if hexbin:
@@ -129,7 +129,7 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
     log_emin, log_emax = np.log10(bins.min()), np.log10(bins.max())
     log_ymin, log_ymax = np.log10(bins_y.min()), np.log10(bins_y.max())
 
-    fig, ax = plt.subplots(1, 1, figsize=(8,6))
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
 
 
     im = ax.hexbin(x, y, yscale='log', extent=(bins.min(), bins.max(), log_ymin, log_ymax), cmap=default_cmap, norm=PowerNorm(0.5))
@@ -156,11 +156,12 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
 
 
 def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='hillas'):
-    fig, ax = plt.subplots(1, 1, figsize=(8,6))
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
     percentiles = [25, 50, 68, 90]
     alphas = [0.8, 0.6, 0.4, 0.2]
 
     for percentile, alpha in zip(percentiles, alphas):
+        print(percentile)
         bins, bin_center, bin_widths = make_linear_binning(x_min=min(x), x_max=max(x))
         b_68, bin_edges, _ = binned_statistic(x, y, statistic=lambda y: np.nanpercentile(y, percentile), bins=bins)
         #bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
@@ -172,6 +173,7 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='h
         #bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
         ax.plot(bin_center-bin_widths/2, b_68, 'bo', lw=2, color='green', label=f'{percentile}% {second}', alpha=alpha)
 
+    ax.set_ylim([0.02, 20])
     ax.set_yscale('log')
     #ax.axhline(y=1)
     #ax.axhline(y=0.1)
@@ -191,7 +193,7 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='h
 # get columns for this
 # maybe 2dhist?
 def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
-    fig, ax = plt.subplots(1, 1, figsize=(8,6))
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
     im = ax.plot(x, y, label='stereo method')
     ax.plot(x2, y2, 'b--', lw=2, color='green', label='hillas')
 
@@ -209,7 +211,7 @@ def plot_multi_vs_energy(x, y, out_file=None):
     x_bins, x_bin_center, _ = make_default_cta_binning(e_min=min(x)*u.TeV, e_max=max(x)*u.TeV)
     y_bins = np.arange(0,30,1)
     num_tel_events = np.sum(y)
-    fig, ax = plt.subplots(1, 1, figsize=(8,6))
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
     h,xedges,yedges,im = ax.hist2d(
         x,
         y/num_tel_events,
@@ -244,14 +246,18 @@ def plot_effective_area(df_cuts, mc_spectrum, out_path):
     lower_error = area - lower_conf
     upper_error = upper_conf - area
     mask = area > 0
-    plt.errorbar(
-        bin_centers.value[mask],
-        area.value[mask],
-        xerr = bin_widths.value[mask]/2.0,
-        yerr = [lower_error.value[mask], upper_error.value[mask]],
-        linestyle="")
 
-    plt.title('optisch anpassen, legende adden')
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.savefig(out_path)
+
+    fig, ax = plt.subplots(1, 1, figsize=figsize)
+    ax.plot([1,2,3])
+    #plt.errorbar(
+    #    bin_centers.value[mask],
+    #    area.value[mask],
+    #    xerr = bin_widths.value[mask]/2.0,
+    #    yerr = [lower_error.value[mask], upper_error.value[mask]],
+    #    linestyle="")
+
+    ax.set_title('optisch anpassen, legende adden')
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    fig.savefig(out_path)
