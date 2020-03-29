@@ -511,13 +511,13 @@ $(plots_f)/gamma/effective_area_prep.pdf: $(dl2_f)/gamma_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_effective_area.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
-		$(plots_f)/effective_area_prep.pdf
+		$(plots_f)/gamma/effective_area_prep.pdf
 
 $(plots_f)/gamma/effective_area_prep_signs.pdf: $(dl2_f)/gamma_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_effective_area.py \
 		$(dl2_f)/gamma_dl2.hdf5 \
-		$(plots_f)/effective_area_prep_signs.pdf \
+		$(plots_f)/gamma/effective_area_prep_signs.pdf \
 		-correct_signs
 
 $(plots_f)/gamma_cut/tel_vs_energy.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
@@ -550,13 +550,13 @@ $(plots_f)/test/effective_area_prep.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_effective_area.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
-		$(plots_f)/effective_area_prep.pdf
+		$(plots_f)/test/effective_area_prep.pdf
 
 $(plots_f)/test/effective_area_prep_signs.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/plot_effective_area.py \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
-		$(plots_f)/effective_area_prep_signs.pdf \
+		$(plots_f)/test/effective_area_prep_signs.pdf \
 		-correct_signs
 
 $(plots_f)/test_cut/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5

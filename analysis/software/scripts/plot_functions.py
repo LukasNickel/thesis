@@ -249,13 +249,13 @@ def plot_effective_area(df_cuts, mc_spectrum, out_path):
 
 
     fig, ax = plt.subplots(1, 1, figsize=figsize)
-    ax.plot([1,2,3])
-    #plt.errorbar(
-    #    bin_centers.value[mask],
-    #    area.value[mask],
-    #    xerr = bin_widths.value[mask]/2.0,
-    #    yerr = [lower_error.value[mask], upper_error.value[mask]],
-    #    linestyle="")
+    #ax.plot([1,2,3])
+    plt.errorbar(
+        bin_centers.value[mask],
+        area.value[mask],
+        xerr = bin_widths.value[mask]/2.0,
+        yerr = [lower_error.value[mask], upper_error.value[mask]],
+        linestyle="")
 
     ax.set_title('optisch anpassen, legende adden')
     ax.set_xscale('log')

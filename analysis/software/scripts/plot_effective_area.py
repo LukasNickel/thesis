@@ -25,6 +25,7 @@ if __name__ == '__main__':
 
    #### implement cuts if needed 
    if args.correct_signs:
+       print('true sign cut')
        true_x, true_y = horizontal_to_camera_cta_simtel(events)
        true_disp, true_sign = calc_true_disp(
            true_x,
