@@ -9,3 +9,4 @@ analysis/dl2
 .nfs
 .nfs*
 paper/*.pdf
+*.ipynb*

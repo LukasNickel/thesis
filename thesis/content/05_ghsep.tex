@@ -5,6 +5,9 @@
 
 With the previously mentioned datasets and parameters, the distribution of the predicted gammaness
 on the cross-validated dataset is illustrated in figure \ref{fig:gh_sep}.
+The model is able to differentiate between the two classes. A high proportion of protons gets a
+score near 0 whereas a score near 1 is rarely getting assigned, even for gammas.
+Instead the distribution of the gammas peaks at a prediction score of $\approx 0.7$.
 
 \begin{figure}
     \centering
@@ -17,10 +20,11 @@ on the cross-validated dataset is illustrated in figure \ref{fig:gh_sep}.
     \label{fig:gh_sep}
 \end{figure}
 
-To evaluate the resulting performance of the model, the ROC-curve, precision, recall and
+To evaluate the resulting performance of the model in more detail, the ROC-curve, precision, recall and
 $F_{\num{0.10}}$-score get calculated. 
 The ROC-curve is shown in figure \ref{fig:gh_roc}, with the model achieving an AUC of 
 $\approx \num{0.89}$.
+
 
 \begin{figure}
     \centering
@@ -34,8 +38,10 @@ $\approx \num{0.89}$.
 
 Figure \ref{fig:gh_fscore} shows the precision, recall and $F_{\num{0.10}}$-score over
 the prediction threshold.
-For the hadroness cut we choose the maximum of the $F_{\num{0.10}}$-score
-at $\approx \num{0.82}$
+The curves for precision and recall intersect at $\approx 0.5$, matching the 
+results from figure \ref{fig:gh_sep}.
+The maximum of the $F_{\num{0.10}}$-score is achieved at a prediction
+threshold of  $\approx \num{0.82}$.
 
 \begin{figure}
     \centering
@@ -46,14 +52,29 @@ at $\approx \num{0.82}$
     In accordance to the distribution in figure \ref{fig:gh_sep}, the precision improves up
     to $\approx \num{0.97}$, which marks the hight predictions for gamma events.
     The recall on the other hand gets worse with higher threshold as legitimate gamma events,
-    that achieved a low prediction get removed. 
+    that achieved a low prediction, get removed. 
     The maximum $F_{\num{0.10}}$-score is achieved at a prediction threshold
-    of $\approx \num{0.82}$, which is where the hadroness cut will be applied.}
+    of $\approx \num{0.82}$.}
     \label{fig:gh_fscore}
 \end{figure}
 
 
 The feature importance, as calculated via sklearn, is shown in figure \ref{fig:gh_features}.
+Very influential are the parameters $width$ and $width\_length$, that describe the shape of the hillas ellipse.
+The stereoscopic features provide a lot of infomation as well with the main interaction height $h\_max$
+being the most important.
+Also important are the parameters that describe the intensity distribution, especially
+$log\_size\_area$ and $concentration\_cog$.
+In some cases the feature $num\_islands$ provides information as well.
+
+VERTEILUNGSPLOT ZU NUM ISLANDS ODER AUCH ANDEREN FEATURES ERGÄNZEN?
+
+MEISTENS NUM ISLANDS = 1, SELTEN 2 -> CLEANING ZU HART DAFÜR?
+
+EINE SEITE FÜR VERTEILUNGSPLOTS? VIELLEICHT AUCH INSGESAMT ALS NEUES KAPITEL, DA AUCH FÜR DIE 
+ANDEREN FEATURE IMPORTANCES INTERESSANT?
+
+ALLE FEATURES?
 \begin{figure}
     \centering
     \captionsetup{width=0.9\linewidth}
@@ -62,6 +83,6 @@ The feature importance, as calculated via sklearn, is shown in figure \ref{fig:g
     The separation seems to be based mostly on the description of the main shower ellipse, especially its width and length.
     From the stereoscopic features the predicted interaction height heavily influences the predictions.
     The number of islands only rarely provides a lot of information, which might indicate that our chosen cleaning 
-    removes most additional clusters. -> VERTEILUNG DER ISLANDS ALS KONTROLLE PLOTTEN?}
+    removes most additional clusters.}
     \label{fig:gh_features}
 \end{figure}

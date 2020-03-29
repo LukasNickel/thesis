@@ -11,9 +11,9 @@
 % make
 
 \documentclass[
-  %oneside, % if not printed
+  oneside, % if not printed
   tucolor,       % remove for less green,
-  BCOR=12mm,     % 12mm binding corrections, adjust to fit your binding % 0 if oneside
+  BCOR=0mm,     % 12mm binding corrections, adjust to fit your binding % 0 if oneside
   parskip=half,  % new paragraphs start with half line vertical space
   open=any,      % chapters start on both odd and even pages
   cleardoublepage=plain,  % no header/footer on blank pages
@@ -124,6 +124,8 @@
 \addbibresource{references.bib}  % the bib file to use
 \DefineBibliographyStrings{german}{andothers = {{et\,al\adddot}}}  % replace u.a. with et al.
 
+\usepackage{wrapfig}
+
 % Last packages, do not change order or insert new packages after these ones
 \usepackage[pdfusetitle, unicode, linkbordercolor=tugreen]{hyperref}
 \usepackage{bookmark}
@@ -177,12 +179,12 @@
 
 \author{Lukas Nickel}
 \title{Stereo Reconstruction for the Early Days of CTA}
-\date{27.03.2020}
+\date{20.04.2020}
 \birthplace{Bielefeld}
 \chair{Chair for Experimental Physics V}
 \division{Faculty of Physics}
 \thesisclass{Master of Science}
-\submissiondate{27.03.2020}
+\submissiondate{20.04.2020}
 \firstcorrector{Prof.~Dr.~Dr.~Wolfgang Rhode}
 \secondcorrector{Prof.~Dr.~Bernhard Spaan}
 
@@ -197,20 +199,20 @@
 \makecorrectorpage
 
 % hier beginnt der Vorspann, nummeriert in römischen Zahlen
-%\input{content/00_abstract.tex}
-\setcounter{tocdepth}{6}
+\input{content/00_abstract.tex}
+%\setcounter{tocdepth}{6}
 \tableofcontents
 
 \mainmatter
 % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
-\input{content/overview.tex}
-% \input{content/01_introduction.tex}
-% \input{content/02_cta.tex}
-% \input{content/03_methods.tex}
-% \input{content/04_analysis.tex}
-% \input{content/05_ghsep.tex}
-% \input{content/06_position.tex}
-% \input{content/08_conclusion.tex}
+%\input{content/overview.tex}
+\input{content/01_introduction.tex}
+\input{content/02_cta.tex}
+\input{content/03_methods.tex}
+\input{content/04_analysis.tex}
+\input{content/05_ghsep.tex}
+\input{content/06_position.tex}
+\input{content/08_conclusion.tex}
 
 
 % \newpage
@@ -219,8 +221,8 @@
 % \input{content/appendix.tex}
 
 
-\backmatter
-\printbibliography
+%\backmatter
+%\printbibliography
 
 
 
