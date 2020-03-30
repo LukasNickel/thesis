@@ -173,7 +173,7 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='h
         #bin_centers = np.sqrt(bin_edges[1:] * bin_edges[:-1])
         ax.plot(bin_center-bin_widths/2, b_68, 'bo', lw=2, color='green', label=f'{percentile}% {second}', alpha=alpha)
 
-    ax.set_ylim([0.02, 20])
+    ax.set_ylim([0.02, 2])
     ax.set_yscale('log')
     #ax.axhline(y=1)
     #ax.axhline(y=0.1)

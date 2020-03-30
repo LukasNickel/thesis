@@ -343,8 +343,6 @@ plots: \
 	gh_evaluation \
 	test_plots \
 	gamma_plots
-	
-
 
 disp_evaluation: \
 	$(plots_f)/disp_features.pdf \
@@ -372,7 +370,8 @@ cut_plots: \
 	$(plots_f)/test_cut/multiplicity.pdf \
 	$(plots_f)/gamma_cut/tel_vs_energy.pdf \
 	$(plots_f)/gamma_cut/multiplicity.pdf \
-	$(plots_f)/median_all_cut_compare.pdf
+	$(plots_f)/median_all_cut_compare.pdf \
+	$(plots_f)/gamma_cut/effective_area_prep.pdf
 
 $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
 	TEXINPUTS=$$(pwd): \
@@ -532,6 +531,12 @@ $(plots_f)/gamma_cut/multiplicity.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 	python $(scripts_f)/stereo_resolution_plots.py \
 		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
 		$(plots_f)/gamma_cut
+
+$(plots_f)/gamma_cut/effective_area_prep.pdf: $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_effective_area.py \
+		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
+		$(plots_f)/gamma_cut/effective_area_prep.pdf 
 
 $(plots_f)/test/tel_vs_energy.pdf: $(dl2_f)/diffuse_test_dl2.hdf5
 	TEXINPUTS=$$(pwd): \

@@ -23,10 +23,10 @@ if __name__ == '__main__':
         ('source_alt_pairwise_mean_10.0_true_signs', 'source_az_pairwise_mean_10.0_true_signs', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100_true_signs'),
         ('source_alt_pairwise_median_10.0_true_signs', 'source_az_pairwise_median_10.0_true_signs', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100_true_signs'),
         ('source_alt_median', 'source_az_median', 'Median of telescope predictions', 'median'),
-        ('source_alt_pairwise_mean_10.0_true_signs', 'source_az_pairwise_mean_10.0_true_signs', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100_true_signs'),
-        ('source_alt_pairwise_median_10.0_true_signs', 'source_az_pairwise_median_10.0_true_signs', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100_true_signs')]
+        ('source_alt_pairwise_mean_10.0', 'source_az_pairwise_mean_10.0', 'pairwise_mean averaging of telescope predictions', 'pairwise_mean_100'),
+	('source_alt_pairwise_median_10.0', 'source_az_pairwise_median_10.0', 'pairwise_median averaging of telescope predictions', 'pairwise_median_100')]
     recos = [reco for reco in recos if reco[0] in df.columns]
-    
+ 
     for reco in tqdm(recos):
         ## this removes all events hillas failed on!!!! these might still work with other methods!
         df_ = df[['num_triggered_telescopes', 'mc_energy', 'mc_alt', 'mc_az', reco[0], reco[1]]].dropna(how='any')  
