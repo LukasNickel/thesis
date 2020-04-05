@@ -32,6 +32,47 @@ dark_main_color = '#707070'
 color_cycle = cycle(color_pallete)
 figsize = (10,6)
 
+def apply_cuts(df, cuts_path, sigma=1, theta_cuts=True, prediction_cuts=True, multiplicity_cuts=False, disp=False):
+    cuts = pd.read_csv(cuts_path)
+    bin_center = np.sqrt(cuts.e_min * cuts.e_max)
+
+    m = np.ones(len(df)).astype(np.bool)
+    if theta_cuts:
+        source_az = df.mc_az.values * u.deg
+        source_alt = df.mc_alt.values * u.deg
+
+        if disp:
+            alt = df['source_alt_pairwise_median_10.0'].values * u.deg
+            az = df['source_az_pairwise_median_10.0'].values * u.deg
+        else:
+            alt = df['alt'].values * u.deg
+            az = df['az'].values * u.deg
+        theta = angular_separation(
+            df['mc_az'].values*u.deg,
+            df['mc_alt'].values*u.deg,
+            az,
+            alt).to(u.deg)
+        df['theta'] = theta
+
+        f_theta = create_interpolated_function(bin_center, cuts.theta_cut, sigma=sigma)
+        m &= df.theta < f_theta(df.theta)
+
+    if prediction_cuts:
+        f_prediction = create_interpolated_function(bin_center, cuts.prediction_cut)
+        m &= df.gamma_prediction_mean >= f_prediction(df.gamma_energy_prediction_mean)
+
+    if multiplicity_cuts:
+        x0 = cuts.multiplicity.iloc[0]
+        x1 = cuts.multiplicity.iloc[-1]
+        f_mult = interp1d(cuts.e_min, cuts.multiplicity, kind='previous', bounds_error=False, fill_value=(x0, x1))
+        m &= df.num_triggered_telescopes >= f_mult(df.gamma_energy_prediction_mean)
+
+    return df[m]
+
+
+
+
+
 def add_colorbar_to_figure(im, fig, ax):
     divider = make_axes_locatable(ax)
     cax = divider.append_axes('right', size='5%', pad=0.05)
@@ -257,6 +298,11 @@ def plot_effective_area(df_cuts, mc_spectrum, out_path):
         yerr = [lower_error.value[mask], upper_error.value[mask]],
         linestyle="")
 
+    reference=True
+    if reference:
+        from cta_plots.sensitivity import load_effective_area_reference
+        df=load_effective_area_reference()
+        plt.plot(df.energy, df.effective_area, '--', label='Reference')
     ax.set_title('optisch anpassen, legende adden')
     ax.set_xscale('log')
     ax.set_yscale('log')

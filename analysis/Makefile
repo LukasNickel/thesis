@@ -55,7 +55,7 @@ directories:
 	mkdir -p $(plots_f)/gamma
 	mkdir -p $(plots_f)/test_cut
 	mkdir -p $(plots_f)/gamma_cut
-
+	mkdir -p $(plots_f)/sensitivity
 
 # python=3.6.8
 .ONESHELL:
@@ -137,18 +137,19 @@ merge_data:
 		'$(prep_f)/proton/*.h5' \
 		$(merged_f)/proton_merged.hdf5 \
 		-f h5py
-	python $(merge_script) \
-		'$(prep_f)/diffuse_mono/*.h5' \
-		$(merged_f)/diffuse_mono_merged.hdf5 \
-		-f h5py
-	python $(merge_script) \
-		'$(prep_f)/pointlike_mono/*.h5' \
-		$(merged_f)/gamma_mono_merged.hdf5 \
-		-f h5py
-	python $(merge_script) \
-		'$(prep_f)/proton_mono/*.h5' \
-		$(merged_f)/proton_mono_merged.hdf5 \
-		-f h5py
+
+#	python $(merge_script) \
+#		'$(prep_f)/diffuse_mono/*.h5' \
+#		$(merged_f)/diffuse_mono_merged.hdf5 \
+#		-f h5py
+#	python $(merge_script) \
+#		'$(prep_f)/pointlike_mono/*.h5' \
+#		$(merged_f)/gamma_mono_merged.hdf5 \
+#		-f h5py
+#	python $(merge_script) \
+#		'$(prep_f)/proton_mono/*.h5' \
+#		$(merged_f)/proton_mono_merged.hdf5 \
+#		-f h5py
 
 # we need specific mono data!!!!
 
@@ -162,8 +163,8 @@ split_data:
 	aict_split_data \
 		$(merged_f)/diffuse_merged.hdf5 \
 		$(merged_f)/diffuse \
-		-f 0.7 -n test \
-		-f 0.3 -n train \
+		-f 0.75 -n test \
+		-f 0.25 -n train \
 		-t cta \
 		-v
 	aict_split_data \
@@ -175,33 +176,37 @@ split_data:
 	aict_split_data \
 		$(merged_f)/proton_merged.hdf5 \
 		$(merged_f)/proton \
-		-f 0.3 -n train_separation \
+		-f 0.25 -n train_separation \
+		-f 0.75 -n test \
 		-t cta \
 		-v
-	aict_split_data \
-		$(merged_f)/diffuse_mono_merged.hdf5 \
-		$(merged_f)/diffuse_mono \
-		-f 0.7 -n test \
-		-f 0.3 -n train \
-		-t cta \
-		-v
-	aict_split_data \
-		$(merged_f)/gamma_mono_merged.hdf5 \
-		$(merged_f)/gamma_mono \
-		-f 1 -n test \
-		-t cta \
-		-v
-	aict_split_data \
-		$(merged_f)/proton_mono_merged.hdf5 \
-		$(merged_f)/proton_mono \
-		-f 0.3 -n train_separation \
-		-t cta \
-		-v
+
+
+#	aict_split_data \
+#		$(merged_f)/diffuse_mono_merged.hdf5 \
+#		$(merged_f)/diffuse_mono \
+##		-f 0.7 -n test \
+#		-f 0.3 -n train \
+#		-t cta \
+##		-v
+#	aict_split_data \
+#		$(merged_f)/gamma_mono_merged.hdf5 \
+#		$(merged_f)/gamma_mono \
+##		-f 1 -n test \
+#		-t cta \
+#		-v
+##	aict_split_data \
+#		$(merged_f)/proton_mono_merged.hdf5 \
+#		$(merged_f)/proton_mono \
+##		-f 0.3 -n train_separation \
+#		-t cta \
+#		-v
 
 
 train_models: \
 	$(models_f)/separator_model.pkl \
-	$(models_f)/disp_model.pkl 
+	$(models_f)/disp_model.pkl \
+	$(models_f)/regressor_model.pkl
 
 
 $(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_conf)  $(merged_f)/proton_train_separation.hdf5 $(merged_f)/diffuse_train.hdf5
@@ -213,7 +218,7 @@ $(models_f)/separator_model.pkl $(models_f)/separator_performance.hdf5: $(tel_co
 		$(models_f)/separator_model.pkl
 
 
-$(models_f)/regressor_model.pkl $(models_f)/regressor_performance.hdf5: $(tel_conf)  $(merged_f)/diffuse_train_energy.hdf5
+$(models_f)/regressor_model.pkl $(models_f)/regressor_performance.hdf5: $(tel_conf)  $(merged_f)/diffuse_train.hdf5
 	aict_train_energy_regressor\
 		$(tel_conf) \
 		$(merged_f)/diffuse_train.hdf5 \
@@ -258,8 +263,9 @@ $(models_f)/mono_disp_model.pkl $(models_f)/mono_sign_model.pkl $(models_f)/mono
 #### dl2 stuff
 
 dl2: \
-    $(dl2_f)/gamma_dl2.hdf5 \
-	$(dl2_f)/diffuse_test_dl2.hdf5
+	$(dl2_f)/gamma_dl2.hdf5 \
+	$(dl2_f)/diffuse_test_dl2.hdf5 \
+	$(dl2_f)/proton_test_dl2.hdf5
 
 
 $(dl2_f)/diffuse_mono_test_dl2.hdf5: $(merged_f)/diffuse_mono_train_disp.hdf5 $(models_f)/mono_disp_model.pkl
@@ -279,7 +285,7 @@ $(dl2_f)/gamma_mono_dl2.hdf5: $(merged_f)/gamma_mono_test.hdf5 $(models_f)/mono_
 		$(models_f)/mono_sign_model.pkl
 
 
-$(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl
+$(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl $(models_f)/regressor_model.pkl
 	cp $(merged_f)/gamma_test.hdf5 $(dl2_f)/gamma_dl2.hdf5
 	aict_apply_disp_regressor\
 		$(tel_conf) \
@@ -295,8 +301,12 @@ $(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model
 		$(tel_conf) \
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(models_f)/separator_model.pkl
+	aict_apply_energy_regressor\
+		$(tel_conf) \
+		$(dl2_f)/gamma_dl2.hdf5 \
+		$(models_f)/regressor_model.pkl
 
-$(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl
+$(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl $(models_f)/regressor_model.pkl
 	cp $(merged_f)/diffuse_test.hdf5 $(dl2_f)/diffuse_test_dl2.hdf5
 	aict_apply_disp_regressor\
 		$(tel_conf) \
@@ -307,14 +317,38 @@ $(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separa
 		$(tel_conf) \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		$(models_f)/separator_model.pkl
-
-
 	aict_apply_stereo_disp \
 		$(tel_conf) \
 		$(dl2_f)/diffuse_test_dl2.hdf5 \
 		-n 20 \
 		-e 10.0
-	
+	aict_apply_energy_regressor\
+		$(tel_conf) \
+		$(dl2_f)/diffuse_test_dl2.hdf5 \
+		$(models_f)/regressor_model.pkl
+
+$(dl2_f)/proton_test_dl2.hdf5: $(merged_f)/proton_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl $(models_f)/regressor_model.pkl
+	cp $(merged_f)/proton_test.hdf5 $(dl2_f)/proton_test_dl2.hdf5
+	aict_apply_disp_regressor\
+		$(tel_conf) \
+		$(dl2_f)/proton_test_dl2.hdf5 \
+		$(models_f)/disp_model.pkl \
+		$(models_f)/sign_model.pkl
+	aict_apply_stereo_disp \
+		$(tel_conf) \
+		$(dl2_f)/proton_test_dl2.hdf5 \
+		-n 20 \
+		-e 10.0
+	aict_apply_separation_model \
+		$(tel_conf) \
+		$(dl2_f)/proton_test_dl2.hdf5 \
+		$(models_f)/separator_model.pkl
+	aict_apply_energy_regressor\
+		$(tel_conf) \
+		$(dl2_f)/proton_test_dl2.hdf5 \
+		$(models_f)/regressor_model.pkl
+
+
 cut: $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5 $(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 
 $(dl2_f)/diffuse_test_dl2_hadroness_cut.hdf5: $(dl2_f)/diffuse_test_dl2.hdf5 $(selection_conf)
@@ -335,12 +369,20 @@ $(dl2_f)/gamma_dl2_hadroness_cut.hdf5: $(dl2_f)/gamma_dl2.hdf5 $(selection_conf)
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5
 
+##########################################
+optimize: \
+	$(dl2_f)/disp_cuts.yaml \
+	$(dl2_f)/hillas_cuts.yaml
+
+
+$(dl2_f)/disp_cuts.yaml: $(dl2_f)/gamma_dl2.hdf5 $(dl2_f)/proton_test.hdf5
 
 
 ##########################################
 plots: \
-    disp_evaluation \
+	disp_evaluation \
 	gh_evaluation \
+	energy_evaluation \
 	test_plots \
 	gamma_plots
 
@@ -351,8 +393,11 @@ disp_evaluation: \
 	$(plots_f)/disp_test_r2_equal_filled.pdf
 	
 gh_evaluation: \
-    $(plots_f)/separation_features.pdf \
+	$(plots_f)/separation_features.pdf \
 	$(plots_f)/cross_val_sep_perf_plot.pdf
+
+energy_evaluation: \
+	$(plots_f)/cross_val_reg_perf_plot.pdf
 
 test_plots: \
 	$(plots_f)/test/tel_vs_energy.pdf \
@@ -372,6 +417,14 @@ cut_plots: \
 	$(plots_f)/gamma_cut/multiplicity.pdf \
 	$(plots_f)/median_all_cut_compare.pdf \
 	$(plots_f)/gamma_cut/effective_area_prep.pdf
+
+sensitivity_plots: \
+	$(plots_f)/sensitivity/hillas_sensitivity.pdf \
+	$(plots_f)/sensitivity/disp_sensitivity.pdf \
+	$(plots_f)/sensitivity/disp_resolution.pdf \
+	$(plots_f)/sensitivity/disp_effective_area.pdf \
+	$(plots_f)/sensitivity/hillas_effective_area.pdf \
+	$(plots_f)/sensitivity/hillas_resolution.pdf 
 
 $(plots_f)/disp_features.pdf: $(models_f)/disp_model.pkl
 	TEXINPUTS=$$(pwd): \
@@ -589,3 +642,60 @@ $(plots_f)/median_all_cut_compare.pdf: $(dl2_f)/gamma_dl2.hdf5 $(dl2_f)/gamma_dl
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(dl2_f)/gamma_dl2_hadroness_cut.hdf5 \
 		$(plots_f)
+
+$(plots_f)/sensitivity/hillas_sensitivity.pdf: $(dl2_f)/gamma_dl2.hdf5 $(dl2_f)/proton_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	cta_plot_sensitivity \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	$(dl2_f)/proton_test_dl2.hdf5 \
+	-o $(plots_f)/sensitivity/hillas_sensitivity.pdf \
+	--reference \
+	--requirement
+
+$(plots_f)/sensitivity/hillas_resolution.pdf: $(plots_f)/sensitivity/hillas_sensitivity.pdf
+	TEXINPUTS=$$(pwd): \
+	cta_plot_reco \
+	-c $(plots_f)/sensitivity/hillas_sensitivity.csv \
+	-o $(plots_f)/sensitivity/hillas_resolution.pdf \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	angular-resolution \
+	--reference  
+
+
+$(plots_f)/sensitivity/hillas_effective_area.pdf: $(plots_f)/sensitivity/hillas_sensitivity.pdf
+	TEXINPUTS=$$(pwd): \
+	cta_plot_effective_area \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	-o $(plots_f)/sensitivity/hillas_effective_area.pdf \
+	-p $(plots_f)/sensitivity/hillas_sensitivity.csv \
+	--reference
+
+
+$(plots_f)/sensitivity/disp_sensitivity.pdf: $(dl2_f)/gamma_dl2.hdf5 $(dl2_f)/proton_test_dl2.hdf5
+	TEXINPUTS=$$(pwd): \
+	cta_plot_sensitivity \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	$(dl2_f)/proton_test_dl2.hdf5 \
+	-o $(plots_f)/sensitivity/disp_sensitivity.pdf \
+	--disp \
+	--reference 
+
+$(plots_f)/sensitivity/disp_resolution.pdf: $(plots_f)/sensitivity/disp_sensitivity.pdf
+	TEXINPUTS=$$(pwd): \
+	cta_plot_reco \
+	-c $(plots_f)/sensitivity/disp_sensitivity.csv \
+	-o $(plots_f)/sensitivity/disp_resolution.pdf \
+	--disp \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	angular-resolution \
+	--reference 
+
+
+$(plots_f)/sensitivity/disp_effective_area.pdf: $(plots_f)/sensitivity/disp_sensitivity.pdf
+	TEXINPUTS=$$(pwd): \
+	cta_plot_effective_area \
+	$(dl2_f)/gamma_dl2.hdf5 \
+	-o $(plots_f)/sensitivity/disp_effective_area.pdf \
+	-p $(plots_f)/sensitivity/disp_sensitivity.csv \
+	--disp \
+	--reference 
