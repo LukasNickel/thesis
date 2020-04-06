@@ -30,7 +30,7 @@ main_color = '#4386dd'
 main_color_complement = '#d63434'
 dark_main_color = '#707070'
 color_cycle = cycle(color_pallete)
-figsize = (10,6)
+figsize = (8,6)
 
 def apply_cuts(df, cuts_path, sigma=1, theta_cuts=True, prediction_cuts=True, multiplicity_cuts=False, disp=False):
     cuts = pd.read_csv(cuts_path)
@@ -150,7 +150,7 @@ def plot_angular_resolution(x, y, name, x2=None, y2=None, log=False, out_file=No
     ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel(r'$E_{\mathrm{MC}} \,\, / \,\, \si{\tera\electronvolt}$')
     #ax.legend()
-    ax.set_title(name+f'\n samples: {len(y)}')
+    #ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
         return 0
@@ -189,7 +189,7 @@ def plot_angular_resolution_vs_multi(x, y, y2=None, name='', out_file=None, perc
     ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel('Multiplicity')
     #ax.legend()
-    ax.set_title(name+f'\n samples: {len(y)}')
+    #ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
         return 0
@@ -224,7 +224,7 @@ def plot_angular_resolution_comp(x, y, x2, y2, name='', out_file=None, second='h
     ax.set_xlabel('Multiplicity')
     # do that duplicta eremoval stuff
     #ax.legend()
-    ax.set_title(name+f'\n samples: {len(y)}')
+    #ax.set_title(name+f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file)
         return 0
@@ -241,7 +241,7 @@ def plot_stereo_vs_multi(x, y, x2, y2, out_file=None):
     ax.set_ylabel(r'$\Theta \,\, / \,\, \si{\degree}$')
     ax.set_xlabel('Multiplicity')
     ax.legend()
-    ax.set_title(f'\n samples: {len(y)}')
+    #ax.set_title(f'\n samples: {len(y)}')
     if out_file:
         fig.savefig(out_file, out_file=None)
         return 0
@@ -264,7 +264,7 @@ def plot_multi_vs_energy(x, y, out_file=None):
     ax.set_ylabel('Multiplicity')
     ax.set_xlabel('MC Energy')
     ax.set_xscale('log')
-    ax.set_title(f'Multiplicity\n samples: {len(y)}')
+    #ax.set_title(f'Multiplicity\n samples: {len(y)}')
     add_colorbar_to_figure(im, fig, ax)
     if out_file:
         fig.savefig(out_file)
@@ -303,7 +303,7 @@ def plot_effective_area(df_cuts, mc_spectrum, out_path):
         from cta_plots.sensitivity import load_effective_area_reference
         df=load_effective_area_reference()
         plt.plot(df.energy, df.effective_area, '--', label='Reference')
-    ax.set_title('optisch anpassen, legende adden')
+    #ax.set_title('optisch anpassen, legende adden')
     ax.set_xscale('log')
     ax.set_yscale('log')
     fig.savefig(out_path)
