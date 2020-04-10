@@ -51,39 +51,53 @@ energy:
   telescope_type_key: telescope_type_name
   output_name: gamma_energy_prediction
 
-  features:  # remove array event features ?
+
+  features:
+    - num_pixel_in_shower
+    - intensity
     - width
     - length
-    - skewness
-    - kurtosis
-    - intensity
-    - camera_type_id
-    - telescope_type_id
+    - psi
+    - phi
     - r
+    - kurtosis
+    - skewness
     - slope
     - intercept
-    - num_pixel_in_shower
+    - deviation
+    - slope_err
+    - intercept_err
     - leakage1_intensity
     - leakage1_pixel
     - leakage2_intensity
     - leakage2_pixel
-    - phi
-    - psi
+    - num_islands
+    - telescope_type_id
+    - camera_type_id
     - focal_length
-
+    - concentration_cog
+    - concentration_core
+    - concentration_pixel
+    - distance_to_reconstructed_core_position
+    - h_max
+    - total_intensity
+    - average_intensity
+    - num_triggered_telescopes
+    - num_triggered_lst
+    - num_triggered_mst
+    - num_triggered_sst
+    - mirror_area
   feature_generation:
     needed_columns:
       - width
       - length
       - intensity
-      - x
-      - y
     features:
       area: width * length
       width_length: 1 - (width / length)
       log_size: log(intensity)
       log_size_area: log(intensity) / (width * length)
-      cog_r: sqrt(x**2 + y**2)
+
 
 # config for the g/h separation
 separator:
@@ -140,6 +154,11 @@ separator:
     - h_max
     - total_intensity
     - average_intensity
+    - num_triggered_telescopes
+    - num_triggered_lst
+    - num_triggered_mst
+    - num_triggered_sst
+    - mirror_area 
   feature_generation:
     needed_columns:
       - width
@@ -223,7 +242,11 @@ disp:
     - h_max
     - total_intensity
     - average_intensity
-
+    - num_triggered_telescopes
+    - num_triggered_lst
+    - num_triggered_mst
+    - num_triggered_sst
+    - mirror_area 
   feature_generation:
     needed_columns:
       - width

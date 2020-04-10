@@ -265,6 +265,7 @@ $(models_f)/mono_disp_model.pkl $(models_f)/mono_sign_model.pkl $(models_f)/mono
 dl2: \
 	$(dl2_f)/gamma_dl2.hdf5 \
 	$(dl2_f)/diffuse_test_dl2.hdf5 \
+	$(dl2_f)/diffuse_train_dl2.hdf5 \
 	$(dl2_f)/proton_test_dl2.hdf5
 
 
@@ -306,6 +307,14 @@ $(dl2_f)/gamma_dl2.hdf5: $(merged_f)/gamma_test.hdf5 $(models_f)/separator_model
 		$(dl2_f)/gamma_dl2.hdf5 \
 		$(models_f)/regressor_model.pkl
 
+$(dl2_f)/diffuse_train_dl2.hdf5: $(merged_f)/diffuse_train.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl $(models_f)/regressor_model.pkl
+	cp $(merged_f)/diffuse_train.hdf5 $(dl2_f)/diffuse_train_dl2.hdf5
+	aict_apply_disp_regressor\
+		$(tel_conf) \
+		$(dl2_f)/diffuse_train_dl2.hdf5 \
+		$(models_f)/disp_model.pkl \
+		$(models_f)/sign_model.pkl
+	
 $(dl2_f)/diffuse_test_dl2.hdf5: $(merged_f)/diffuse_test.hdf5 $(models_f)/separator_model.pkl $(models_f)/disp_model.pkl $(models_f)/regressor_model.pkl
 	cp $(merged_f)/diffuse_test.hdf5 $(dl2_f)/diffuse_test_dl2.hdf5
 	aict_apply_disp_regressor\
@@ -390,14 +399,16 @@ disp_evaluation: \
 	$(plots_f)/disp_features.pdf \
 	$(plots_f)/sign_features.pdf \
 	$(plots_f)/disp_gamma_r2_equal_filled.pdf \
+	$(plots_f)/disp_train_r2_equal_filled.pdf \
 	$(plots_f)/disp_test_r2_equal_filled.pdf
 	
 gh_evaluation: \
 	$(plots_f)/separation_features.pdf \
-	$(plots_f)/cross_val_sep_perf_plot.pdf
+        $(plots_f)/cross_val_sep_perf_plot.pdf
 
 energy_evaluation: \
-	$(plots_f)/cross_val_reg_perf_plot.pdf
+	$(plots_f)/cross_val_reg_perf_plot.pdf \
+        $(plots_f)/gamma_reg_perf_plot.pdf
 
 test_plots: \
 	$(plots_f)/test/tel_vs_energy.pdf \
@@ -466,6 +477,22 @@ $(plots_f)/disp_gamma_r2_equal_filled.pdf: $(dl2_f)/disp_performance_gamma.hdf
 		$(dl2_f)/disp_performance_gamma.hdf \
 		$(plots_f)/disp_gamma
 
+$(plots_f)/disp_train_r2_equal_filled.pdf: $(dl2_f)/disp_performance_train.hdf
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/plot_disp_performance.py \
+		$(dl2_f)/disp_performance_train.hdf \
+		$(plots_f)/disp_train
+
+$(dl2_f)/disp_performance_train.hdf: $(models_f)/disp_model.pkl
+	TEXINPUTS=$$(pwd): \
+	python $(scripts_f)/disp_performance.py \
+		$(dl2_f)/diffuse_train_dl2.hdf5 \
+		$(models_f)/disp_model.pkl \
+		$(models_f)/sign_model.pkl \
+		$(tel_conf) \
+		$(dl2_f)/disp_performance_train.hdf
+	
+
 $(dl2_f)/disp_performance_test.hdf: $(models_f)/disp_model.pkl
 	TEXINPUTS=$$(pwd): \
 	python $(scripts_f)/disp_performance.py \
@@ -514,6 +541,21 @@ $(plots_f)/cross_val_reg_perf_plot.pdf: $(tel_conf) $(models_f)/regressor_perfor
 		$(models_f)/regressor_model.pkl \
 		-o $(plots_f)/cross_val_reg_perf_plot.pdf
 
+$(dl2_f)/gamma_energy_performance.hdf5:
+	python software/scripts/create_performance_frame.py \
+        $(dl2_f)/gamma_dl2.hdf5 \
+        energy \
+        $(dl2_f)/gamma_energy_performance.hdf5
+	
+$(plots_f)/gamma_reg_perf_plot.pdf: $(tel_conf) $(dl2_f)/gamma_energy_performance.hdf5 $(models_f)/regressor_model.pkl
+	TEXINPUTS=$$(pwd): \
+	aict_plot_regressor_performance \
+		$(tel_conf) \
+		$(dl2_f)/gamma_energy_performance.hdf5 \
+		$(models_f)/regressor_model.pkl \
+		-o $(plots_f)/gamma_reg_perf_plot.pdf
+
+
 
 $(plots_f)/cross_val_array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_regressor_performance.hdf5 $(models_f)/array_regressor_model.pkl
 	TEXINPUTS=$$(pwd): \
@@ -522,6 +564,20 @@ $(plots_f)/cross_val_array_reg_perf_plot.pdf: $(array_conf) $(models_f)/array_re
 		$(models_f)/array_regressor_performance.hdf5 \
 		$(models_f)/array_regressor_model.pkl \
 		-o $(plots_f)/cross_val_array_reg_perf_plot.pdf
+
+$(dl2_f)/gamma_separator_performance.hdf5:
+	python software/scripts/create_performance_frame.py \
+        $(dl2_f)/gamma_dl2.hdf5 \
+        separator \
+        $(dl2_f)/gamma_separator_performance.hdf5
+	
+$(plots_f)/gamma_sep_perf_plot.pdf: $(tel_conf) $(dl2_f)/gamma_separator_performance.hdf5 $(models_f)/separator_model.pkl
+	TEXINPUTS=$$(pwd): \
+	aict_plot_separator_performance \
+		$(tel_conf) \
+		$(dl2_f)/gamma_separator_performance.hdf5 \
+		$(models_f)/separator_model.pkl \
+		-o $(plots_f)/gamma_sep_perf_plot.pdf
 
 
 $(plots_f)/cross_val_sep_perf_plot.pdf: $(tel_conf) $(models_f)/separator_performance.hdf5 $(models_f)/separator_model.pkl
@@ -678,7 +734,8 @@ $(plots_f)/sensitivity/disp_sensitivity.pdf: $(dl2_f)/gamma_dl2.hdf5 $(dl2_f)/pr
 	$(dl2_f)/proton_test_dl2.hdf5 \
 	-o $(plots_f)/sensitivity/disp_sensitivity.pdf \
 	--disp \
-	--reference 
+	--reference \
+	--requirement
 
 $(plots_f)/sensitivity/disp_resolution.pdf: $(plots_f)/sensitivity/disp_sensitivity.pdf
 	TEXINPUTS=$$(pwd): \
