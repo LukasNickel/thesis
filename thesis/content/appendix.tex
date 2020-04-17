@@ -1,9 +1,9 @@
 \chapter{Parameters}
-\label{sec:app_params}
+\label{sec:params}
 
 \section{Preprocessing}
 
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}
 ---
 chunksize: 20
 
@@ -57,7 +57,7 @@ allowed_ids:[
 
 \section{Machine Learning Models}
 
-\begin{lstlisting}[language=yaml]
+\begin{lstlisting}
 ---
 # seed for the random number generators
 seed: 0
@@ -215,20 +215,6 @@ disp:
       width_length: 1 - (width / length)
       log_size: log(intensity)
       log_size_area: log(intensity) / (width * length * @pi)
-
----
-\end{lstlisting}
-
-\section{Hadroness Cut}
-
-\begin{lstlisting}[language=yaml]
----
-multiple_telescopes: True
-
-selection:
-    gamma_prediction_mean:
-      - '>='
-      - 0.82
 
 ---
 \end{lstlisting}

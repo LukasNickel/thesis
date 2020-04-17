@@ -80,7 +80,7 @@
 \newcommand\secondcorrector[1]{\renewcommand\thesecondcorrector{#1}}
 
 % set title page elements
-\subject{Project Submitted in Partial Fulfillment of the
+\subject{Thesis Submitted in Partial Fulfillment of the
 Requirements for the Degree of\\ \thethesisclass}
 \publishers{\thechair \\ \thedivision \\ Technical University of Dortmund}
 
@@ -89,8 +89,8 @@ Requirements for the Degree of\\ \thethesisclass}
   \thispagestyle{empty}
   \vspace*{\fill}
   \begin{tabular}{@{}l@{\hspace{2em}}l@{}}
-      First Corrector:  & \thefirstcorrector \\
-      Second Corrector: & \thesecondcorrector \\
+      First Supervisor:  & \thefirstcorrector \\
+      Second Supervisor: & \thesecondcorrector \\
       Submission Date:    & \thesubmissiondate
   \end{tabular}
   \newpage

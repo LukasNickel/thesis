@@ -1,88 +1,126 @@
 \chapter{Results}\label{Results}
 
+\section{Model Performances}
 
-\section{Gamma-/Hadron-Separation}\label{Gamma-/Hadron-Separation}
+The performance of the different random forest models IS evaluated on
+the cross-validated training data with the predictions made on
+telescope level.
+Besides some basic performance measures, the most important features
+according to the sklearn implementation are given.
 
-With the previously mentioned datasets and parameters, the distribution of the predicted gammaness
-on the cross-validated dataset is illustrated in figure \ref{fig:gh_sep}.
-The model is able to differentiate between the two classes. A high proportion of protons gets a
-score near 0 whereas a score near 1 is rarely getting assigned, even for gammas.
-Instead the distribution of the gammas peaks at a prediction score of $\approx 0.7$.
+\subsection{Background Separation}
+\label{Gamma-/Hadron-Separation}
+
+% The distribution of the prediction score is illustrated in figure \ref{fig:gh_sep}
+% with true protons being marked in blue and true gammas in orange.
+
+% \begin{figure}
+%     \centering
+%     \captionsetup{width=0.6\textwidth}
+%     \includegraphics[page=2, width=.8\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
+%     \caption{Distribution of the predicted gammaness on the cross-validated training sets.
+%         The x-axis marks the score assigned by the model.}
+%     \label{fig:gh_sep}
+% \end{figure}
+
+To evaluate the resulting performance of the model, the area under the ROC-curve, precision, recall and
+$F_{\num{0.1}}$-score get calculated.
+The AUC is displayed in figure \ref{fig:gh_roc}.
+It is almost identical for all cross-validation steps with
+a mean AUC of \num{0.89}. The variations being this small is connected to the
+big number of training events.
 
 \begin{figure}
     \centering
     \captionsetup{width=0.9\linewidth}
-    \includegraphics[page=2, width=.9\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
-    \caption{Distribution of the predicted gammaness on the cross-validated training sets.
-	    The two populations (Proton and Gamma, marked in blue and orange), can be separated 
-	    to a certain degree.
-        A perfect prediction would show no overlap between the distributions.}
-    \label{fig:gh_sep}
-\end{figure}
-
-To evaluate the resulting performance of the model in more detail, the ROC-curve, precision, recall and
-$F_{\num{0.10}}$-score get calculated. 
-The ROC-curve is shown in figure \ref{fig:gh_roc}, with the model achieving an AUC of 
-$\approx \num{0.89}$.
-
-
-\begin{figure}
-    \centering
-    \captionsetup{width=0.9\linewidth}
-    \hspace*{0.15\textwidth}\includegraphics[page=1, width=.9\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
+    \hspace*{0.1\textwidth}\includegraphics[page=1, width=.6\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
     \caption{ROC-curve for the gamma/hadron separation on the cross-validated training sets.
-    A mean AUC of \num{0.8858 \pm 0.0002} gets obtained with the trained model.
+    A mean AUC of \num{0.8888 \pm 0.0001} is obtained with the trained model.
     The five ROC-curves from the individual cross validation steps show almost no deviation.}
     \label{fig:gh_roc}
 \end{figure}
 
-Figure \ref{fig:gh_fscore} shows the precision, recall and $F_{\num{0.10}}$-score over
-the prediction threshold.
-The curves for precision and recall intersect at $\approx 0.5$, matching the 
-results from figure \ref{fig:gh_sep}.
+% Figure \ref{fig:gh_fscore} shows the precision, recall and $F_{\num{0.10}}$-score over
+% the prediction threshold.
+% The curves for precision and recall intersect at $\approx 0.5$, visually matching the 
+% results from figure \ref{fig:gh_sep}.
+The other metrics can be seen in figure \ref{fig:gh_scores}.
+Looking at the precision and recall, it can be noted, that no scores above 0.97 are assigned
+for any sample and very few gamma events achieve scores below \num{0.1}.
 The maximum of the $F_{\num{0.10}}$-score is achieved at a prediction
-threshold of  $\approx \num{0.82}$.
+threshold of $\approx \num{0.8}$.
 
 \begin{figure}
     \centering
-    \captionsetup{width=0.9\linewidth}
-    \includegraphics[page=3, width=.9\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
+    \captionsetup{width=0.9\textwidth}
+    \includegraphics[page=3, width=.6\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
     \caption{Precision, recall and $F_{\num{0.10}}$-score for the gamma/hadron separation model on the 
     cross-validated training sets.
-    In accordance to the distribution in figure \ref{fig:gh_sep}, the precision improves up
-    to $\approx \num{0.97}$, which marks the hight predictions for gamma events.
+    The precision improves up
+    to $\approx \num{0.97}$ and falls to 0 above that threshold.
+    This marks the highest predictions for gamma events.
     The recall on the other hand gets worse with higher threshold as legitimate gamma events,
-    that achieved a low prediction, get removed. 
+    that achieved a low prediction, are removed and the amount of selected signal events decreases.
     The maximum $F_{\num{0.10}}$-score is achieved at a prediction threshold
-    of $\approx \num{0.82}$.}
-    \label{fig:gh_fscore}
+    of $\approx \num{0.8}$.}
+    \label{fig:gh_scores}
 \end{figure}
 
 
-The feature importance, as calculated via sklearn, is shown in figure \ref{fig:gh_features}.
-Very influential are the parameters $width$ and $width\_length$, that describe the shape of the hillas ellipse.
-The stereoscopic features provide a lot of infomation as well with the main interaction height $h\_max$
-being the most important.
-Also important are the parameters that describe the intensity distribution, especially
-$log\_size\_area$ and $concentration\_cog$.
-In some cases the feature $num\_islands$ provides information as well.
+% \begin{figure}
+% 	\centering
+% 	\captionsetup{width=0.6\textwidth}
+% 	\begin{subfigure}{.45\textwidth}
+%   		\centering
+%         \hspace*{0.05\textwidth}\includegraphics[page=1, width=\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
+% 	\end{subfigure}%
+% 	\begin{subfigure}{.45\textwidth}
+%  		\centering
+%         \includegraphics[page=3, width=\textwidth]{../analysis/plots/cross_val_sep_perf_plot.pdf}
+% 	\end{subfigure}
+% 	\caption{
+% 		Left: The ROC-curves for each cross validation step and the mean curve.
+%         All curves are almost identical, the mean AUC achieved is \num{0.89}. \\
+% 		Right: Precision, Recall and $F_{0.10}$-score. The maximum $F_{0.10}$-score
+%         is achieved at a classifier threshold of $\approx 0.8$.}
+% 	\label{fig:gh_eval}
+% \end{figure}
 
-VERTEILUNGSPLOT ZU NUM ISLANDS ODER AUCH ANDEREN FEATURES ERGÄNZEN?
 
-MEISTENS NUM ISLANDS = 1, SELTEN 2 -> CLEANING ZU HART DAFÜR?
 
-EINE SEITE FÜR VERTEILUNGSPLOTS? VIELLEICHT AUCH INSGESAMT ALS NEUES KAPITEL, DA AUCH FÜR DIE 
-ANDEREN FEATURE IMPORTANCES INTERESSANT?
+The 20 most important features are listed in figure \ref{fig:gh_features}.
+The individual points represent the feature importance of a single tree in one
+cross-validation step, the blue line marks the median value and the box plots
+contain the two inner quartiles with the whisker extending \num{1.5} times the
+interquartile range.
+Variation in the height of the points is added for illustration purposes and does not
+contain any information.
 
-ALLE FEATURES?
+The illustration suggests, that the separation is based mostly on the ellipsicity
+and intensity concentration of the image. Additional information is gained
+with the stereoscopically reconstructed features.
+Timing parameters do not offer much and a distinction in different telescope types
+only seems to happen to a small degree.
+The $num\_islands$ feature sometimes helps with the separation.
+Its distribution of feature importances shows two separated
+clusters, which goes well with the discrete nature of the feature.
+
+% Of high influence are the parameters $width$ and $width\_length$, that describe the shape of the hillas ellipse.
+% The stereoscopic features $h\_max$ and $distance\_to\_reconstructed\_source\_position$ 
+% provide a lot of infomation aswell.
+% Also important are the parameters, that describe the intensity distribution, especially
+% $log\_size\_area$ and $concentration\_cog$ and 
+% in some cases also the $num\_islands$ feature.
+% Timing parameters do not provide much information and the distinction in different telescope types
+% does not play a big role for this task.
+
 \begin{figure}
     \centering
-    \captionsetup{width=0.9\linewidth}
-    \hspace*{-0.15\textwidth}\includegraphics[page=1, width=.9\textwidth]{../analysis/plots/separation_features.pdf}
-    \caption{Feature importance for the gamma/hadron separation model evaluated on the cross-validated dataset.
-    The separation seems to be based mostly on the description of the main shower ellipse, especially its width and length.
-    From the stereoscopic features the predicted interaction height heavily influences the predictions.
-    The number of islands only rarely provides a lot of information, which might indicate that our chosen cleaning 
-    removes most additional clusters.}
+    \captionsetup{width=0.9\textwidth}
+    \hspace*{-0.1\textwidth}\includegraphics[page=1, width=.6\textwidth]{../analysis/plots/separation_features.pdf}
+    \caption{Feature importance for the background separation model evaluated on the cross-validated dataset.
+    Shown are the indvidual tree scores aswell as boxplots describing the distributions.
+    The separation is based mostly on the shape of the ellipse, concentration and
+    the stereoscopic features and not on timing parameters or identifying the telescope.}
     \label{fig:gh_features}
 \end{figure}

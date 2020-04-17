@@ -4,7 +4,7 @@
 In the following the coordinate frames, that are used in this analysis,
 are defined as per the ctapipe conventions \cite{karl_kosack_2019_3372211}.
 
-\subsection{AltAz/Horizon Frame?}
+\subsection{Horizon Frame}
 A spherical coordinate system with the two angles azimuth and altitude.
 This is used to describe the position of stars and shower origins.
 In ctapipe, Azimuth is oriented east of north and altitude between the horizon 
@@ -189,11 +189,9 @@ estimation for the uncertainty of the reconstructed parameters.
 	\caption{Illustration of a stereoscopic reconstruction of the source position.
     From each telescope a plane is drawn, the direct intersection 
     on the ground leads to the impact point (red circle).
-    The image is taken from a habilitation thesis by 
-    Mathieu de Naurois \cite{hillas_reco}.
     Not included is the reconstruction of the main interaction point
     and source position, which would be obtained by averaging the plane
-    intersections.}
+    intersections  \cite{hillas_reco}.}
 	\label{fig:hillas_reconstructor}
 \end{figure}
 
@@ -242,12 +240,11 @@ multiple telescopes, as can be seen in figure \ref{fig:stereo_shower}.
 \begin{figure}
 	\centering
 	\captionsetup{width=0.9\linewidth}
-	\hspace*{0.1\textwidth}\includegraphics[width=0.9\textwidth]{images/stereo_shower.png}
+	\hspace*{0.1\textwidth}\includegraphics[width=0.7\textwidth]{images/stereo_shower.png}
 	\caption{An illustration of an air shower captured with multiple telescopes.
 		Each telescope captures an elliptic image.
 		The image axes get intersected to reconstruct the arrival direction
-		of the primary particle.
-	    The image is taken from \cite{2015arXiv151005675H}.}
+		of the primary particle \cite{2015arXiv151005675H}.}
 	\label{fig:stereo_shower}
 \end{figure}
 
@@ -445,7 +442,7 @@ events is shown in figure \ref{fig:03_tree}.
 \begin{figure}
   \centering
   \captionsetup{width=0.9\linewidth}
-  \includegraphics[width=0.9\textwidth]{Plots/decision_tree.pdf}
+  \includegraphics[width=0.8\textwidth]{Plots/decision_tree.pdf}
   \caption{A decision tree for a small sample dataset consisting of 50 proton and
   50 gamma events. The tree is capped at a depth of 4 and splits only on the 
   features width, length and intensity. On the training data, this tree reaches an

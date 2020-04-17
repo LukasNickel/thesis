@@ -1,52 +1,34 @@
 \thispagestyle{plain}
 
-\iffalse
-\section*{Kurzfassung}
-\begin{otherlanguage}{german}
-In den letzten Jahrzehnten hat die $\gamma$-Astronomie 
-viele Erkenntnisse über die Zusammensetzung des Universums gebracht.
-Mitverantwortlich dafür waren die großen Image Air Cherenkov Telescope (IACT)
-Experimente der dritten Generation.
-In Zukunft soll diese Forschung begleitet und erweitert werden 
-durch ein Experiment der nächsten Generation.
-Das Cherenkov-Teleskope-Array (CTA) wird die Sensitiviät weiter steigern und den
-beobachtbaren Energiebereich erweitern.
-In dieser Arbeit werden Rekonstruktionsalgorithmen für CTA vorgestellt und Studien auf 
-Monte-Carlo-Daten durchgeführt mit dem Fokus auf der frühen Phase des Experimentes.
-Zu Beginn werden nur wenige Teleskope errichtet sein, sodass Ereignisse nur 
-mit wenigen Teleskopen gesehen werden.
-\end{otherlanguage}
-\fi
-
 \section*{Abstract}
 %\begin{english}
-In the past years Gamma ray astronomy has come a long way
+In the past years, gamma ray astronomy has come a long way
 to now be one of the main pillars of astronomy and astroparticle physics.
-Many interesting insights have been found by the big Imaging Air Cherenkov Telescopes (IACTs) 
-of the third generation.
+Many interesting insights have been found by the large Imaging Air Cherenkov Telescopes (IACTs) 
+of the third generation, like MAGIC and HESS.
 
-In the future this research will be expanded with a next generation experiment.
+In the future, this research will be expanded with a next generation experiment.
 The Cherenkov Telescope Array (CTA) will improve the sensitivity and
 expand the observable energy range with 
-three different types of telescopes and two huge arrays on the northern and 
-southern hemisphere.
+three different types of telescopes and two telescope arrays, one on the northern and 
+one on the southern hemisphere.
 Proposed in 2005, the first telescopes for CTA are currently being tested.
 CTA will have its own processing pipeline, called ctapipe, which is
 actively being developed and released under an open-source license.
+The experiment itself is to be operated as an open observatory.
 
-In this work, I will present reconstruction algorithms for CTA and perform 
+In this work, I present reconstruction algorithms for CTA and perform 
 studies on monte carlo data focussing on the reconstruction of the source position.
-The analysis will be based on the use of ctapipe and 
-aict-tools, another publicly available software package for IACT experiments.
+The analysis is based on the use of ctapipe and the
+aict-tools package, which handles machine learning for IACTs.
 In the early stages, CTA will only have some of the planned telescopes installed,
-which means that showers will be observed by less telescopes.
-As will be worked out, these low multiplicity events turn out to be problematic for
-the HillasReconstructor,
-the default geometrical reconstruction algorithm in ctapipe.
+which means that showers will be observed by fewer telescopes.
+As will be worked out, these low multiplicity events limit the stereoscopic
+performance with the default geometric approach.
 
 An alternative, based on the stereoscopic DISP-reconstruction employed by
-the MAGIC-experiment, is being tested.
-Favorable results are obtained in the low energy region and for low-multiplicity
-events whereas the
-high energy and high event multiplicity region favors the HillasReconstructor.
+the MAGIC-experiment, is evaluated in this thesis.
+Favorable results are obtained forlow energy and low multiplicity
+events, whereas
+high energy and high multiplicity events favor the geometric approach.
 %\end{english}

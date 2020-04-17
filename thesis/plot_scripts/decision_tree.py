@@ -8,7 +8,7 @@ if __name__ == '__main__':
     features = ['width', 'length', 'intensity']
     X = df[features]
     y = df['particle_type']
-    clf = tree.DecisionTreeClassifier(max_depth=4)
+    clf = tree.DecisionTreeClassifier(max_depth=3)
     clf.fit(X, y)
     print('Mean accuracy on training data: ', clf.score(X,y))
     dot_data = tree.export_graphviz(
