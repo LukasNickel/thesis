@@ -1,0 +1,79 @@
+
+\chapter{Conclusion and Outlook}
+\label{conclusion}
+
+\section{Conclusion}
+In the course of this work, analyis methods for CTA data have been tested.
+As CTA is still in construction, the analysis is limited on the use of monte carlo data.
+
+The necessary steps to go from low level CTA-data to a high-level analysis have been performed
+using the official analysis pipeline ctapipe, that is still actively being developed.
+A high-level reconstruction based on the use of random forests 
+and the aict-tools package has been worked out as alternative
+or complement to the existing algorithms.
+Diffuse proton and gamma simulations have been used as training samples for the models, 
+whereas the evaluation was done on pointlike gamma samples.
+
+With this setup, gamma-/hadron separation works as expected and different algorithms 
+for the source position reconstruction lead to roughly comparable angular
+resolutions.
+Due to the layout of the CTA (south) array, low energy events, on average, have lower multiplicities.
+This makes is difficult to reconstruct the source position with the HillasReconstructor 
+algorithm and a DISP-based approach can lead to improvements. This is especially true for
+event multiplicities two or three and can thus be relevant for the early stages of operation of CTA.
+At high event energies and high multiplicities, the HillasReconstructor is unrivaled.
+
+A simplified sensitivity optimisation for both methods has been performed with
+the same results regarding the performance in different energy bins.
+As most parts of the analysis were the same for both methods, the results
+are very similar.
+An in depth comparison to the reference analysis of CTA is not feasible,
+but the sensitivity seems to be not too far off.
+The effective area is larger, whereas the angular separation is worse,
+which points towards harder cuts - maybe also in earlier analysis steps - 
+in the reference analysis.
+
+\section{Outlook}
+A lot of potential to improve the analysis is still open:
+
+The performed preprocessing uses a rather generic cleaning, with
+parameters, that were generally accepted as being 
+decent, but not overly optimised in the working group. Recently, 
+more relaxed parameters - especially for the LSTCam - have been used.
+Furthermore, more complex cleaning methods could be inspected further.
+Since the start of this thesis, two additional algorithms have been 
+implemented into ctapipe:
+An imcomplete three-threshold procedure used in CTA-MARS, which does not factor 
+in timing information yet, and a procedure used in the FACT experiment.
+The last one was added to ctapipe by me, but due to the high effort to
+optimize the cleaning parameters, was not used for the analysis.
+Additionaly, no cuts have been performed on the data apart from
+the high level sensitivity cuts. Disregarding hard to reconstruct
+events, such as events with high leakage or low intensity,
+could further improve the analysis.
+
+In the foreseeable future, new monte carlo data will be accesible as well.
+This dataset will act as a common benchmark dataset in the collaboration,
+which makes comparing results and optimizing parameters easier.
+
+Future steps could also include an analysis of observed monoscopic 
+LST data. Since the LST is currently the only telescope 
+at LaPalma, an analysis can not rely on stereoscopic information.
+The methods employed for the background separation, energy estimation and 
+DISP-calculation will also work in the purely monoscopic case, although further
+optimisation will probably be needed.
+
+At last all models could be optimized in terms of the used architecture and
+hyper parameters. Although random forests are generally 
+robust in terms of the used hyper parameters, some gains might still be 
+open. 
+A recent thesis at this chair for example was based on using
+extremely randomized trees for the models.
+Earlier work has also shown, that an approach with two nested models
+can be superiour for the energy estimation. In that case
+a random forest model was trained on telescope level and
+a second randm forest combined these results using the
+array wide features and the combined predictions \cite{ba-lars}.
+These results have been verified during the course of this thesis,
+but the focus was put on the DISP based reconstruction of the
+source position.

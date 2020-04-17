@@ -16,7 +16,6 @@
   BCOR=0mm,     % 12mm binding corrections, adjust to fit your binding % 0 if oneside
   parskip=half,  % new paragraphs start with half line vertical space
   open=any,      % chapters start on both odd and even pages
-  cleardoublepage=plain,  % no header/footer on blank pages
 ]{tudothesis}
 
 \usepackage{subcaption}
@@ -72,13 +71,15 @@
 %------------------------------------------------------------------------------
 
 \usepackage[
-  locale=DE,
+  locale=US,
   separate-uncertainty=true,
   per-mode=symbol-or-fraction,
   binary-units=true,
 ]{siunitx}
 \sisetup{math-micro=\text{µ},text-micro=µ}
+\DeclareSIUnit\gauss{G}
 
+%\sisetup{round-mode=places,round-precision=2}
 %------------------------------------------------------------------------------
 %-------------------------------- tables  -------------------------------------
 %------------------------------------------------------------------------------
@@ -135,37 +136,19 @@
 \usepackage{xcolor}
 \usepackage{listings}
 
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{typearea}
+\usepackage{lipsum}
+\usepackage{pdfpages}
+
 \newcommand\YAMLcolonstyle{\color{red}\mdseries}
 \newcommand\YAMLkeystyle{\color{black}\bfseries}
 \newcommand\YAMLvaluestyle{\color{blue}\mdseries}
 
 \makeatletter
 
-% here is a macro expanding to the name of the language
-% (handy if you decide to change it further down the road)
-\newcommand\language@yaml{yaml}
 
-\expandafter\expandafter\expandafter\lstdefinelanguage
-\expandafter{\language@yaml}
-{
-  keywords={true,false,null,y,n},
-  keywordstyle=\color{darkgray}\bfseries,
-  basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
-  sensitive=false,
-  comment=[l]{\#},
-  morecomment=[s]{/*}{*/},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\YAMLvaluestyle\ttfamily,
-  moredelim=[l][\color{orange}]{\&},
-  moredelim=[l][\color{magenta}]{*},
-  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
-  morestring=[b]',
-  morestring=[b]",
-  literate =    {---}{{\ProcessThreeDashes}}3
-                {>}{{\textcolor{red}\textgreater}}1     
-                {|}{{\textcolor{red}\textbar}}1 
-                {\ -\ }{{\mdseries\ -\ }}3,
-}
 
 % switch to key style at EOL
 \lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
@@ -179,7 +162,7 @@
 
 \author{Lukas Nickel}
 \title{Stereo Reconstruction for the Early Days of CTA}
-\date{20.04.2020}
+\date{2020}
 \birthplace{Bielefeld}
 \chair{Chair for Experimental Physics V}
 \division{Faculty of Physics}
@@ -204,28 +187,30 @@
 \tableofcontents
 
 \mainmatter
+
 % Hier beginnt der Inhalt mit Seite 1 in arabischen Ziffern
 %\input{content/overview.tex}
 \input{content/01_introduction.tex}
-\input{content/02_cta.tex}
-\input{content/03_methods.tex}
-\input{content/04_analysis.tex}
-\input{content/05_ghsep.tex}
-\input{content/06_position.tex}
-\input{content/08_conclusion.tex}
+% \input{content/02_cta.tex}
+% \input{content/04_analysis.tex}
+% \input{content/05_ghsep.tex}
+% \input{content/06_energy.tex}
+% \input{content/07_disp.tex}
+% \input{content/08_sensitivity.tex}
+% \input{content/09_conclusion.tex}
+
+\newpage
+\appendix
+%Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
+\input{content/appendix.tex}
 
 
-% \newpage
-% \appendix
-% % Hier beginnt der Anhang, nummeriert in lateinischen Buchstaben
-% \input{content/appendix.tex}
-
-
-%\backmatter
-%\printbibliography
+\backmatter
+\printbibliography
 
 
 
-% \cleardoublepage
+\cleardoublepage
+\includepdf[pages=-]{eidesstattliche_versicherung.pdf}
 % \input{content/eid_versicherung.tex}
 \end{document}
