@@ -56,7 +56,7 @@ if __name__ == '__main__':
             df_data[model_config.features], disp_model, sign_model,
             log_target=model_config.log_target,
         )
-        d = df_data[['run_id', 'array_event_id', 'mc_energy']].copy()
+        d = df_data[['run_id', 'array_event_id', 'mc_energy', 'telescope_type_id']].copy()
 
         source_x = df_data[model_config.cog_x_column] + disp * np.cos(df_data[model_config.delta_column])
         source_y = df_data[model_config.cog_y_column] + disp * np.sin(df_data[model_config.delta_column])
