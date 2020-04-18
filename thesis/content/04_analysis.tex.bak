@@ -15,14 +15,14 @@ most analysis steps get performed in the same way,
 with parameters that showed good results in other analyses.
 
 The multiple steps of the analysis will be explained in the following.
-All parameters for the analysis as well as the features used for the
+All parameters for the analysis aswell as the features used for the
 different random forests can be found in appendix \ref{sec:params}.
 
 \section{Simulated Data}
 Monte carlo simulations are a crucial part to 
-understand the behavior of an experiment. 
+understand the behaviour of an experiment. 
 Simulating the underlying physic and the response of the experiment
-allows the testing of new algorithms as well as improving the general understanding
+allows the testing of new algorithms aswell as improving the general understanding
 of the physical processes at work. 
 In this case, since CTA is not yet fully operational,
 the analysis can not be based on real data at all.
@@ -30,7 +30,7 @@ Instead simulated data has to be used.
 
 Monte carlo simulations for CTA are done using a combination of the
 programs CORSIKA and sim\_telarray.
-While CORSIKA handles the formation and propagation of air showers
+While CORSIKA handels the formation and propagation of air showers
 in the atmosphere including the generated cherenkov light,
 the detector response is simulated using the software
 sim\_telarray \cite{BERNLOHR2008149}.
@@ -53,7 +53,7 @@ This ground-truth allows to quantify the effectiveness of the
 algorithms by comparing the predictions with the true values.
 
 Because not all the necessary information to reconstruct a recorded event 
-changes with each shower and telescope, the data follows a certain hierarchy.
+changes with each shower and telescope, the data follows a certain hierarchie.
 Some information is the same for a number of events. in the case of
 a monte carlo simulation this includes the simulated particle spectrum
 of the run amongst others.
@@ -82,7 +82,7 @@ telescope, such as the recorded images.
 % \end{enumerate}
 
 In the following a separation into array-events and telescope-events is
-taken in order to address different levels of data.
+taken in order to adress different levels of data.
 The number of processed telescopes in an array-event
 after all analysis steps 
 will be referred to as the event multiplicity.
@@ -96,7 +96,7 @@ whereas the sensitivity evaluation is performed on point-like gamma and diffuse 
 Table \ref{tab:datasets} lists the number of processed events used in this thesis.
 
 \begin{table}
-    \caption{Event counts for the different datasets in use. The view cone is identical for all datasets
+    \caption{Event counts for the different datasets in use. The viewcone is identical for all datasets
     besides the point-like data, which simulates a point source.}
     \begin{center}
         \begin{tabular}{ l r r r r}
@@ -105,7 +105,7 @@ Table \ref{tab:datasets} lists the number of processed events used in this thesi
             \hline
             Energy (\si{\tera\electronvolt}) & 0.003-300 & 0.004-600 & 0.003-300 & 0.004-600 \\
             Pointing Alt/Az (\si{\degree}) & 70/180 & 70/180 & 70/180 & 70/180 \\
-            View cone (\si{\degree}) & 10 & 10 & 0 & 10 \\
+            Viewcone (\si{\degree}) & 10 & 10 & 0 & 10 \\
             Corsika Runs & 4345 & 2319 & 1113 & 6954 \\
             Processed Showers & 851671 & 1166967 & 955317 & 3490562 \\
             Processed Telescope Events & 3589934 & 5031924 & 4554313 & 15074461 \\
@@ -171,7 +171,7 @@ an integration is performed first in order to extract a 2-dimensional
 image for the event.
 For this step an integration window has to be defined first.
 In the chosen implementation, an average waveform over all
-neighboring pixels gets calculated for each pixel.
+neighbouring pixels gets calculated for each pixel.
 The peak index of this average waveform then defines the center of the integration window.
 The window width is a constant for each camera type.
 Two values are then obtained per waveform:
@@ -207,10 +207,10 @@ The resulting images are cleaned to select the pixels,
 that are used for further analysis.
 The used algorithm works with two thresholds based on the 
 pixel charge and one threshold defining the number of needed neighboring pixels.
-In the first step, all pixels above the upper threshold with a set amount of neighboring 
+In the first step, all pixels above the upper threshold with a set amount of neighbouring 
 pixels above the neighbor threshold get selected.
-In the second step, all pixels above the lower threshold with the same set amount of neighboring pixels
-above the upper threshold get added as well.
+In the second step, all pixels above the lower threshold with the same set amount of neighbouring pixels
+above the upper threshold get added aswell.
 Figure \ref{fig:shower_cleaning} illustrates the results on the sample shower shown before.
 The parameters used for the cleaning are chosen relatively soft. This leads to
 additional, smaller clusters in the image.
@@ -234,7 +234,7 @@ additional, smaller clusters in the image.
 \end{figure}
 
 During the course of this thesis, I added an alternative algorithm, that is used by the FACT-collaboration 
-and additionally makes use of the pulse time information.
+and additionaly makes use of the pulse time information.
 It works in a similar way, but with additional steps removing pixels, that arrived
 at distant times, and multiple steps removing isolated pixels.
 Because of the high effort needed to obtain optimal cleaning parameters,
@@ -312,7 +312,7 @@ In total, the following parameters are calculated for each telescope event:
 
 \begin{itemize}
     \item{\texttt{slope, slope\_err}: Slope and corresponding uncertainty of a linear regression to the pixel-wise pulse times along the main shower axis.}
-    \item{\texttt{intercept, intercept\_err}: Intercept and corresponding uncertainty of a linear regression to the pixel-wise pulse times along the main shower axis.}
+    \item{\texttt{intercept, intercep\_err}: Intercept and corresponding uncertainty of a linear regression to the pixel-wise pulse times along the main shower axis.}
     \item{\texttt{deviation}: Root-mean-square deviation between the individual pulse times and the predicted pulse times
         retrieved via the linear regression.}
 \end{itemize}
@@ -329,7 +329,7 @@ In total, the following parameters are calculated for each telescope event:
 From the image descriptions high level features can be calculated,
 that describe the primary particle.
 Since CTA is going to be a stereoscopic experiment,
-the information of multiple telescopes can be combined to
+the information of multiple telescopes can be combined toweighted
 reconstruct these properties.
 
 At the time of the analysis, ctapipe is only able to give an estimation
@@ -355,7 +355,7 @@ via the least squares method leads to
 an estimation of the impact point of the shower.
 In addition the main interaction point can be calculated 
 by transforming the image cogs into the horizon frame and 
-then the euclidean space.
+then the euclidian space.
 This leads to lines between a telescopes position and the assumed
 interaction point. The closest mutual point to all lines
 then gets calculated with the least squares method again.
@@ -563,7 +563,7 @@ or the Coefficient of Determination (R$^2$), all of which are listed in table
       \hline
       Mean squared error & $\frac{1}{n}\sum_i^n |y_i-\hat{y_i}|$ & Prediction error disregarding the direction of over- and underprediction \\
       Mean absolute error & $\frac{1}{n}\sum_i^n (y_i-\hat{y_i})^2$ & For an unbiased predictor: Variance of the regressor. Heavily weights outliers. \\
-      Coefficient of Determination & $1 - \frac{\sum_i^n (\bar{y_i}-\bar{y})^2}{\sum_i^n (y_i-\bar{y})^2}$ & Share of observed variance that is explained by the model.\\
+      Coefficent of Determination & $1 - \frac{\sum_i^n (\bar{y_i}-\bar{y})^2}{\sum_i^n (y_i-\bar{y})^2}$ & Share of observed variance that is explained by the model.\\
     \end{tabularx}
   \end{center}
   \label{tab:regr_metrics}
@@ -693,8 +693,8 @@ predicting lower energies by reducing the target space \cite{ba-lars}.
 
 For the training of the models, the available data gets split up into training
 and test data. Of the diffuse gamma events and the proton events, 25\% get
-used for training. The remaining events as well as the point-like simulated events
-are used for the analysis.
+used for training. The remaining events aswell as the pointlike simulated events
+get used for the analysis.
 The background separation model gets trained with both the gamma
 and proton events, the energy regressor is trained on gamma events
 exclusively.
@@ -778,7 +778,7 @@ As a baseline estimation for the stereoscopic reconstruction,
 the median of the single predictions in the nominal frame gets calculated
 and transformed to the horizon frame afterwards.
 
-Additionally, an approach inspired by 
+Additionaly, an approach inspired by 
 what the MAGIC collaboration does in some of their analyses,
 is getting applied.
 In the case of the MAGIC experiment the ambiguity does not
@@ -856,7 +856,7 @@ than the mean, weighted or unweighted.
 \section{Optimizing the Sensitivity}
 To quantify the results of the analysis and compare the 
 DISP and HillasReconstructor results, the point source sensitivity 
-curve gets calculated for both approaches.
+curve gets calculated for both aproaches.
 It describes the minimum flux required by the analysis to detect a point
 source with a set significance in a given amount of time.
 This requires making predictions on both signal and background events
@@ -864,7 +864,7 @@ and optimizing event selection criteria in order to provide the best sensitivity
 CTA sets the required significance at $5\sigma$ in 50h observation time.
 
 To get interpretable results, the simulated data has to be 
-arranged in a way, that resembles the observation of a real point source.
+aranged in a way, that resembles the observation of a real point source.
 The first task lies in weighting the events according to their energy,
 because the simulated spectra do not match the observed spectra for cosmic
 and gamma rays. They are instead chosen in a way to improve on the
@@ -926,9 +926,9 @@ than the signal region, requiring a scaling of the background
 event counts by a factor of
 $\frac{\Theta_\text{on}^{2}}{t_{\alpha}}$.
 
-The other parameters for the event selection are lower thresholds on
+The other parameters for the event selection are lower tresholds on
 the classification score and the event multiplicity.
-Optimization happens independently in each bin of energy
+Optimisation happens independently in each bin of energy
 with respect to maximizing the sensitivity.
 
 In addition, some constraints on the number of remaining events exist.

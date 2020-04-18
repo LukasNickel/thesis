@@ -67,8 +67,8 @@
 % \end{figure}
 For the monoscopic reconstruction, all telescope events are taken as independent events and
 the source position gets reconstructed using the DISP and SIGN model using the
-point-like gamma events.
-Because events with misclassified SIGNs lead to predictions far away
+pointlike gamma events.
+Because events with misclasified SIGNs lead to predictions far away
 from an assumed source position in a point source analysis of real data,
 it can be argued to only keep events with properly reconstructed SIGNs.
 In a real analysis, this would happen indirectly by performing a cut on 
@@ -78,8 +78,8 @@ The angular resolution gets thus calculated with all reconstructed events and on
 the correctly reconstructed SIGNs.
 This lowers the number of observed signal events,
 but improves the angular resolution by a large margin.
-Using only correctly assigned SIGNs on the point-like dataset leaves 79\% of the events.
-A sensitivity optimization is not performed.
+Using only correctly assigned SIGNs on the pointlike dataset leaves 79\% of the events.
+A sensitivity optimisation is not performed.
 
 The angular resolution for all events
 can be seen in figure \ref{fig:sens_telescope_gamma}.
@@ -88,7 +88,7 @@ One can derive -- in accordance to the previously discussed metrics --
 that both the DISP and SIGN predictions improve with increasing energies.
 The predictions get worse at around the energies, where the $R2$-score
 of the DISP-predictions saturates and decays.
-Misreconstructed SIGNs are a problem especially at low event energies as would be
+Misreconstructed SIGNs are a problem expecially at low event energies as would be
 expected from the accuracy of the SIGN model on the diffuse data.
 
 
@@ -118,7 +118,7 @@ expected from the accuracy of the SIGN model on the diffuse data.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\textwidth]{../analysis/plots/gamma/tel_vs_energy.pdf}
     \caption{
-        Monoscopic predictions for the source position on the point-like 
+        Monoscopic predictions for the source position on the pointlike 
         test dataset with a total of 4554313 telescope events.
         The blue-dotted line shows the 68\% containment. 
         For lower energies, a big share of events has misreconstructed SIGNs,
@@ -132,7 +132,7 @@ expected from the accuracy of the SIGN model on the diffuse data.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\textwidth]{../analysis/plots/gamma/tel_vs_energy_correct_signs.pdf}
     \caption{
-        Monoscopic predictions for the source position on the point-like 
+        Monoscopic predictions for the source position on the pointlike 
         test dataset with a total of 3597952 events with properly reconstructed SIGNs. 
         The blue-dotted line shows the 68\% containment. 
         The angular resolution is much improved especially in the low energy regime
@@ -211,7 +211,7 @@ LST-MST crossover region, which limits the performance.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\textwidth]{../analysis/plots/gamma/median_vs_energy.pdf} 
     \caption{Distance between predicted and true position over true energy as obtained by taking the median of
-    the DISP+SIGN predictions on 955317 point-like gamma events. The blue line shows the 
+    the DISP+SIGN predictions on 955317 pointlike gamma events. The blue line shows the 
     68\% containment of these results. The green line refers to the 68\%
     results of the HillasReconstructor, which is added for comparison, but has no
     connection to the binned results.
@@ -227,7 +227,7 @@ LST-MST crossover region, which limits the performance.
     \includegraphics[width=0.6\textwidth]{../analysis/plots/gamma/median_vs_multi_comp.pdf}
     \caption{Distance between predicted and true position over event multiplicity as obtained by taking
     the median of the DISP+SIGN predictions (blue) and using the HillasReconstructor (green)
-    on 955317 point-like gamma events. 
+    on 955317 pointlike gamma events. 
     The different dots refer to the 25, 50, 68 and 90\% percentiles with 
     lowering opacity.
     The median predictions are worse at every multiplicity and the gap increases with higher event multiplicity.}
@@ -242,9 +242,9 @@ HillasReconstructor leads to much better results.
 At the lower energy range the approach seems to be working well, outperforming the HillasReconstructor.
 
 When looking at the multiplicity dependency, we see improved results as well. 
-At high event multiplicities the HillasReconstructor still
-leads to better results. At low multiplicities on the other hand,
-especially at 2- and 3-multiplicity events, the approach works very well.
+At high event multiplicities the Hillas-reconstructor still
+leads to better results. At low multiplicites on the other hand,
+especially at 2- and 3-multiplicity events, the apporach works very well.
 The HillasReconstructor starts to outperform at multiplicities of 4-6.
 
 \begin{figure}
@@ -252,7 +252,7 @@ The HillasReconstructor starts to outperform at multiplicities of 4-6.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\linewidth]{../analysis/plots/gamma/pairwise_median_100_vs_energy.pdf} 
     \caption{Distance between predicted and true position over true event energy as obtained with the
-    iterative DISP approach on 955317 point-like gamma events.
+    iterative DISP approach on 955317 pointlike gamma events.
     The binned results refer to the iterative DISP-predictions. The blue line shows the 
     68\% containment of these results. The green line refers to the 68\%
     results of the HillasReconstructor.
@@ -270,20 +270,20 @@ The HillasReconstructor starts to outperform at multiplicities of 4-6.
     on 955317 pointlike gamma events.
     The different lines refer to the 25,50,68 and 90\% percentiles with 
     lowering opacities.
-    For low multiplicities, the combined DISP-predictions are superior, 
+    For low multiplicities, the combined DISP-predictions are superiour, 
     for high multiplicities the HillasReconstructor results win out.
-    The break even point seems to be at 4-6 telescopes, depending on 
+    The breakeven point seems to be at 4-6 telescopes, depending on 
     which percentiles have more weight to the analysis.}
     \label{fig:stereo_magic_multi}
 \end{figure}
 
 \section{Stereoscopic Sensitivities}
 
-Two independent sensitivity optimizations are being performed,
+Two independent sensitivity optimisations are being performed,
 one for the HillasReconstructor analysis and one for the stereoscopic DISP analysis.
 The background separation and energy models are the same in both cases
 as are the preprocessed datasets.
-The point-like gamma data acts as signal events, the background is formed by
+The pointlike gamma data acts as signal events, the background is formed by
 the proton test set. The results get compared
 to the CTA reference analysis \cite{cta_web}.
 Details of the reference analysis have not been shared.
@@ -296,7 +296,7 @@ and the background statistic in general seems to be too low to
 provide proper sensitivities. 
 
 Starting with the HillasReconstructor, the prediction threshold, minimum
-multiplicity and theta cut get optimized in each bin of energy performing a grid search.
+multiplicity and theta cut get optimized in each bin of energy performing a gridsearch.
 The possible range of values is:
 
 \begin{align*}
@@ -411,12 +411,12 @@ at higher energies.
     \label{fig:hillas_sens}
 \end{figure}
 
-With the cuts from the sensitivity optimization, the effective area and angular resolution can be
+With the cuts from the sensitivity optimisation, the effective area and angular resolution can be
 compared as well.
 
 The effective area, shown in figure \ref{fig:hillas_area}, exceeds the reference.
 The angular resolution on the signal events, displayed in figure \ref{fig:hillas_resol}, is illustrated without
-the $\Theta$ cuts to show the quality of the reconstruction after applying the
+the $\Theta$ cuts to show the quality of the reconstruction after apllying the
 other cuts.
 The large effective area is probably connected with the simplified background model
 and the absence of cuts at lower data levels, such as on the number of pixels or
@@ -430,7 +430,7 @@ to get to any quantitative conclusions at high energies.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\textwidth]{../analysis/plots/sensitivity/hillas_effective_area.pdf} 
     \caption{Effective area against true event energy for the HillasReconstructor analysis
-    with the point-like gamma events after applied cuts.
+    with the pointlike gamma events after apllied cuts.
     As no cuts on the low level data have been performed and the high level cuts are relatively
     soft due to the low background event counts, the effective area is bigger at most energies.}
     \label{fig:hillas_area}
@@ -463,7 +463,7 @@ The direction cuts on the other hand are softer for high energies.
     stereoscopic DISP analysis. Event counts are given as weighted and unweighted numbers.}
     \begin{tabular}{r r r r r r r r r r }
         %\hline
-        \multicolumn{2}{ c }{Energy Range / \si{\tera\electronvolt}} & $\alpha$ & $\Theta$ / ° & Multiplicity & Significance &  \multicolumn{2}{ c }{Signal Counts} & \multicolumn{2}{ c }{Background Counts} \\
+        \multicolumn{2}{ c }{Energy Range / \si{\tera\electronvolt}} & $\alpha$ & $\Theta$ / ° & Multiplicity & Significance &  \multicolumn{2}{ c }{Signal Counts} & \multicolumn{2}{ c }{Bkg Counts} \\
         %\hline
         \hline
         \num{0.02} & \num{0.03} & 0.75 & 0.15 & 2 & \num{85.30} & \num{19993.86} & \num{4924} & \num{192060.04} & \num{466}\\
@@ -506,7 +506,7 @@ The angular resolution is very much identical, but
 the event counts at high energies are lower as also shown by the effective area.
 
 In comparison to the HillasReconstructor analysis, the sensitivity
-is slightly improved for event energies under \SI{100}{\giga\electronvolt} and 
+is slighty improved for event energies under \SI{100}{\giga\electronvolt} and 
 worse above.
 
 
@@ -516,7 +516,7 @@ worse above.
     \includegraphics[width=0.6\textwidth]{../analysis/plots/sensitivity/disp_sensitivity.pdf} 
     \caption{Computed sensitivity for the HillasReconstructor analysis against estimated event energy.
     In comparison to the HillasReconstructor analysis, the results at the low energy bins are slightly
-    superior under \SI{100}{\giga\electronvolt} and worse
+    superiour under \SI{100}{\giga\electronvolt} and worse
     above \SI{1}{\tera\electronvolt}.
     Similar conclusions regarding the background statistic and uncertainties
     at high energies can be drawn.}
@@ -528,7 +528,7 @@ worse above.
     \captionsetup{width=0.9\linewidth}
     \includegraphics[width=0.6\textwidth]{../analysis/plots/sensitivity/disp_effective_area.pdf} 
     \caption{Effective area against true event energy for the DISP analysis
-    with the point-like gamma events after applied cuts.
+    with the pointlike gamma events after apllied cuts.
     The effective area is even larger for low and mid energies compared 
     to the previous HillasReconstructor results, but falls short above
     $\SI{10}{\tera\electronvolt}$.}
