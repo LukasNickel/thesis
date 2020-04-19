@@ -23,7 +23,7 @@ of the SIGN prediction higher energies are favorable for all telescopes.
         \includegraphics[width=\linewidth]{../analysis/plots/disp_gamma_acc_equal_sized.pdf}
         \caption{Accuracy for the SIGN-estimation}
     \end{subfigure}
-    \caption{Performance of the DISP and SIGN model on the point-like test data. 
+    \caption{Performance of the DISP and SIGN model on the pointlike test data. 
     In general both models performances improve with increasing energies.
     The R$^2$-score for the individual telescopes shows the different energy ranges 
     the telescope types are sensitive in. Because of the properties of the 
@@ -54,7 +54,7 @@ The stereoscopic features do not provide much information in this case.
 	    The stereoscopic features have high influence on the prediction.
     	From the monoscopic features, the features describing the light content and the
         shape of the ellipse, provide most information.
-        Additionally the $concentration$-features, the $area$, $width$ and $length$
+        Additionaly the $concentration$-features, the $area$, $width$ and $length$
         are of high importance to the model.}
 	\label{fig:disp_features}
 \end{figure}

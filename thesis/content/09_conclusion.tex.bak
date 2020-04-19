@@ -3,7 +3,7 @@
 \label{conclusion}
 
 \section{Conclusion}
-In the course of this work, analysis methods for CTA data have been tested.
+In the course of this work, analyis methods for CTA data have been tested.
 As CTA is still in construction, the analysis is limited on the use of monte carlo data.
 
 The necessary steps to go from low level CTA-data to a high-level analysis have been performed
@@ -12,18 +12,18 @@ A high-level reconstruction based on the use of random forests
 and the aict-tools package has been worked out as alternative
 or complement to the existing algorithms.
 Diffuse proton and gamma simulations have been used as training samples for the models, 
-whereas the evaluation was done on point-like gamma samples.
+whereas the evaluation was done on pointlike gamma samples.
 
 With this setup, gamma-/hadron separation works as expected and different algorithms 
 for the source position reconstruction lead to roughly comparable angular
 resolutions.
 Due to the layout of the CTA (south) array, low energy events, on average, have lower multiplicities.
-This makes is difficult to reconstruct the source position with the used geometric method
+This makes is difficult to reconstruct the source position with the used geometric methode
 and a DISP-based approach can lead to improvements. This is especially true for
 event multiplicities of two or three and can thus be relevant for the early stages of operation of CTA.
 At high event energies and high multiplicities, the geometric method is unrivaled.
 
-A simplified sensitivity optimization for both methods has been performed with
+A simplified sensitivity optimisation for both methods has been performed with
 the same results regarding the performance in different energy bins.
 As most parts of the analysis were the same for both methods, the results
 are very similar.
@@ -38,31 +38,31 @@ A lot of potential to improve the analysis is still open:
 
 The performed preprocessing uses a rather generic cleaning, with
 parameters, that were generally accepted as being 
-decent, but not overly optimized in the working group. Recently, 
+decent, but not overly optimised in the working group. Recently, 
 more relaxed parameters -- especially for the LST camera -- have been used.
 Furthermore, more complex cleaning methods could be inspected further.
 Since the start of this thesis, two additional algorithms have been 
 implemented into ctapipe:
-An incomplete three-threshold procedure used in CTA-MARS, which does not factor 
+An imcomplete three-threshold procedure used in CTA-MARS, which does not factor 
 in timing information yet, and a procedure used in the FACT experiment.
 The last one was added to ctapipe by me, but due to the high effort to
 optimize the cleaning parameters, was not used for the analysis.
 
-Additionally, no cuts have been performed on the data apart from
+Additionaly, no cuts have been performed on the data apart from
 the high level sensitivity cuts. Disregarding hard to reconstruct
 events, such as events with high leakage or low intensity,
 could further improve the analysis.
 
-In the foreseeable future, new monte carlo data will be accessible as well.
+In the foreseeable future, new monte carlo data will be accesible as well.
 This dataset will act as a common benchmark dataset in the collaboration,
 which makes comparing results and optimizing parameters easier.
 
 Future steps could also include an analysis of observed monoscopic 
 LST data. Since the LST is currently the only telescope 
-at La Palma, an analysis can not rely on stereoscopic information.
+at LaPalma, an analysis can not rely on stereoscopic information.
 The methods employed for the background separation, energy estimation and 
 DISP calculation will also work in the purely monoscopic case, although further
-optimization will probably be needed to get competitive results.
+optimisation will probably be needed to get competitive results.
 
 At last all models could be optimized in terms of the used architecture and
 hyper parameters. Although random forests are generally 
@@ -71,9 +71,9 @@ open.
 A recent thesis at this chair for example was based on using
 extremely randomized trees for the models.
 Earlier work has also shown, that an approach with two nested models
-can be superior for the energy estimation. In that case
+can be superiour for the energy estimation. In that case
 a random forest model was trained on telescope level and
-a second random forest combined these results using the
+a second randm forest combined these results using the
 array wide features and the combined predictions \cite{ba-lars}.
 These results have been verified during the course of this thesis,
 but were not considered to change any of the conclusions drawn.

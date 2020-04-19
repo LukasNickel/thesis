@@ -34,8 +34,8 @@ In both cases, values closer to 0 are better.
 % with being the quantile of the distribution.
 
 It can be noted, that the model tends to overestimate low and underestimate high energies.
-This is not unexpected behavior as events, that are recorded close to the threshold are increasingly
-irregular. Low energy events need a certain brightness and high energy events suffer from
+This is not unexpected behaviour as events, that are recorded close to the threshold are increasingly
+unregular. Low energy events need a certain brightness and high energy events suffer from
 not being contained in the image.
 
 \begin{figure}

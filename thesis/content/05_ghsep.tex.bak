@@ -119,7 +119,7 @@ clusters, which goes well with the discrete nature of the feature.
     \captionsetup{width=0.9\textwidth}
     \hspace*{-0.1\textwidth}\includegraphics[page=1, width=.6\textwidth]{../analysis/plots/separation_features.pdf}
     \caption{Feature importance for the background separation model evaluated on the cross-validated dataset.
-    Shown are the individual tree scores as well as boxplots describing the distributions.
+    Shown are the indvidual tree scores aswell as boxplots describing the distributions.
     The separation is based mostly on the shape of the ellipse, concentration and
     the stereoscopic features and not on timing parameters or identifying the telescope.}
     \label{fig:gh_features}
